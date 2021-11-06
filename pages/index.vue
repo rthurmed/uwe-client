@@ -16,14 +16,14 @@
         </v-system-bar>
         <v-container class="d-flex justify-center">
           <AvatarCard
-            v-for="i in 4"
-            :key="i"
-            :title="`PROJETO ${i}`"
-            :highlight="i === selected"
-            @click="() => selected = i"
+            v-for="project in projects"
+            :key="project.id"
+            :title="project.name"
+            :highlight="project.id === selected"
+            @click="() => selected = project.id"
           />
           <AvatarCard
-            title="CRIAR PROJETO"
+            title="Criar Projeto"
             @click="openCreatePopup"
           >
             <v-icon>
@@ -33,10 +33,10 @@
         </v-container>
       </v-container>
       <v-divider />
-      <v-container>
+      <v-container v-if="focusedProject != null">
         <v-system-bar color="transparent">
           <span>
-            Projeto: PROJETO 1
+            Projeto: {{ focusedProject.name }}
           </span>
           <v-spacer />
           <a href="#">
@@ -51,11 +51,26 @@
 </template>
 
 <script>
+import { Project } from '~/models/project'
+
 export default {
   data () {
     return {
-      selected: 1
+      selected: null
     }
+  },
+  computed: {
+    projects () {
+      return Project.query().orderBy('id').get()
+    },
+    focusedProject () {
+      return Project.find(this.selected)
+    }
+  },
+  created () {
+    Project.api().get(Project.entity, {
+      dataKey: 'items'
+    })
   },
   methods: {
     openCreatePopup: () => {}
