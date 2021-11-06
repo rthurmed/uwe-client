@@ -1,77 +1,64 @@
 <template>
-  <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6">
-      <v-card class="logo py-4 d-flex justify-center">
-        <NuxtLogo />
-        <VuetifyLogo />
-      </v-card>
-      <v-card>
-        <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
-        </v-card-title>
-        <v-card-text>
-          <p>Vuetify is a progressive Material Design component framework for Vue.js. It was designed to empower developers to create amazing applications.</p>
-          <p>
-            For more information on Vuetify, check out the <a
-              href="https://vuetifyjs.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              documentation
-            </a>.
-          </p>
-          <p>
-            If you have questions, please join the official <a
-              href="https://chat.vuetifyjs.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="chat"
-            >
-              discord
-            </a>.
-          </p>
-          <p>
-            Find a bug? Report it on the github <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="contribute"
-            >
-              issue board
-            </a>.
-          </p>
-          <p>Thank you for developing with Vuetify and I look forward to bringing more exciting features in the future.</p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
-          </div>
-          <hr class="my-3">
-          <a
-            href="https://nuxtjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt Documentation
+  <v-row>
+    <v-col cols="12">
+      <v-container>
+        <!-- Project selector -->
+        <v-system-bar color="transparent">
+          <span>
+            Projetos recentes
+          </span>
+          <span class="px-2">
+            ·
+          </span>
+          <a href="#">
+            Pesquisar projeto
           </a>
-          <br>
-          <a
-            href="https://github.com/nuxt/nuxt.js"
-            target="_blank"
-            rel="noopener noreferrer"
+        </v-system-bar>
+        <v-container class="d-flex justify-center">
+          <AvatarCard
+            v-for="i in 4"
+            :key="i"
+            :title="`PROJETO ${i}`"
+            :highlight="i === selected"
+            @click="() => selected = i"
+          />
+          <AvatarCard
+            title="CRIAR PROJETO"
+            @click="openCreatePopup"
           >
-            Nuxt GitHub
-          </a>
-        </v-card-text>
-        <v-card-actions>
+            <v-icon>
+              mdi-plus
+            </v-icon>
+          </AvatarCard>
+        </v-container>
+      </v-container>
+      <v-divider />
+      <v-container>
+        <v-system-bar color="transparent">
+          <span>
+            Projeto: PROJETO 1
+          </span>
           <v-spacer />
-          <v-btn
-            color="primary"
-            nuxt
-            to="/inspire"
-          >
-            Continue
-          </v-btn>
-        </v-card-actions>
-      </v-card>
+          <a href="#">
+            Deixar este projeto
+          </a>
+        </v-system-bar>
+        <!-- Diagrams list -->
+        <!-- Members list -->
+      </v-container>
     </v-col>
   </v-row>
 </template>
+
+<script>
+export default {
+  data () {
+    return {
+      selected: 1
+    }
+  },
+  methods: {
+    openCreatePopup: () => {}
+  }
+}
+</script>
