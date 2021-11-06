@@ -1,5 +1,5 @@
-import axios from 'axios'
-import VuexORM from '@vuex-orm/core'
-import VuexORMAxios from '@vuex-orm/plugin-axios'
+import { Model } from '@vuex-orm/core'
 
-VuexORM.use(VuexORMAxios, { axios })
+export default ({ $axios }) => {
+  Model.setAxios($axios)
+}

@@ -1,7 +1,6 @@
-require('dotenv').config()
 import colors from 'vuetify/es5/util/colors'
 
-// TODO: Configure keycloak
+require('dotenv').config()
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -31,6 +30,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '@/plugins/vuex-orm-axios'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -76,10 +76,10 @@ export default {
         token: {
           property: 'access_token',
           type: 'Bearer',
-          name: 'Authorization',
+          name: 'Authorization'
         },
         refreshToken: {
-          property: 'refresh_token',
+          property: 'refresh_token'
         },
         responseType: 'code',
         grantType: 'authorization_code',
