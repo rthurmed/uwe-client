@@ -4,7 +4,11 @@
       <v-row>
         <v-col cols="2">
           <!-- left side -->
-          <!--  -->
+          <v-btn v-if="$route.name !== 'index'" icon to="/">
+            <v-icon>
+              mdi-arrow-left
+            </v-icon>
+          </v-btn>
         </v-col>
         <v-col class="d-flex justify-center align-center">
           <!-- center -->
@@ -14,8 +18,9 @@
         </v-col>
         <v-col cols="2" class="d-flex justify-end">
           <!-- right side -->
-          <!-- TODO: Move the user avatar into other component -->
-          <v-avatar color="primary" />
+          <v-btn icon to="/account">
+            <v-avatar color="primary" />
+          </v-btn>
         </v-col>
       </v-row>
     </v-app-bar>
