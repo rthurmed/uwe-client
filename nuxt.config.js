@@ -1,4 +1,4 @@
-import colors from 'vuetify/es5/util/colors'
+// import colors from 'vuetify/es5/util/colors'
 
 require('dotenv').config()
 
@@ -30,7 +30,8 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '@/plugins/vuex-orm-axios'
+    '@/plugins/vuex-orm-axios',
+    '@/plugins/filters'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
