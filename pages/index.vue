@@ -13,18 +13,36 @@
           </a>
         </v-system-bar>
         <v-container class="d-flex justify-center">
-          <AvatarCard
+          <v-menu
             v-for="project in projects"
             :key="project.id"
-            :title="project.name"
-            :highlight="project.id === selected"
-            @click="() => selected = project.id"
+            v-model="showingMenuProjects[project.id]"
+            offset-y
+            :close-on-content-click="false"
           >
-            <v-icon size="32">
-              mdi-notebook
-            </v-icon>
-          </AvatarCard>
+            <template #activator="{ on, attrs }">
+              <AvatarCard
+                :title="project.name"
+                :highlight="project.id === selected"
+                v-bind="attrs"
+                v-on="(
+                  project.isAllowed($auth.user.sub, [AccessLevel.OWNER]) &&
+                  project.id === selected
+                ) ? on : null"
+                @click="() => selected = project.id"
+              >
+                <v-icon size="32">
+                  mdi-notebook
+                </v-icon>
+              </AvatarCard>
+            </template>
+            <UpdateProjectCard
+              :entity-id="project.id"
+              @response="showingMenuProjects[project.id] = false"
+            />
+          </v-menu>
           <v-menu
+            v-model="showingMenuCreateProject"
             offset-y
             :close-on-content-click="false"
           >
@@ -41,7 +59,10 @@
               </AvatarCard>
             </template>
             <CreateProjectCard
-              @created="response => { selected = response.data.id }"
+              @created="response => {
+                showingMenuCreateProject = false
+                selected = response.data.id
+              }"
             />
           </v-menu>
         </v-container>
@@ -84,6 +105,7 @@
                   <v-list-item-content class="text-center">
                     <v-list-item-subtitle>
                       Este projeto ainda não possue diagramas
+                      <!-- TODO: Add create buttons here -->
                     </v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
@@ -173,7 +195,7 @@
 <script>
 import { Diagram } from '~/models/diagram'
 import { DiagramTypeInfo } from '~/models/enum/diagram-type'
-import { AccessLevelInfo } from '~/models/enum/access-level'
+import { AccessLevel, AccessLevelInfo } from '~/models/enum/access-level'
 import { Permission } from '~/models/permission'
 import { Project } from '~/models/project'
 
@@ -181,8 +203,11 @@ export default {
   data () {
     return {
       selected: null,
+      AccessLevel,
       DiagramTypeInfo,
-      AccessLevelInfo
+      AccessLevelInfo,
+      showingMenuProjects: {},
+      showingMenuCreateProject: false
     }
   },
   computed: {
@@ -197,6 +222,13 @@ export default {
     },
     permissions () {
       return Permission.query().where('projectId', this.selected).get()
+    }
+  },
+  watch: {
+    selected (value) {
+      if (value) {
+        Project.api().get(`${Project.entity}/${value}`)
+      }
     }
   },
   created () {
