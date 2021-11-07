@@ -24,14 +24,26 @@
               mdi-notebook
             </v-icon>
           </AvatarCard>
-          <AvatarCard
-            title="Criar Projeto"
-            @click="openCreatePopup"
+          <v-menu
+            offset-y
+            :close-on-content-click="false"
           >
-            <v-icon>
-              mdi-plus
-            </v-icon>
-          </AvatarCard>
+            <template #activator="{ on, attrs }">
+              <AvatarCard
+                title="Criar Projeto"
+                v-bind="attrs"
+                v-on="on"
+                @click="openCreatePopup"
+              >
+                <v-icon>
+                  mdi-plus
+                </v-icon>
+              </AvatarCard>
+            </template>
+            <CreateProjectCard
+              @created="response => { selected = response.data.id }"
+            />
+          </v-menu>
         </v-container>
       </v-container>
       <v-divider />
