@@ -68,7 +68,16 @@
         </v-container>
       </v-container>
       <v-divider />
-      <v-container v-if="focusedProject != null">
+      <v-container v-if="focusedProject == null" class="text-center">
+        <p v-if="projects.length > 0">
+          Para ver as informações de um projeto existente ou criar um novo, selecione uma opção acima.
+        </p>
+        <p v-else>
+          Você ainda não tem nenhum projeto.
+          <a href="#" @click="showingMenuCreateProject = true">Crie um novo projeto.</a>
+        </p>
+      </v-container>
+      <v-container v-else>
         <v-system-bar color="transparent">
           <span>
             Projeto: {{ focusedProject.name }}
