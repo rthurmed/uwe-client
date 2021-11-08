@@ -100,22 +100,62 @@
                     Diagramas
                   </v-col>
                   <v-col cols="3" class="d-flex justify-end">
-                    <v-btn icon>
-                      <v-icon>
-                        mdi-plus
-                      </v-icon>
-                    </v-btn>
+                    <v-menu
+                      v-model="showingMenuCreateDiagram"
+                      offset-y
+                      min-width="300"
+                      :close-on-content-click="false"
+                    >
+                      <template #activator="{ on, attrs }">
+                        <v-btn
+                          icon
+                          v-bind="attrs"
+                          v-on="on"
+                        >
+                          <v-icon>
+                            mdi-plus
+                          </v-icon>
+                        </v-btn>
+                      </template>
+                      <CreateDiagramCard
+                        :project-id="selected"
+                        @response="showingMenuCreateDiagram = false"
+                      />
+                    </v-menu>
                   </v-col>
                 </v-row>
               </v-card-title>
               <v-divider />
               <v-list>
                 <v-list-item v-if="diagrams.length < 1">
-                  <v-list-item-content class="text-center">
-                    <v-list-item-subtitle>
-                      Este projeto ainda não possue diagramas
-                      <!-- TODO: Add create buttons here -->
+                  <v-list-item-content>
+                    <v-list-item-subtitle class="text-center">
+                      Este projeto ainda não possue diagramas.
+                      <p class="text-caption">
+                        Para criar um diagrama, escolha uma opção ou clique no botão "+".
+                      </p>
                     </v-list-item-subtitle>
+                    <v-row>
+                      <v-col
+                        v-for="type in Object.values(DiagramType)"
+                        :key="type"
+                      >
+                        <v-card
+                          elevation="0"
+                          class="text-center"
+                          @click="() => createDiagram(type)"
+                        >
+                          <v-card-text>
+                            <v-icon>
+                              {{ DiagramTypeInfo[type].icon }}
+                            </v-icon>
+                          </v-card-text>
+                          <v-card-actions class="text--secondary justify-center">
+                            {{ DiagramTypeInfo[type].label }}
+                          </v-card-actions>
+                        </v-card>
+                      </v-col>
+                    </v-row>
                   </v-list-item-content>
                 </v-list-item>
                 <v-list-item
@@ -203,7 +243,7 @@
 
 <script>
 import { Diagram } from '~/models/diagram'
-import { DiagramTypeInfo } from '~/models/enum/diagram-type'
+import { DiagramType, DiagramTypeInfo } from '~/models/enum/diagram-type'
 import { AccessLevel, AccessLevelInfo } from '~/models/enum/access-level'
 import { Permission } from '~/models/permission'
 import { Project } from '~/models/project'
@@ -213,10 +253,12 @@ export default {
     return {
       selected: null,
       AccessLevel,
-      DiagramTypeInfo,
+      DiagramType,
       AccessLevelInfo,
+      DiagramTypeInfo,
       showingMenuProjects: {},
-      showingMenuCreateProject: false
+      showingMenuCreateProject: false,
+      showingMenuCreateDiagram: false
     }
   },
   computed: {
@@ -256,7 +298,15 @@ export default {
       })
   },
   methods: {
-    openCreatePopup: () => {}
+    createDiagram (type) {
+      Diagram
+        .api()
+        .post(Diagram.entity, {
+          type,
+          name: 'Diagrama sem nome',
+          projectId: this.selected
+        })
+    }
   }
 }
 </script>
