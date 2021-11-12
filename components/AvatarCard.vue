@@ -7,7 +7,6 @@
     <v-card-text class="d-flex justify-center">
       <v-avatar
         size="80"
-        color="white"
         :class="`elevation-${ highlight ? 4 : 2 }`"
       >
         <slot />

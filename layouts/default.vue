@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar color="white" fixed app>
+    <v-app-bar fixed app>
       <v-row>
         <v-col cols="2">
           <!-- left side -->
