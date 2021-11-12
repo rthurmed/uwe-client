@@ -51,7 +51,6 @@
                 title="Criar Projeto"
                 v-bind="attrs"
                 v-on="on"
-                @click="openCreatePopup"
               >
                 <v-icon>
                   mdi-plus
@@ -205,33 +204,11 @@
               </v-card-title>
               <v-divider />
               <v-list>
-                <v-list-item
+                <MemberListItem
                   v-for="permission in permissions"
                   :key="permission.id"
-                  three-line
-                >
-                  <v-list-item-avatar color="grey darken-2">
-                    <v-icon color="white">
-                      {{ AccessLevelInfo[permission.level].icon }}
-                    </v-icon>
-                  </v-list-item-avatar>
-                  <v-list-item-content>
-                    <v-list-item-title>
-                      {{ permission.userId }}
-                    </v-list-item-title>
-                    <v-list-item-subtitle>
-                      <span>
-                        {{ AccessLevelInfo[permission.level].label }}
-                      </span>
-                      <span v-if="$auth.user.sub === permission.userId">
-                        (Você)
-                      </span>
-                    </v-list-item-subtitle>
-                    <v-list-item-subtitle>
-                      Entrou em {{ permission.createdAt | unixtime }}
-                    </v-list-item-subtitle>
-                  </v-list-item-content>
-                </v-list-item>
+                  :permission-id="permission.id"
+                />
               </v-list>
             </v-card>
           </v-col>
