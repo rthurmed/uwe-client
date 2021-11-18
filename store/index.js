@@ -20,3 +20,29 @@ database.register(User)
 export const plugins = [
   install(database)
 ]
+
+// TODO: Implement editor module
+
+/*
+Possible socket_ messages:
+- join
+- leave
+- create
+- patch
+- delete
+- grab
+- drop
+*/
+
+export const state = {
+  users: []
+}
+
+export const mutations = {
+  socket_join (state, payload) {
+    console.log(payload)
+  },
+  socket_context (state, payload) {
+    console.log(payload)
+  }
+}

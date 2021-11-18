@@ -160,6 +160,7 @@
                 <v-list-item
                   v-for="diagram in diagrams"
                   :key="diagram.id"
+                  :to="`d/${diagram.id}`"
                 >
                   <v-list-item-avatar color="grey darken-2">
                     <v-icon color="white">
