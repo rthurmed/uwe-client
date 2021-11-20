@@ -32,7 +32,8 @@ export default {
   plugins: [
     '@/plugins/vuex-orm-axios',
     '@/plugins/filters',
-    '@/plugins/vue-socketio'
+    '@/plugins/vue-socketio',
+    '@/plugins/vue-konva'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
