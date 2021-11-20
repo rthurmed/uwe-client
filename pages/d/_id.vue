@@ -1,13 +1,124 @@
 <template>
-  <v-row>
-    <v-col>
-      <!--  -->
-    </v-col>
-  </v-row>
+  <div class="fill-height">
+    <v-btn fab small absolute style="left: -20px; top: 10px; z-index: 200;">
+      <v-icon>mdi-plus</v-icon>
+    </v-btn>
+    <v-app-bar clipped-left clipped-right fixed app>
+      <v-row>
+        <v-col cols="2">
+          <v-btn icon to="/">
+            <v-icon>
+              mdi-arrow-left
+            </v-icon>
+          </v-btn>
+        </v-col>
+        <v-col class="d-flex justify-center align-center">
+          <v-btn large depressed>
+            Projeto 1 > sistema
+          </v-btn>
+        </v-col>
+        <v-col cols="2" class="d-flex justify-end">
+          <v-btn icon to="/account">
+            <v-avatar color="primary" />
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-app-bar>
+    <!-- LEFT SIDE PANEL -->
+    <v-navigation-drawer app clipped>
+      <!-- AVATARS -->
+      <v-toolbar flat style="overflow: auto; overflow-y: hidden;">
+        <v-btn
+          v-for="i in 4"
+          :key="i"
+          icon
+          class="mr-1"
+        >
+          <v-avatar color="blue" />
+        </v-btn>
+      </v-toolbar>
+      <v-divider />
+      <!-- OPTIONS TO ADD -->
+      <v-system-bar color="transparent">
+        Entidades
+      </v-system-bar>
+      <v-container fluid style="height: 200px; overflow-y: scroll">
+        <v-row dense>
+          <v-col v-for="i in 24" :key="i">
+            <v-btn tile block>
+              <v-icon>
+                mdi-earth
+              </v-icon>
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-container>
+      <v-divider />
+      <!-- DIAGRAM ESTRUCTURE -->
+      <v-system-bar color="transparent">
+        Estrutura do diagrama
+      </v-system-bar>
+      <v-card flat style="height: calc(100vh - 384px); overflow-y: scroll">
+        <v-list dense>
+          <v-list-item-group>
+            <v-list-item
+              v-for="i in 20"
+              :key="i"
+            >
+              <v-list-item-icon>
+                <v-icon>mdi-earth</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>
+                  Actor1
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+      </v-card>
+    </v-navigation-drawer>
+    <!-- RIGHT SIDE PANEL -->
+    <v-navigation-drawer app right clipped>
+      <v-list>
+        <v-list-item>
+          <v-list-item-content>
+            <v-list-item-title class="text-center text-h5">
+              Actor1
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          v-for="prop in entityProps"
+          :key="prop"
+          @click="() => {}"
+        >
+          <v-list-item-content>
+            <v-list-item-title>
+              {{ prop }}
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+  </div>
 </template>
 
 <script>
 export default {
+  layout: 'empty',
+  data () {
+    return {
+      // Testing only
+      entityProps: [
+        'title',
+        'x',
+        'y',
+        'height',
+        'width'
+      ]
+    }
+  },
   created () {
     this.$socket.io.opts.extraHeaders.Authorization = this.$auth.strategy.token.get()
     this.$socket.connect()
