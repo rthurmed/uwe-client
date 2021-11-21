@@ -4,6 +4,7 @@ import { Project } from '~/models/project'
 import { Permission } from '~/models/permission'
 import { Diagram } from '~/models/diagram'
 import { User } from '~/models/user'
+import { Entity } from '~/models/entity'
 
 // https://vuex-orm.github.io/plugin-axios/guide/setup.html#nuxt-js-integration
 
@@ -16,6 +17,7 @@ database.register(Project)
 database.register(Permission)
 database.register(Diagram)
 database.register(User)
+database.register(Entity)
 
 export const plugins = [
   install(database)
