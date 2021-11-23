@@ -29,12 +29,14 @@
       <!-- AVATARS -->
       <v-toolbar flat style="overflow: auto; overflow-y: hidden;">
         <v-btn
-          v-for="i in 4"
-          :key="i"
+          v-for="userId in []"
+          :key="userId"
           icon
           class="mr-1"
         >
-          <v-avatar color="blue" />
+          <v-avatar color="blue">
+            {{ userId.substr(0, 2) }}
+          </v-avatar>
         </v-btn>
       </v-toolbar>
       <v-divider />
@@ -42,7 +44,7 @@
       <v-system-bar color="transparent">
         Entidades
       </v-system-bar>
-      <v-container fluid style="height: 200px; overflow-y: scroll">
+      <v-container fluid style="max-height: 200px; overflow-y: scroll">
         <v-row dense>
           <v-col v-for="i in 24" :key="i">
             <v-btn tile block>
@@ -58,7 +60,7 @@
       <v-system-bar color="transparent">
         Estrutura do diagrama
       </v-system-bar>
-      <v-card flat style="height: calc(100vh - 384px); overflow-y: scroll">
+      <v-card flat style="max-height: calc(100vh - 384px); overflow-y: scroll">
         <v-list dense>
           <v-list-item-group>
             <v-list-item
@@ -94,6 +96,9 @@
           @click="() => {}"
         >
           <v-list-item-content>
+            <v-list-item-subtitle>
+              {{ prop }}
+            </v-list-item-subtitle>
             <v-list-item-title>
               {{ prop }}
             </v-list-item-title>
@@ -101,14 +106,41 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
+    <v-row>
+      <v-col cols="12">
+        <v-expand-transition>
+          <v-alert
+            v-show="!connected"
+            prominent
+            tile
+            type="error"
+            transition=""
+          >
+            <v-row align="center">
+              <v-col class="grow">
+                Você está desconectado!
+              </v-col>
+              <v-col class="shrink">
+                <v-btn @click="$socket.connect()">
+                  Conectar novamente
+                </v-btn>
+              </v-col>
+            </v-row>
+          </v-alert>
+        </v-expand-transition>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
 <script>
+import { Diagram } from '~/models/diagram'
+
 export default {
   layout: 'empty',
   data () {
     return {
+      connected: this.$socket.connected,
       // Testing only
       entityProps: [
         'title',
@@ -119,7 +151,21 @@ export default {
       ]
     }
   },
+  computed: {
+    diagram () {
+      return Diagram.find(this.$route.params.id)
+    }
+  },
+  sockets: {
+    disconnect () {
+      this.connected = false
+    },
+    connect () {
+      this.connected = true
+    }
+  },
   created () {
+    Diagram.api().get(`${Diagram.entity}/${this.$route.params.id}`)
     this.$socket.io.opts.extraHeaders.Authorization = this.$auth.strategy.token.get()
     this.$socket.connect()
     this.$socket.emit('join', this.$route.params.id)

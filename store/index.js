@@ -5,6 +5,7 @@ import { Permission } from '~/models/permission'
 import { Diagram } from '~/models/diagram'
 import { User } from '~/models/user'
 import { Entity } from '~/models/entity'
+import { Participant } from '~/models/participant'
 
 // https://vuex-orm.github.io/plugin-axios/guide/setup.html#nuxt-js-integration
 
@@ -18,12 +19,11 @@ database.register(Permission)
 database.register(Diagram)
 database.register(User)
 database.register(Entity)
+database.register(Participant)
 
 export const plugins = [
   install(database)
 ]
-
-// TODO: Implement editor module
 
 /*
 Possible socket_ messages:
@@ -36,15 +36,8 @@ Possible socket_ messages:
 - drop
 */
 
-export const state = {
-  users: []
-}
-
 export const mutations = {
   socket_join (state, payload) {
-    console.log(payload)
-  },
-  socket_context (state, payload) {
-    console.log(payload)
+    //
   }
 }

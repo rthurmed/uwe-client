@@ -1,5 +1,6 @@
 import { Base } from './base'
 import { Entity } from './entity'
+import { Participant } from './participant'
 
 export class Diagram extends Base {
   static entity = 'diagrams'
@@ -11,7 +12,8 @@ export class Diagram extends Base {
       name: this.string(''),
       type: this.number(0),
       projectId: this.attr(null),
-      entities: this.hasMany(Entity, 'diagramId')
+      entities: this.hasMany(Entity, 'diagramId'),
+      participants: this.hasMany(Participant, 'diagramId')
     }
   }
 }
