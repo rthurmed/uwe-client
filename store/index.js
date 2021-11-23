@@ -38,6 +38,6 @@ Possible socket_ messages:
 
 export const mutations = {
   socket_join (state, payload) {
-    //
+    Participant.create({ data: payload })
   }
 }

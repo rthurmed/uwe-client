@@ -29,13 +29,13 @@
       <!-- AVATARS -->
       <v-toolbar flat style="overflow: auto; overflow-y: hidden;">
         <v-btn
-          v-for="userId in []"
-          :key="userId"
+          v-for="participant in participants"
+          :key="participant.id"
           icon
           class="mr-1"
         >
           <v-avatar color="blue">
-            {{ userId.substr(0, 2) }}
+            {{ participant.userId.substr(0, 2) }}
           </v-avatar>
         </v-btn>
       </v-toolbar>
@@ -47,7 +47,7 @@
       <v-container fluid style="max-height: 200px; overflow-y: scroll">
         <v-row dense>
           <v-col v-for="i in 24" :key="i">
-            <v-btn tile block>
+            <v-btn large block>
               <v-icon>
                 mdi-earth
               </v-icon>
@@ -135,8 +135,14 @@
 
 <script>
 import { Diagram } from '~/models/diagram'
+import { Participant } from '~/models/participant'
 
 export default {
+  beforeRouteLeave (to, from, next) {
+    this.$socket.emit('leave')
+    this.$socket.disconnect()
+    next()
+  },
   layout: 'empty',
   data () {
     return {
@@ -154,6 +160,9 @@ export default {
   computed: {
     diagram () {
       return Diagram.find(this.$route.params.id)
+    },
+    participants () {
+      return Participant.query().where('diagramId', this.$route.params.id).get()
     }
   },
   sockets: {
