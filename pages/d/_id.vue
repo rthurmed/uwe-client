@@ -35,6 +35,7 @@
           class="mr-1"
         >
           <v-avatar color="blue">
+            <!-- TODO: Display user initials -->
             {{ participant.userId.substr(0, 2) }}
           </v-avatar>
         </v-btn>
@@ -121,13 +122,44 @@
                 Você está desconectado!
               </v-col>
               <v-col class="shrink">
-                <v-btn @click="$socket.connect()">
+                <v-btn @click="connect">
                   Conectar novamente
                 </v-btn>
               </v-col>
             </v-row>
           </v-alert>
         </v-expand-transition>
+        <v-stage
+          id="stage"
+          ref="stage"
+          class="fill-height"
+          :config="stageConfig"
+          @mousemove="handleMouseMove"
+        >
+          <v-layer>
+            <!-- TODO: animate this -->
+            <v-group
+              v-for="participant in participants"
+              :key="participant.id"
+              :config="{
+                x: participant.x,
+                y: participant.y,
+              }"
+            >
+              <v-rect
+                :config="{
+                  width: 100,
+                  height: 100,
+                }"
+              />
+              <v-text
+                :config="{
+                  text: participant.userId,
+                }"
+              />
+            </v-group>
+          </v-layer>
+        </v-stage>
       </v-col>
     </v-row>
   </div>
@@ -147,6 +179,17 @@ export default {
   data () {
     return {
       connected: this.$socket.connected,
+      stageConfig: {
+        width: 600,
+        height: 600,
+        draggable: true
+      },
+      mouse: {
+        x: 0,
+        y: 0
+      },
+      updateRate: 300,
+      mouseUpdateIntervalId: null,
       // Testing only
       entityProps: [
         'title',
@@ -165,6 +208,9 @@ export default {
       return Participant.query().where('diagramId', this.$route.params.id).get()
     }
   },
+  beforeDestroy () {
+    clearInterval(this.mouseUpdateIntervalId)
+  },
   sockets: {
     disconnect () {
       this.connected = false
@@ -175,9 +221,30 @@ export default {
   },
   created () {
     Diagram.api().get(`${Diagram.entity}/${this.$route.params.id}`)
-    this.$socket.io.opts.extraHeaders.Authorization = this.$auth.strategy.token.get()
-    this.$socket.connect()
-    this.$socket.emit('join', this.$route.params.id)
+    this.connect()
+    this.mouseUpdateIntervalId = setInterval(() => {
+      if (!this.connected) { return }
+      this.$socket.emit('move', this.mouse)
+    }, this.updateRate)
+  },
+  mounted () {
+    const rect = this.$refs.stage.$el.getBoundingClientRect()
+    this.stageConfig.height = rect.height
+    this.stageConfig.width = rect.width
+  },
+  methods: {
+    connect () {
+      this.$socket.io.opts.extraHeaders.Authorization = this.$auth.strategy.token.get()
+      this.$socket.connect()
+      this.$socket.emit('join', this.$route.params.id)
+    },
+    handleMouseMove (e) {
+      const stage = e.target.getStage()
+      const { x: offsetX = 0, y: offsetY = 0 } = stage.attrs
+      const { layerX, layerY } = e.evt
+      this.mouse.x = layerX - offsetX
+      this.mouse.y = layerY - offsetY
+    }
   }
 }
 </script>

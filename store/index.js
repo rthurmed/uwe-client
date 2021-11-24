@@ -39,5 +39,17 @@ Possible socket_ messages:
 export const mutations = {
   socket_join (state, payload) {
     Participant.create({ data: payload })
+  },
+  socket_leave (state, payload) {
+    Participant.delete(payload)
+  },
+  socket_move (state, payload) {
+    Participant.update({
+      where: payload.participantId,
+      data: {
+        x: payload.x,
+        y: payload.y
+      }
+    })
   }
 }
