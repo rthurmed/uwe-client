@@ -51,5 +51,8 @@ export const mutations = {
         y: payload.y
       }
     })
+  },
+  socket_create (state, payload) {
+    Entity.create({ data: payload })
   }
 }

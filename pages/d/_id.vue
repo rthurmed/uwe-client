@@ -47,11 +47,21 @@
       </v-system-bar>
       <v-container fluid style="max-height: 200px; overflow-y: scroll">
         <v-row dense>
-          <v-col v-for="i in 24" :key="i">
-            <v-btn large block>
-              <v-icon>
+          <v-col
+            v-for="type in EntityType"
+            :key="type"
+            cols="12"
+          >
+            <!-- TODO: add nice icons -->
+            <v-btn
+              large
+              block
+              @click="createEntity(type)"
+            >
+              <v-icon left>
                 mdi-earth
               </v-icon>
+              {{ EntityTypeInfo[type].label }}
             </v-btn>
           </v-col>
         </v-row>
@@ -167,14 +177,10 @@
 
 <script>
 import { Diagram } from '~/models/diagram'
+import { EntityType, EntityTypeInfo } from '~/models/enum/entity-type'
 import { Participant } from '~/models/participant'
 
 export default {
-  beforeRouteLeave (to, from, next) {
-    this.$socket.emit('leave')
-    this.$socket.disconnect()
-    next()
-  },
   layout: 'empty',
   data () {
     return {
@@ -190,6 +196,8 @@ export default {
       },
       updateRate: 300,
       mouseUpdateIntervalId: null,
+      EntityType,
+      EntityTypeInfo,
       // Testing only
       entityProps: [
         'title',
@@ -210,6 +218,8 @@ export default {
   },
   beforeDestroy () {
     clearInterval(this.mouseUpdateIntervalId)
+    this.$socket.emit('leave')
+    this.$socket.disconnect()
   },
   sockets: {
     disconnect () {
@@ -244,6 +254,12 @@ export default {
       const { layerX, layerY } = e.evt
       this.mouse.x = layerX - offsetX
       this.mouse.y = layerY - offsetY
+    },
+    createEntity (entityType) {
+      this.$socket.emit('create', {
+        type: entityType,
+        diagramId: this.$route.params.id
+      })
     }
   }
 }
