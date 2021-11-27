@@ -144,73 +144,7 @@
             </v-row>
           </v-alert>
         </v-expand-transition>
-        <v-stage
-          id="stage"
-          ref="stage"
-          class="fill-height"
-          :config="stageConfig"
-          @mousemove="handleMouseMove"
-        >
-          <!-- LAYER 1: CURSORS -->
-          <v-layer>
-            <!-- TODO: animate this -->
-            <v-group
-              v-for="participant in participants"
-              :key="participant.id"
-              :config="{
-                x: participant.x,
-                y: participant.y,
-              }"
-            >
-              <v-rect
-                :config="{
-                  width: 100,
-                  height: 100,
-                }"
-              />
-              <v-text
-                :config="{
-                  text: participant.userId,
-                }"
-              />
-            </v-group>
-          </v-layer>
-          <!-- LAYER 2: ENTITIES -->
-          <v-layer>
-            <v-group
-              v-for="entity in entities"
-              :key="entity.id"
-              :config="{
-                id: entity.id,
-                x: entity.x,
-                y: entity.y,
-                draggable: true
-              }"
-            >
-              <v-rect
-                :config="{
-                  width: 100,
-                  height: 100,
-                  fill: style.box.fill,
-                  // stroke: entity.id === selected ? style.box.selectedStroke : style.box.stroke,
-                  cornerRadius: style.box.radius,
-                  shadowBlur: style.box.shadow
-                }"
-              />
-              <v-text
-                :config="{
-                  y: style.box.padding,
-                  width: 100,
-                  text: entity.title,
-                  fill: style.text.color,
-                  fontSize: style.text.size,
-                  fontStyle: 'bold',
-                  align: 'center'
-                }"
-              />
-            </v-group>
-          </v-layer>
-        </v-stage>
+        <EditorStage :diagram-id="$route.params.id" />
       </v-col>
     </v-row>
   </div>
@@ -221,25 +155,12 @@ import { Diagram } from '~/models/diagram'
 import { Entity } from '~/models/entity'
 import { EntityType, EntityTypeInfo } from '~/models/enum/entity-type'
 import { Participant } from '~/models/participant'
-import { Style } from '~/classes/editor/Style'
 
 export default {
   layout: 'empty',
   data () {
     return {
       connected: this.$socket.connected,
-      stageConfig: {
-        width: 600,
-        height: 600,
-        draggable: true
-      },
-      mouse: {
-        x: 0,
-        y: 0
-      },
-      style: new Style({}),
-      updateRate: 300,
-      mouseUpdateIntervalId: null,
       EntityType,
       EntityTypeInfo,
       // Testing only
@@ -270,7 +191,6 @@ export default {
     }
   },
   beforeDestroy () {
-    clearInterval(this.mouseUpdateIntervalId)
     this.$socket.emit('leave')
     this.$socket.disconnect()
   },
@@ -285,28 +205,12 @@ export default {
   created () {
     Diagram.api().get(`${Diagram.entity}/${this.$route.params.id}`)
     this.connect()
-    this.mouseUpdateIntervalId = setInterval(() => {
-      if (!this.connected) { return }
-      this.$socket.emit('move', this.mouse)
-    }, this.updateRate)
-  },
-  mounted () {
-    const rect = this.$refs.stage.$el.getBoundingClientRect()
-    this.stageConfig.height = rect.height
-    this.stageConfig.width = rect.width
   },
   methods: {
     connect () {
       this.$socket.io.opts.extraHeaders.Authorization = this.$auth.strategy.token.get()
       this.$socket.connect()
       this.$socket.emit('join', this.$route.params.id)
-    },
-    handleMouseMove (e) {
-      const stage = e.target.getStage()
-      const { x: offsetX = 0, y: offsetY = 0 } = stage.attrs
-      const { layerX, layerY } = e.evt
-      this.mouse.x = layerX - offsetX
-      this.mouse.y = layerY - offsetY
     },
     createEntity (entityType) {
       this.$socket.emit('create', {

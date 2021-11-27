@@ -6,6 +6,7 @@ import { Diagram } from '~/models/diagram'
 import { User } from '~/models/user'
 import { Entity } from '~/models/entity'
 import { Participant } from '~/models/participant'
+import { Style } from '~/classes/editor/Style'
 
 // https://vuex-orm.github.io/plugin-axios/guide/setup.html#nuxt-js-integration
 
@@ -35,6 +36,10 @@ Possible socket_ messages:
 - grab
 - drop
 */
+
+export const state = () => ({
+  style: new Style({})
+})
 
 export const mutations = {
   socket_join (state, payload) {
