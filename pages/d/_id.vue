@@ -151,6 +151,7 @@
           :config="stageConfig"
           @mousemove="handleMouseMove"
         >
+          <!-- LAYER 1: CURSORS -->
           <v-layer>
             <!-- TODO: animate this -->
             <v-group
@@ -174,6 +175,41 @@
               />
             </v-group>
           </v-layer>
+          <!-- LAYER 2: ENTITIES -->
+          <v-layer>
+            <v-group
+              v-for="entity in entities"
+              :key="entity.id"
+              :config="{
+                id: entity.id,
+                x: entity.x,
+                y: entity.y,
+                draggable: true
+              }"
+            >
+              <v-rect
+                :config="{
+                  width: 100,
+                  height: 100,
+                  fill: style.box.fill,
+                  // stroke: entity.id === selected ? style.box.selectedStroke : style.box.stroke,
+                  cornerRadius: style.box.radius,
+                  shadowBlur: style.box.shadow
+                }"
+              />
+              <v-text
+                :config="{
+                  y: style.box.padding,
+                  width: 100,
+                  text: entity.title,
+                  fill: style.text.color,
+                  fontSize: style.text.size,
+                  fontStyle: 'bold',
+                  align: 'center'
+                }"
+              />
+            </v-group>
+          </v-layer>
         </v-stage>
       </v-col>
     </v-row>
@@ -185,6 +221,7 @@ import { Diagram } from '~/models/diagram'
 import { Entity } from '~/models/entity'
 import { EntityType, EntityTypeInfo } from '~/models/enum/entity-type'
 import { Participant } from '~/models/participant'
+import { Style } from '~/classes/editor/Style'
 
 export default {
   layout: 'empty',
@@ -200,6 +237,7 @@ export default {
         x: 0,
         y: 0
       },
+      style: new Style({}),
       updateRate: 300,
       mouseUpdateIntervalId: null,
       EntityType,
