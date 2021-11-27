@@ -27,6 +27,8 @@
     <!-- LEFT SIDE PANEL -->
     <v-navigation-drawer app clipped>
       <!-- AVATARS -->
+      <!-- TODO: Display user initials -->
+      <!-- TODO: Condense all other users after the 3rd one -->
       <v-toolbar flat style="overflow: auto; overflow-y: hidden;">
         <v-btn
           v-for="participant in participants"
@@ -35,13 +37,13 @@
           class="mr-1"
         >
           <v-avatar color="blue">
-            <!-- TODO: Display user initials -->
             {{ participant.userId.substr(0, 2) }}
           </v-avatar>
         </v-btn>
       </v-toolbar>
       <v-divider />
       <!-- OPTIONS TO ADD -->
+      <!-- TODO: Add nice icons -->
       <v-system-bar color="transparent">
         Entidades
       </v-system-bar>
@@ -52,7 +54,6 @@
             :key="type"
             cols="12"
           >
-            <!-- TODO: add nice icons -->
             <v-btn
               large
               block
@@ -75,16 +76,20 @@
         <v-list dense>
           <v-list-item-group>
             <v-list-item
-              v-for="i in 20"
-              :key="i"
+              v-for="entity in entities"
+              :key="entity.id"
             >
               <v-list-item-icon>
                 <v-icon>mdi-earth</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title>
-                  Actor1
+                <v-list-item-title v-if="entity.title">
+                  {{ entity.title }}
                 </v-list-item-title>
+                <v-list-item-subtitle>
+                  {{ EntityTypeInfo[entity.type].label }}
+                  #{{ entity.id }}
+                </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </v-list-item-group>
@@ -177,6 +182,7 @@
 
 <script>
 import { Diagram } from '~/models/diagram'
+import { Entity } from '~/models/entity'
 import { EntityType, EntityTypeInfo } from '~/models/enum/entity-type'
 import { Participant } from '~/models/participant'
 
@@ -213,7 +219,16 @@ export default {
       return Diagram.find(this.$route.params.id)
     },
     participants () {
-      return Participant.query().where('diagramId', this.$route.params.id).get()
+      return Participant
+        .query()
+        .where('diagramId', Number(this.$route.params.id))
+        .get()
+    },
+    entities () {
+      return Entity
+        .query()
+        .where('diagramId', Number(this.$route.params.id))
+        .get()
     }
   },
   beforeDestroy () {

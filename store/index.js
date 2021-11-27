@@ -38,7 +38,7 @@ Possible socket_ messages:
 
 export const mutations = {
   socket_join (state, payload) {
-    Participant.create({ data: payload })
+    Participant.insertOrUpdate({ data: payload })
   },
   socket_leave (state, payload) {
     Participant.delete(payload)
@@ -53,6 +53,6 @@ export const mutations = {
     })
   },
   socket_create (state, payload) {
-    Entity.create({ data: payload })
+    Entity.insertOrUpdate({ data: payload })
   }
 }
