@@ -38,7 +38,7 @@ Possible socket_ messages:
 */
 
 export const state = () => ({
-  style: new Style({})
+  style: Style
 })
 
 export const mutations = {

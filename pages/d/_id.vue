@@ -174,7 +174,7 @@ export default {
     entities () {
       return Entity
         .query()
-        .where('diagramId', Number(this.$route.params.id))
+        .where('diagramId', Number(this.diagram.id))
         .get()
     }
   },

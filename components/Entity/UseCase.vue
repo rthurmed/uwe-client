@@ -14,8 +14,7 @@
         fill: style.box.fill,
         cornerRadius: style.box.radius,
         stroke: selected ? style.box.selectedStroke : style.box.stroke,
-        strokeWidth: style.line.strokeWidth,
-        shadowBlur: style.box.shadow
+        strokeWidth: selected ? style.box.selectedStrokeWidth : style.box.strokeWidth
       }"
     />
     <v-text
