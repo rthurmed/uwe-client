@@ -4,6 +4,8 @@
       uid: entity.id,
       x: entity.x,
       y: entity.y,
+      width: 160,
+      height: 70,
       draggable: true
     }"
   >
@@ -11,21 +13,21 @@
       :config="{
         width: 160,
         height: 70,
+        x: 80,
+        y: 32,
         fill: style.box.fill,
-        cornerRadius: style.box.radius,
         stroke: selected ? style.box.selectedStroke : style.box.stroke,
         strokeWidth: selected ? style.box.selectedStrokeWidth : style.box.strokeWidth
       }"
     />
     <v-text
       :config="{
-        text: entity.title,
-        y: style.box.padding,
-        width: 100,
-        fill: style.text.color,
+        width: 160,
+        height: 70,
+        text: `Entidade #${entity.id}`,
         fontSize: style.text.size,
-        fontStyle: 'bold',
-        align: 'center'
+        align: 'center',
+        verticalAlign: 'middle'
       }"
     />
   </v-group>

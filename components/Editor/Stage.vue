@@ -1,4 +1,5 @@
 <template>
+  <!-- TODO: Add a grid background -->
   <v-stage
     ref="stage"
     class="fill-height"
