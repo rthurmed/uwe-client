@@ -90,10 +90,14 @@
             </v-list>
           </v-menu>
         </v-list-item>
-        <v-list-item-group>
+        <v-list-item-group
+          :value="grabbedId"
+          @change="v => $socket.emit('grab', v)"
+        >
           <v-list-item
-            v-for="entity in entities"
-            :key="entity.id"
+            v-for="(entity, key) in entities"
+            :key="key"
+            :value="entity.id"
           >
             <v-list-item-icon>
               <v-icon>mdi-earth</v-icon>
@@ -145,6 +149,7 @@
 </template>
 
 <script>
+import { Query } from '@vuex-orm/core'
 import { Diagram } from '~/models/diagram'
 import { Entity } from '~/models/entity'
 import { EntityType, EntityTypeInfo } from '~/models/enum/entity-type'
@@ -156,6 +161,8 @@ export default {
     return {
       connected: this.$socket.connected,
       addingEntity: false,
+      beforeUpdateHookId: null,
+      grabbedId: null,
       EntityType,
       EntityTypeInfo
     }
@@ -173,13 +180,14 @@ export default {
     entities () {
       return Entity
         .query()
-        .where('diagramId', Number(this.diagram.id))
+        .where('diagramId', Number(this.$route.params.id))
         .get()
     }
   },
   beforeDestroy () {
     this.$socket.emit('leave')
     this.$socket.disconnect()
+    Query.off(this.beforeUpdateHookId)
   },
   sockets: {
     disconnect () {
@@ -192,6 +200,14 @@ export default {
   created () {
     Participant.create({ data: [] })
     Diagram.api().get(`${Diagram.entity}/${this.$route.params.id}`)
+    this.beforeUpdateHookId = Query.on('beforeUpdate', (data, aux, entity) => {
+      if (
+        entity === 'participants' &&
+        data.userId === this.$auth.user.sub
+      ) {
+        this.grabbedId = data.grabbedId
+      }
+    })
   },
   mounted () {
     this.connect()
