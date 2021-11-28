@@ -9,6 +9,7 @@
       draggable: true
     }"
   >
+    <!-- TODO: Replace with an svg image -->
     <v-line
       :config="{
         x: 50,

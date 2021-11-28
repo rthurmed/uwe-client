@@ -18,7 +18,12 @@
           :entity-id="entity.id"
         />
         <EntityActor
-          v-if="entity.type === EntityType.ACTOR"
+          v-else-if="entity.type === EntityType.ACTOR"
+          :key="entity.id"
+          :entity-id="entity.id"
+        />
+        <EntityNote
+          v-else-if="entity.type === EntityType.NOTE"
           :key="entity.id"
           :entity-id="entity.id"
         />
