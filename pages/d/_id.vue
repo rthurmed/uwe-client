@@ -100,29 +100,7 @@
     </v-navigation-drawer>
     <!-- RIGHT SIDE PANEL -->
     <v-navigation-drawer app right clipped>
-      <v-list>
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title class="text-center text-h5">
-              Actor1
-            </v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item
-          v-for="prop in entityProps"
-          :key="prop"
-          @click="() => {}"
-        >
-          <v-list-item-content>
-            <v-list-item-subtitle>
-              {{ prop }}
-            </v-list-item-subtitle>
-            <v-list-item-title>
-              {{ prop }}
-            </v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
+      <EditorInspectPanel />
     </v-navigation-drawer>
     <!-- MAIN CONTENT -->
     <v-row>
@@ -165,15 +143,7 @@ export default {
     return {
       connected: this.$socket.connected,
       EntityType,
-      EntityTypeInfo,
-      // Testing only
-      entityProps: [
-        'title',
-        'x',
-        'y',
-        'height',
-        'width'
-      ]
+      EntityTypeInfo
     }
   },
   computed: {

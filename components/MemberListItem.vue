@@ -26,7 +26,7 @@
         </span>
       </v-list-item-subtitle>
       <v-list-item-subtitle>
-        Entrou em {{ permission.createdAt | unixtime }}
+        Entrou em {{ permission.createdAt | unixdate }}
       </v-list-item-subtitle>
     </v-list-item-content>
   </v-list-item>
