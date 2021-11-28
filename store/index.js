@@ -59,5 +59,21 @@ export const mutations = {
   },
   socket_create (state, payload) {
     Entity.insertOrUpdate({ data: payload })
+  },
+  socket_grab (state, payload) {
+    Participant.update({
+      where: payload.participantId,
+      data: {
+        grabbedId: payload.entityId
+      }
+    })
+  },
+  socket_drop (state, payload) {
+    Participant.update({
+      where: payload.participantId,
+      data: {
+        grabbedId: null
+      }
+    })
   }
 }

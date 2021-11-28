@@ -1,7 +1,7 @@
 <template>
   <v-group
     :config="{
-      id: entity.id,
+      uid: entity.id,
       x: entity.x,
       y: entity.y,
       draggable: true
@@ -13,6 +13,8 @@
         height: 70,
         fill: style.box.fill,
         cornerRadius: style.box.radius,
+        stroke: selected ? style.box.selectedStroke : style.box.stroke,
+        strokeWidth: style.line.strokeWidth,
         shadowBlur: style.box.shadow
       }"
     />
@@ -31,21 +33,9 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import { Entity } from '~/models/entity'
+import EntityMixin from '~/mixins/EntityMixin'
 
 export default {
-  props: {
-    entityId: {
-      type: Number,
-      required: true
-    }
-  },
-  computed: {
-    ...mapState(['style']),
-    entity () {
-      return Entity.find(this.entityId)
-    }
-  }
+  mixins: [EntityMixin]
 }
 </script>

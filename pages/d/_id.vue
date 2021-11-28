@@ -3,6 +3,8 @@
     <v-btn fab small absolute style="left: -20px; top: 10px; z-index: 200;">
       <v-icon>mdi-plus</v-icon>
     </v-btn>
+    <!-- CUSTOM APP BAR -->
+    <!-- TODO: Implement diagram edit button -->
     <v-app-bar clipped-left clipped-right fixed app>
       <v-row>
         <v-col cols="2">
@@ -122,6 +124,7 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
+    <!-- MAIN CONTENT -->
     <v-row>
       <v-col cols="12">
         <v-expand-transition>
@@ -203,7 +206,10 @@ export default {
     }
   },
   created () {
+    Participant.create({ data: [] })
     Diagram.api().get(`${Diagram.entity}/${this.$route.params.id}`)
+  },
+  mounted () {
     this.connect()
   },
   methods: {

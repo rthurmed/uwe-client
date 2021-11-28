@@ -1,10 +1,10 @@
 <template>
   <v-stage
-    id="stage"
     ref="stage"
     class="fill-height"
     :config="stageConfig"
     @mousemove="handleMouseMove"
+    @click="handleClick"
   >
     <!-- LAYER 1: ENTITIES -->
     <v-layer>
@@ -92,16 +92,18 @@ export default {
   beforeDestroy () {
     clearInterval(this.mouseUpdateIntervalId)
   },
-  created () {
-    this.mouseUpdateIntervalId = setInterval(() => {
-      if (!this.connected) { return }
-      this.$socket.emit('move', this.mouse)
-    }, this.updateRate)
-  },
   mounted () {
+    // Resize canvas
     const rect = this.$refs.stage.$el.getBoundingClientRect()
     this.stageConfig.height = rect.height
     this.stageConfig.width = rect.width
+
+    // Starts sending mouse movement
+    this.mouseUpdateIntervalId = setInterval(() => {
+      if (this.$socket.connected) {
+        this.$socket.emit('move', this.mouse)
+      }
+    }, this.updateRate)
   },
   methods: {
     handleMouseMove (e) {
@@ -110,6 +112,23 @@ export default {
       const { layerX, layerY } = e.evt
       this.mouse.x = layerX - offsetX
       this.mouse.y = layerY - offsetY
+    },
+    handleClick (e) {
+      // Select clicked entity
+      let id = null
+      const clicked = e.target
+      if (clicked.attrs.uid) {
+        id = clicked.attrs.uid
+      }
+      if (clicked.parent && clicked.parent.attrs.uid) {
+        id = clicked.parent.attrs.uid
+      }
+
+      if (id != null) {
+        this.$socket.emit('grab', id)
+      } else {
+        this.$socket.emit('drop')
+      }
     }
   }
 }
