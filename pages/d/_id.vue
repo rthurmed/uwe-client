@@ -44,59 +44,73 @@
         </v-btn>
       </v-toolbar>
       <v-divider />
-      <!-- OPTIONS TO ADD -->
+      <!-- NEW ENTITY MENU -->
       <!-- TODO: Add nice icons -->
-      <v-system-bar color="transparent">
-        Entidades
-      </v-system-bar>
-      <v-container fluid style="max-height: 200px; overflow-y: scroll">
-        <v-row dense>
-          <v-col
+      <v-menu
+        v-model="addingEntity"
+        absolute
+        :position-x="96"
+        :position-y="196"
+      >
+        <v-list subheader>
+          <v-subheader>
+            Selecione o tipo da nova entidade:
+          </v-subheader>
+          <v-list-item
             v-for="type in EntityType"
             :key="type"
-            cols="12"
+            large
+            block
+            @click="createEntity(type)"
           >
-            <v-btn
-              large
-              block
-              @click="createEntity(type)"
-            >
-              <v-icon left>
+            <v-list-item-icon>
+              <v-icon>
                 mdi-earth
               </v-icon>
-              {{ EntityTypeInfo[type].label }}
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-container>
-      <v-divider />
-      <!-- DIAGRAM ESTRUCTURE -->
-      <v-system-bar color="transparent">
-        Estrutura do diagrama
-      </v-system-bar>
-      <v-card flat style="max-height: calc(100vh - 384px); overflow-y: scroll">
-        <v-list dense>
-          <v-list-item-group>
-            <v-list-item
-              v-for="entity in entities"
-              :key="entity.id"
-            >
-              <v-list-item-icon>
-                <v-icon>mdi-earth</v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title v-if="entity.title">
-                  {{ entity.title }}
-                </v-list-item-title>
-                <v-list-item-subtitle>
-                  {{ EntityTypeInfo[entity.type].label }}
-                  #{{ entity.id }}
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list-item-group>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>
+                {{ EntityTypeInfo[type].label }}
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
         </v-list>
-      </v-card>
+      </v-menu>
+      <!-- DIAGRAM ESTRUCTURE -->
+      <v-list subheader dense>
+        <v-subheader>
+          Estrutura do diagrama
+        </v-subheader>
+        <v-list-item @click="addingEntity = !addingEntity">
+          <v-list-item-icon>
+            <v-icon>
+              mdi-plus
+            </v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>
+            Adicionar nova entidade
+          </v-list-item-title>
+        </v-list-item>
+        <v-list-item-group>
+          <v-list-item
+            v-for="entity in entities"
+            :key="entity.id"
+          >
+            <v-list-item-icon>
+              <v-icon>mdi-earth</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title v-if="entity.title">
+                {{ entity.title }}
+              </v-list-item-title>
+              <v-list-item-title>
+                {{ EntityTypeInfo[entity.type].label }}
+                #{{ entity.id }}
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
     </v-navigation-drawer>
     <!-- RIGHT SIDE PANEL -->
     <v-navigation-drawer app right clipped>
@@ -142,6 +156,7 @@ export default {
   data () {
     return {
       connected: this.$socket.connected,
+      addingEntity: false,
       EntityType,
       EntityTypeInfo
     }
