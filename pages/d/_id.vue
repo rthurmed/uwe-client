@@ -44,52 +44,51 @@
         </v-btn>
       </v-toolbar>
       <v-divider />
-      <!-- NEW ENTITY MENU -->
-      <!-- TODO: Add nice icons -->
-      <v-menu
-        v-model="addingEntity"
-        absolute
-        :position-x="96"
-        :position-y="196"
-      >
-        <v-list subheader>
-          <v-subheader>
-            Selecione o tipo da nova entidade:
-          </v-subheader>
-          <v-list-item
-            v-for="type in EntityType"
-            :key="type"
-            large
-            block
-            @click="createEntity(type)"
-          >
-            <v-list-item-icon>
-              <v-icon>
-                mdi-earth
-              </v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>
-                {{ EntityTypeInfo[type].label }}
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-      </v-menu>
       <!-- DIAGRAM ESTRUCTURE -->
       <v-list subheader dense>
         <v-subheader>
           Estrutura do diagrama
         </v-subheader>
-        <v-list-item @click="addingEntity = !addingEntity">
-          <v-list-item-icon>
-            <v-icon>
-              mdi-plus
-            </v-icon>
-          </v-list-item-icon>
-          <v-list-item-title>
-            Adicionar nova entidade
-          </v-list-item-title>
+        <v-list-item class="pb-3">
+          <!-- NEW ENTITY MENU -->
+          <!-- TODO: Add nice icons -->
+          <v-menu offset-y>
+            <template #activator="{ on, attrs }">
+              <v-btn
+                block
+                v-bind="attrs"
+                v-on="on"
+              >
+                <v-icon left>
+                  mdi-plus
+                </v-icon>
+                Nova entidade
+              </v-btn>
+            </template>
+            <v-list subheader>
+              <v-subheader>
+                Selecione o tipo da nova entidade:
+              </v-subheader>
+              <v-list-item
+                v-for="type in EntityType"
+                :key="type"
+                large
+                block
+                @click="createEntity(type)"
+              >
+                <v-list-item-icon>
+                  <v-icon>
+                    mdi-earth
+                  </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>
+                    {{ EntityTypeInfo[type].label }}
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+          </v-menu>
         </v-list-item>
         <v-list-item-group>
           <v-list-item
