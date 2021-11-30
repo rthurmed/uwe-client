@@ -60,6 +60,12 @@ export const mutations = {
   socket_create (state, payload) {
     Entity.insertOrUpdate({ data: payload })
   },
+  socket_patch (state, payload) {
+    //
+  },
+  socket_delete (state, payload) {
+    Entity.delete(payload)
+  },
   socket_grab (state, payload) {
     Participant.update({
       where: payload.participantId,

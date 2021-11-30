@@ -50,6 +50,14 @@
           </v-list-item-content>
         </v-list-item>
       </template>
+      <v-divider />
+      <v-list-item @click="remove">
+        <v-list-item-content>
+          <v-list-item-subtitle>
+            Remover esta entidade
+          </v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
     </template>
   </v-list>
 </template>
@@ -152,6 +160,11 @@ export default {
   },
   beforeDestroy () {
     Query.off(this.beforeUpdateHookId)
+  },
+  methods: {
+    remove () {
+      this.$socket.emit('delete')
+    }
   }
 }
 </script>
