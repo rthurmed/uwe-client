@@ -39,7 +39,7 @@
     />
     <v-text
       :config="{
-        text: `Entidade #${entity.id}`,
+        text: entity.title ? entity.title : `Ator #${entity.id}`,
         y: 120,
         width: 100,
         fontSize: style.text.size,

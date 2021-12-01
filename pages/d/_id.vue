@@ -222,7 +222,9 @@ export default {
     createEntity (entityType) {
       this.$socket.emit('create', {
         type: entityType,
-        diagramId: this.$route.params.id
+        diagramId: this.$route.params.id,
+        height: 100,
+        width: 200
       })
     }
   }
