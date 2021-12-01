@@ -61,7 +61,7 @@ export const mutations = {
     Entity.insertOrUpdate({ data: payload })
   },
   socket_patch (state, payload) {
-    //
+    Entity.insertOrUpdate({ data: payload })
   },
   socket_delete (state, payload) {
     Entity.delete(payload)

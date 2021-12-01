@@ -11,9 +11,7 @@
       </v-list-item-content>
     </v-list-item>
     <template v-else>
-      <template
-        v-for="(prop, key) in entityProps"
-      >
+      <template v-for="(prop, key) in entityProps">
         <v-divider
           v-if="prop.divider"
           :key="key"
@@ -21,7 +19,8 @@
         <v-list-item
           v-else
           :key="key"
-          @click="() => {}"
+          :disabled="prop.immutable"
+          @click="(e) => handlePropClick(e, key)"
         >
           <v-list-item-content>
             <v-list-item-subtitle>
@@ -58,6 +57,59 @@
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
+      <!-- MENU EDIT PROP -->
+      <!-- TODO: Move to another component -->
+      <v-menu
+        absolute
+        :close-on-click="false"
+        :close-on-content-click="false"
+        :value="editMenu.show"
+        :position-x="editMenu.x"
+        :position-y="editMenu.y"
+      >
+        <v-card min-width="230">
+          <v-card-title>
+            <span>
+              {{ entityProps[editMenu.prop].label }}
+            </span>
+            <v-spacer />
+            <v-btn
+              icon
+              small
+              @click="editMenu.show = false"
+            >
+              <v-icon>
+                mdi-close
+              </v-icon>
+            </v-btn>
+          </v-card-title>
+          <v-card-text>
+            <v-form @submit.prevent="submitEditMenu">
+              <!-- TODO: Adapt this form to the current prop being edited -->
+              <v-switch
+                v-if="entityProps[editMenu.prop].type == 'bool'"
+                v-model="editMenu.value"
+                :label="$options.filters.boolyn(editMenu.value)"
+              />
+              <v-text-field
+                v-else-if="entityProps[editMenu.prop].type == 'number'"
+                v-model="editMenu.value"
+                type="number"
+              />
+              <v-text-field
+                v-else
+                v-model="editMenu.value"
+              />
+              <v-btn
+                block
+                type="submit"
+              >
+                Enviar
+              </v-btn>
+            </v-form>
+          </v-card-text>
+        </v-card>
+      </v-menu>
     </template>
   </v-list>
 </template>
@@ -73,6 +125,14 @@ export default {
       beforeUpdateHookId: null,
       entityId: null,
       EntityTypeInfo,
+      editMenu: {
+        show: false,
+        prop: 0,
+        value: 0,
+        x: 0,
+        y: 0
+      },
+      // TODO: Make immutable based on entity type
       entityProps: [
         {
           name: 'id',
@@ -83,7 +143,8 @@ export default {
         {
           name: 'type',
           type: 'EntityType',
-          label: 'Tipo'
+          label: 'Tipo',
+          immutable: true
         },
         {
           divider: true
@@ -148,6 +209,13 @@ export default {
       return Entity.find(this.entityId)
     }
   },
+  watch: {
+    entityId (value) {
+      if (value == null) {
+        this.editMenu.show = false
+      }
+    }
+  },
   created () {
     this.beforeUpdateHookId = Query.on('beforeUpdate', (data, aux, entity) => {
       if (
@@ -164,6 +232,26 @@ export default {
   methods: {
     remove () {
       this.$socket.emit('delete')
+    },
+    handlePropClick (e, propKey) {
+      if (this.entityProps[propKey].immutable) {
+        return
+      }
+      this.editMenu.x = e.clientX
+      this.editMenu.y = e.clientY
+      this.editMenu.prop = propKey
+
+      // Copy entity value into temporary variable before showing
+      this.editMenu.value = this.entity[this.entityProps[propKey].name]
+      this.editMenu.show = true
+    },
+    submitEditMenu () {
+      const key = this.entityProps[this.editMenu.prop].name
+      const value = this.editMenu.value
+      const entity = { ...this.entity }
+      entity[key] = value
+      this.$socket.emit('patch', entity)
+      this.editMenu.show = false
     }
   }
 }

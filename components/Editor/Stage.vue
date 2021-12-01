@@ -107,7 +107,7 @@ export default {
     // Starts sending mouse movement
     this.mouseUpdateIntervalId = setInterval(() => {
       if (this.$socket.connected) {
-        this.$socket.emit('move', this.mouse)
+        // this.$socket.emit('move', this.mouse)
       }
     }, this.updateRate)
   },

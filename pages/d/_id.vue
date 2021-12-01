@@ -185,6 +185,7 @@ export default {
     }
   },
   beforeDestroy () {
+    // FIXME: Isn't running if the page is reloaded
     this.$socket.emit('leave')
     this.$socket.disconnect()
     Query.off(this.beforeUpdateHookId)
