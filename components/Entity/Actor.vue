@@ -6,7 +6,7 @@
       y: entity.y,
       width: 100,
       height: 100,
-      draggable: selected
+      draggable: grabbed
     }"
   >
     <!-- TODO: Replace with an svg image -->
@@ -24,7 +24,7 @@
           40, 40,
           -40, 40,
         ],
-        stroke: selected ? style.box.selectedStroke : style.box.stroke,
+        stroke: stroke,
         strokeWidth: selected ? style.box.selectedStrokeWidth : style.box.strokeWidth
       }"
     />
@@ -33,7 +33,7 @@
         x: 50,
         radius: 24,
         fill: style.box.fill,
-        stroke: selected ? style.box.selectedStroke : style.box.stroke,
+        stroke: stroke,
         strokeWidth: selected ? style.box.selectedStrokeWidth : style.box.strokeWidth
       }"
     />

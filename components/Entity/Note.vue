@@ -6,7 +6,7 @@
       y: entity.y,
       width: 160,
       height: 150,
-      draggable: selected
+      draggable: grabbed
     }"
   >
     <!-- TODO: Replace with an svg image (using an "file" style) -->
@@ -16,7 +16,7 @@
         height: 150,
         fill: '#FFEC27',
         cornerRadius: 4,
-        stroke: selected ? style.box.selectedStroke : style.box.stroke,
+        stroke: stroke,
         strokeWidth: selected ? style.box.selectedStrokeWidth : style.box.strokeWidth
       }"
     />

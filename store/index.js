@@ -38,16 +38,21 @@ Possible socket_ messages:
 */
 
 export const state = () => ({
-  style: Style
+  style: Style,
+  currentParticipant: null
 })
 
 export const mutations = {
   socket_join (state, payload) {
     payload.diagramId = Number(payload.diagramId)
+    payload.grabbedId = Number(payload.grabbedId)
     Participant.insertOrUpdate({ data: payload })
   },
   socket_leave (state, payload) {
     Participant.delete(payload)
+  },
+  socket_me (state, payload) {
+    state.currentParticipant = payload
   },
   socket_move (state, payload) {
     Participant.update({
@@ -60,6 +65,8 @@ export const mutations = {
   },
   socket_create (state, payload) {
     payload.diagramId = Number(payload.diagramId)
+    payload.originId = Number(payload.originId)
+    payload.targetId = Number(payload.targetId)
     Entity.insertOrUpdate({ data: payload })
   },
   socket_patch (state, payload) {

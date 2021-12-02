@@ -13,7 +13,7 @@
           target.x + (target.width / 2),
           target.y + (target.height / 2),
         ],
-        stroke: selected ? style.box.selectedStroke : style.box.stroke,
+        stroke: stroke,
         strokeWidth: selected ? style.box.selectedStrokeWidth : style.box.strokeWidth
       }"
     />

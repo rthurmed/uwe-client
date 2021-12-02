@@ -10,9 +10,26 @@ export default {
     }
   },
   computed: {
-    ...mapState(['style']),
+    ...mapState(['style', 'currentParticipant']),
     entity () {
       return Entity.find(this.entityId)
+    },
+    grabbed () {
+      return Participant
+        .query()
+        .where('id', this.currentParticipant)
+        .where('grabbedId', this.entityId)
+        .count() > 0
+    },
+    stroke () {
+      const participant = Participant
+        .query()
+        .where('grabbedId', this.entityId)
+        .first()
+      if (!participant) {
+        return this.style.box.stroke
+      }
+      return this.$color(participant.id)
     },
     selected () {
       return Participant

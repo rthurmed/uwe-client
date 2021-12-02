@@ -207,6 +207,9 @@ export default {
         entity === 'participants' &&
         data.userId === this.$auth.user.sub
       ) {
+        // FIXME: Associate with participant instead of user
+        // Will need to store the current participant
+        // The participant will be receive by the 'me' message
         this.grabbedId = data.grabbedId
       }
     })

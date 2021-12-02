@@ -6,7 +6,7 @@
       y: entity.y,
       width: entity.width,
       height: entity.height,
-      draggable: selected
+      draggable: grabbed
     }"
   >
     <v-ellipse
@@ -16,7 +16,7 @@
         x: entity.width * 0.5,
         y: entity.height * 0.46,
         fill: style.box.fill,
-        stroke: selected ? style.box.selectedStroke : style.box.stroke,
+        stroke: stroke,
         strokeWidth: selected ? style.box.selectedStrokeWidth : style.box.strokeWidth
       }"
     />
