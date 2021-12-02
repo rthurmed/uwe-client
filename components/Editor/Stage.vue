@@ -83,7 +83,7 @@ export default {
         y: 0
       },
       updateRate: 300,
-      mouseUpdateIntervalId: null,
+      syncIntervalId: null,
       EntityType,
       EntityTypeInfo
     }
@@ -104,16 +104,12 @@ export default {
     }
   },
   beforeDestroy () {
-    clearInterval(this.mouseUpdateIntervalId)
+    clearInterval(this.syncIntervalId)
   },
   mounted () {
-    // Resize canvas
-    const rect = this.$refs.stage.$el.getBoundingClientRect()
-    this.stageConfig.height = rect.height
-    this.stageConfig.width = rect.width
-
+    this.resize()
     // Starts sending mouse movement
-    this.mouseUpdateIntervalId = setInterval(this.sync, this.updateRate)
+    this.syncIntervalId = setInterval(this.sync, this.updateRate)
   },
   methods: {
     sync () {
@@ -121,6 +117,7 @@ export default {
         return
       }
       this.commitEntityMovement()
+      this.resize()
       // FIXME: Temporarily disabled mouse move
       // this.$socket.emit('move', this.mouse)
     },
@@ -132,6 +129,12 @@ export default {
       entity.x = this.currentEntity.x
       entity.y = this.currentEntity.y
       this.$socket.emit('patch', entity)
+    },
+    resize () {
+      // Resize canvas
+      const rect = this.$refs.stage.$el.getBoundingClientRect()
+      this.stageConfig.height = rect.height
+      this.stageConfig.width = rect.width
     },
     handleMouseMove (e) {
       const stage = e.target.getStage()

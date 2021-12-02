@@ -1,8 +1,5 @@
 <template>
   <div class="fill-height">
-    <v-btn fab small absolute style="left: -20px; top: 10px; z-index: 200;">
-      <v-icon>mdi-plus</v-icon>
-    </v-btn>
     <!-- CUSTOM APP BAR -->
     <!-- TODO: Implement diagram edit button -->
     <v-app-bar clipped-left clipped-right fixed app>
@@ -12,6 +9,10 @@
             <v-icon>
               mdi-arrow-left
             </v-icon>
+          </v-btn>
+          <!-- INVITE USER FAB -->
+          <v-btn fab small absolute style="left: 236px; top: 72px; z-index: 200;">
+            <v-icon>mdi-plus</v-icon>
           </v-btn>
         </v-col>
         <v-col class="d-flex justify-center align-center">
@@ -120,7 +121,7 @@
       <EditorInspectPanel />
     </v-navigation-drawer>
     <!-- MAIN CONTENT -->
-    <v-row>
+    <v-row style="height: calc(100vh - 72px)">
       <v-col cols="12">
         <v-expand-transition>
           <v-alert
