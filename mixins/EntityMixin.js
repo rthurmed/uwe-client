@@ -19,6 +19,14 @@ export default {
         .query()
         .where('grabbedId', this.entityId)
         .count() > 0
+    },
+    origin () {
+      if (!this.entity) { return null }
+      return Entity.find(this.entity.originId)
+    },
+    target () {
+      if (!this.entity) { return null }
+      return Entity.find(this.entity.targetId)
     }
   }
 }

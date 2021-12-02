@@ -133,6 +133,7 @@ export default {
         y: 0
       },
       // TODO: Make immutable based on entity type
+      // TODO: Allow types to define which type can be connected as origin and target
       entityProps: [
         {
           name: 'id',

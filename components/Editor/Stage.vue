@@ -10,11 +10,11 @@
     @dragend="handleDragEnd"
     @wheel="handleMouseWheel"
   >
-    <!-- LAYER 1: ENTITIES -->
+    <!-- LAYER 1: RELATIONS -->
+    <!-- TODO -->
+    <!-- LAYER 2: ENTITIES -->
     <v-layer>
-      <template
-        v-for="entity in entities"
-      >
+      <template v-for="entity in entities">
         <EntityUseCase
           v-if="entity.type === EntityType.USECASE"
           :key="entity.id"
@@ -30,9 +30,14 @@
           :key="entity.id"
           :entity-id="entity.id"
         />
+        <EntityAssociation
+          v-else-if="entity.type === EntityType.ASSOCIATION"
+          :key="entity.id"
+          :entity-id="entity.id"
+        />
       </template>
     </v-layer>
-    <!-- LAYER 1: CURSORS -->
+    <!-- LAYER 3: CURSORS -->
     <v-layer>
       <!-- TODO: animate this -->
       <v-group
