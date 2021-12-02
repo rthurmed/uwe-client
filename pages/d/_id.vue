@@ -39,7 +39,7 @@
           icon
           class="mr-1"
         >
-          <v-avatar color="blue">
+          <v-avatar :color="$color(participant.id)">
             {{ participant.userId.substr(0, 2) }}
           </v-avatar>
         </v-btn>
