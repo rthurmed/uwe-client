@@ -43,6 +43,7 @@ export const state = () => ({
 
 export const mutations = {
   socket_join (state, payload) {
+    payload.diagramId = Number(payload.diagramId)
     Participant.insertOrUpdate({ data: payload })
   },
   socket_leave (state, payload) {
@@ -58,6 +59,7 @@ export const mutations = {
     })
   },
   socket_create (state, payload) {
+    payload.diagramId = Number(payload.diagramId)
     Entity.insertOrUpdate({ data: payload })
   },
   socket_patch (state, payload) {
