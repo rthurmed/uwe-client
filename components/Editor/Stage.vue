@@ -126,8 +126,8 @@ export default {
         return
       }
       const entity = { ...Entity.find(this.currentEntity.id) }
-      entity.x = this.currentEntity.x
-      entity.y = this.currentEntity.y
+      entity.x = parseInt(this.currentEntity.x)
+      entity.y = parseInt(this.currentEntity.y)
       this.$socket.emit('patch', entity)
     },
     resize () {
