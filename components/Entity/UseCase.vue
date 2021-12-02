@@ -6,7 +6,7 @@
       y: entity.y,
       width: entity.width,
       height: entity.height,
-      draggable: true
+      draggable: selected
     }"
   >
     <v-ellipse

@@ -6,7 +6,7 @@
       y: entity.y,
       width: 100,
       height: 100,
-      draggable: true
+      draggable: selected
     }"
   >
     <!-- TODO: Replace with an svg image -->

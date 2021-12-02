@@ -6,6 +6,8 @@
     :config="stageConfig"
     @mousemove="handleMouseMove"
     @click="handleClick"
+    @dragmove="handleDragMove"
+    @dragend="handleDragEnd"
   >
     <!-- LAYER 1: ENTITIES -->
     <v-layer>
@@ -74,6 +76,11 @@ export default {
         x: 0,
         y: 0
       },
+      currentEntity: {
+        id: null,
+        x: 0,
+        y: 0
+      },
       updateRate: 300,
       mouseUpdateIntervalId: null,
       EntityType,
@@ -105,13 +112,26 @@ export default {
     this.stageConfig.width = rect.width
 
     // Starts sending mouse movement
-    this.mouseUpdateIntervalId = setInterval(() => {
-      if (this.$socket.connected) {
-        // this.$socket.emit('move', this.mouse)
-      }
-    }, this.updateRate)
+    this.mouseUpdateIntervalId = setInterval(this.sync, this.updateRate)
   },
   methods: {
+    sync () {
+      if (this.$socket.disconnected) {
+        return
+      }
+      this.commitEntityMovement()
+      // FIXME: Temporarily disabled mouse move
+      // this.$socket.emit('move', this.mouse)
+    },
+    commitEntityMovement () {
+      if (this.currentEntity.id == null) {
+        return
+      }
+      const entity = { ...Entity.find(this.currentEntity.id) }
+      entity.x = this.currentEntity.x
+      entity.y = this.currentEntity.y
+      this.$socket.emit('patch', entity)
+    },
     handleMouseMove (e) {
       const stage = e.target.getStage()
       const { x: offsetX = 0, y: offsetY = 0 } = stage.attrs
@@ -135,6 +155,16 @@ export default {
       } else {
         this.$socket.emit('drop')
       }
+    },
+    handleDragMove (e) {
+      const { uid, x, y } = e.target.attrs
+      this.currentEntity.id = uid
+      this.currentEntity.x = x
+      this.currentEntity.y = y
+    },
+    handleDragEnd (e) {
+      this.commitEntityMovement()
+      this.currentEntity.id = null
     }
   }
 }
