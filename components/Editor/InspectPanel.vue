@@ -39,6 +39,9 @@
               <span v-else-if="prop.type == 'number'">
                 {{ entity[prop.name] }}
               </span>
+              <span v-else-if="prop.type == 'entity'">
+                {{ entity[prop.name] | entityById }}
+              </span>
               <span v-else-if="!!entity[prop.name]">
                 {{ entity[prop.name] }}
               </span>
@@ -96,6 +99,11 @@
                 v-model="editMenu.value"
                 type="number"
               />
+              <v-select
+                v-else-if="entityProps[editMenu.prop].type == 'entity'"
+                v-model="editMenu.value"
+                :items="entitiesOptions"
+              />
               <v-text-field
                 v-else
                 v-model="editMenu.value"
@@ -120,6 +128,18 @@ import { Entity } from '~/models/entity'
 import { EntityTypeInfo } from '~/models/enum/entity-type'
 
 export default {
+  filters: {
+    entityById (id) {
+      const entity = Entity.find(id)
+      if (!entity) {
+        return '-'
+      }
+      if (!entity.title) {
+        return `#${id}`
+      }
+      return entity.title
+    }
+  },
   data () {
     return {
       beforeUpdateHookId: null,
@@ -186,12 +206,14 @@ export default {
         {
           name: 'originId',
           type: 'entity',
-          label: 'Origem'
+          label: 'Origem',
+          filter: e => e.origin.title || e.originId
         },
         {
           name: 'targetId',
           type: 'entity',
-          label: 'Destino'
+          label: 'Destino',
+          filter: e => e.target.title || e.targetId
         },
         {
           divider: true
@@ -208,6 +230,26 @@ export default {
   computed: {
     entity () {
       return Entity.find(this.entityId)
+    },
+    entities () {
+      if (!this.entity) {
+        return []
+      }
+      return Entity
+        .query()
+        .where('diagramId', this.entity.diagramId)
+        .get()
+    },
+    entitiesOptions () {
+      const options = this.entities.map(e => ({
+        value: e.id,
+        text: e.title ? e.title : `${EntityTypeInfo[e.type].label} #${e.id}`
+      }))
+      options.unshift({
+        value: null,
+        text: '-'
+      })
+      return options
     }
   },
   watch: {
