@@ -123,9 +123,10 @@
 </template>
 
 <script>
-import { Query } from '@vuex-orm/core'
+import { mapState } from 'vuex'
 import { Entity } from '~/models/entity'
 import { EntityTypeInfo } from '~/models/enum/entity-type'
+import { Participant } from '~/models/participant'
 
 export default {
   filters: {
@@ -142,8 +143,6 @@ export default {
   },
   data () {
     return {
-      beforeUpdateHookId: null,
-      entityId: null,
       EntityTypeInfo,
       editMenu: {
         show: false,
@@ -228,8 +227,16 @@ export default {
     }
   },
   computed: {
+    ...mapState(['currentParticipant']),
     entity () {
-      return Entity.find(this.entityId)
+      const participant = Participant
+        .query()
+        .where('id', this.currentParticipant)
+        .first()
+      if (!participant) {
+        return null
+      }
+      return Entity.find(participant.grabbedId)
     },
     entities () {
       if (!this.entity) {
@@ -253,24 +260,11 @@ export default {
     }
   },
   watch: {
-    entityId (value) {
+    entity (value) {
       if (value == null) {
         this.editMenu.show = false
       }
     }
-  },
-  created () {
-    this.beforeUpdateHookId = Query.on('beforeUpdate', (data, aux, entity) => {
-      if (
-        entity === 'participants' &&
-        data.userId === this.$auth.user.sub
-      ) {
-        this.entityId = data.grabbedId
-      }
-    })
-  },
-  beforeDestroy () {
-    Query.off(this.beforeUpdateHookId)
   },
   methods: {
     remove () {

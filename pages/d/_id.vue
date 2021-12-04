@@ -150,7 +150,7 @@
 </template>
 
 <script>
-import { Query } from '@vuex-orm/core'
+import { mapState } from 'vuex'
 import { Diagram } from '~/models/diagram'
 import { Entity } from '~/models/entity'
 import { EntityType, EntityTypeInfo } from '~/models/enum/entity-type'
@@ -161,14 +161,12 @@ export default {
   data () {
     return {
       connected: this.$socket.connected,
-      addingEntity: false,
-      beforeUpdateHookId: null,
-      grabbedId: null,
       EntityType,
       EntityTypeInfo
     }
   },
   computed: {
+    ...mapState(['currentParticipant']),
     diagram () {
       return Diagram.find(this.$route.params.id)
     },
@@ -183,13 +181,22 @@ export default {
         .query()
         .where('diagramId', Number(this.$route.params.id))
         .get()
+    },
+    grabbedId () {
+      const participant = Participant
+        .query()
+        .where('id', this.currentParticipant)
+        .first()
+      if (!participant) {
+        return null
+      }
+      return participant.grabbedId
     }
   },
   beforeDestroy () {
     // FIXME: Isn't running if the page is reloaded
     this.$socket.emit('leave')
     this.$socket.disconnect()
-    Query.off(this.beforeUpdateHookId)
   },
   sockets: {
     disconnect () {
@@ -202,17 +209,6 @@ export default {
   created () {
     Participant.create({ data: [] })
     Diagram.api().get(`${Diagram.entity}/${this.$route.params.id}`)
-    this.beforeUpdateHookId = Query.on('beforeUpdate', (data, aux, entity) => {
-      if (
-        entity === 'participants' &&
-        data.userId === this.$auth.user.sub
-      ) {
-        // FIXME: Associate with participant instead of user
-        // Will need to store the current participant
-        // The participant will be receive by the 'me' message
-        this.grabbedId = data.grabbedId
-      }
-    })
   },
   mounted () {
     this.connect()
