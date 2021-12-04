@@ -30,6 +30,15 @@
         verticalAlign: 'middle'
       }"
     />
+    <!-- DEBUG -->
+    <!-- <v-rect
+      :config="{
+        width: entity.width,
+        height: entity.height,
+        stroke: 'red',
+        strokeWidth: 1
+      }"
+    /> -->
   </v-group>
 </template>
 

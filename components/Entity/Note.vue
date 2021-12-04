@@ -4,16 +4,16 @@
       uid: entity.id,
       x: entity.x,
       y: entity.y,
-      width: 160,
-      height: 150,
+      width: entity.width,
+      height: entity.height,
       draggable: grabbed
     }"
   >
     <!-- TODO: Replace with an svg image (using an "file" style) -->
     <v-rect
       :config="{
-        width: 160,
-        height: 150,
+        width: entity.width,
+        height: entity.height,
         fill: '#FFEC27',
         cornerRadius: 4,
         stroke: stroke,
@@ -29,6 +29,15 @@
         padding: 8,
       }"
     />
+    <!-- DEBUG -->
+    <!-- <v-rect
+      :config="{
+        width: entity.width,
+        height: entity.height,
+        stroke: 'red',
+        strokeWidth: 1
+      }"
+    /> -->
   </v-group>
 </template>
 

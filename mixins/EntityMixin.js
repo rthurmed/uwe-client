@@ -45,5 +45,13 @@ export default {
       if (!this.entity) { return null }
       return Entity.find(this.entity.targetId)
     }
+  },
+  methods: {
+    scalePoints ({ width, height, points = [] }) {
+      return points.map((v, i) => {
+        const num = i % 2 === 0 ? width : height
+        return (v / 100) * num
+      })
+    }
   }
 }
