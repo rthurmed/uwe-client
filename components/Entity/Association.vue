@@ -20,6 +20,8 @@
     <!-- TODO: Place between the target and origin -->
     <v-text
       :config="{
+        x: (origin.x + target.x) / 2,
+        y: (origin.y + target.y) / 2,
         text: entity.title ? entity.title : `Association #${entity.id}`,
         width: 100,
         fontSize: style.text.size,
