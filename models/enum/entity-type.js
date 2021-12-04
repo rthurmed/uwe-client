@@ -1,7 +1,7 @@
 import { SuplementaryInfo } from '~/util'
 
 export const EntityType = {
-  PACKAGE: 10,
+  // PACKAGE: 10,
   NOTE: 11,
   ACTOR: 12,
   USECASE: 13,

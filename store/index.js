@@ -6,6 +6,7 @@ import { Diagram } from '~/models/diagram'
 import { User } from '~/models/user'
 import { Entity } from '~/models/entity'
 import { Participant } from '~/models/participant'
+import { Style } from '~/classes/editor/Style'
 
 // https://vuex-orm.github.io/plugin-axios/guide/setup.html#nuxt-js-integration
 
@@ -36,12 +37,22 @@ Possible socket_ messages:
 - drop
 */
 
+export const state = () => ({
+  style: Style,
+  currentParticipant: null
+})
+
 export const mutations = {
   socket_join (state, payload) {
-    Participant.create({ data: payload })
+    payload.diagramId = Number(payload.diagramId)
+    payload.grabbedId = Number(payload.grabbedId)
+    Participant.insertOrUpdate({ data: payload })
   },
   socket_leave (state, payload) {
     Participant.delete(payload)
+  },
+  socket_me (state, payload) {
+    state.currentParticipant = payload
   },
   socket_move (state, payload) {
     Participant.update({
@@ -49,6 +60,34 @@ export const mutations = {
       data: {
         x: payload.x,
         y: payload.y
+      }
+    })
+  },
+  socket_create (state, payload) {
+    payload.diagramId = Number(payload.diagramId)
+    payload.originId = Number(payload.originId)
+    payload.targetId = Number(payload.targetId)
+    Entity.insertOrUpdate({ data: payload })
+  },
+  socket_patch (state, payload) {
+    Entity.insertOrUpdate({ data: payload })
+  },
+  socket_delete (state, payload) {
+    Entity.delete(payload)
+  },
+  socket_grab (state, payload) {
+    Participant.update({
+      where: payload.participantId,
+      data: {
+        grabbedId: payload.entityId
+      }
+    })
+  },
+  socket_drop (state, payload) {
+    Participant.update({
+      where: payload.participantId,
+      data: {
+        grabbedId: null
       }
     })
   }

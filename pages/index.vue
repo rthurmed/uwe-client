@@ -172,7 +172,7 @@
                       {{ diagram.name }}
                     </v-list-item-title>
                     <v-list-item-subtitle>
-                      Criado em {{ diagram.createdAt | unixtime }}
+                      Criado em {{ diagram.createdAt | unixdate }}
                       <TextSeparator />
                       <span>
                         {{ DiagramTypeInfo[diagram.type].label }}

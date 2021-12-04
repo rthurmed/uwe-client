@@ -1,8 +1,7 @@
 <template>
   <div class="fill-height">
-    <v-btn fab small absolute style="left: -20px; top: 10px; z-index: 200;">
-      <v-icon>mdi-plus</v-icon>
-    </v-btn>
+    <!-- CUSTOM APP BAR -->
+    <!-- TODO: Implement diagram edit button -->
     <v-app-bar clipped-left clipped-right fixed app>
       <v-row>
         <v-col cols="2">
@@ -10,6 +9,10 @@
             <v-icon>
               mdi-arrow-left
             </v-icon>
+          </v-btn>
+          <!-- INVITE USER FAB -->
+          <v-btn fab small absolute style="left: 236px; top: 72px; z-index: 200;">
+            <v-icon>mdi-plus</v-icon>
           </v-btn>
         </v-col>
         <v-col class="d-flex justify-center align-center">
@@ -27,6 +30,8 @@
     <!-- LEFT SIDE PANEL -->
     <v-navigation-drawer app clipped>
       <!-- AVATARS -->
+      <!-- TODO: Display user initials -->
+      <!-- TODO: Condense all other users after the 3rd one -->
       <v-toolbar flat style="overflow: auto; overflow-y: hidden;">
         <v-btn
           v-for="participant in participants"
@@ -34,80 +39,89 @@
           icon
           class="mr-1"
         >
-          <v-avatar color="blue">
-            <!-- TODO: Display user initials -->
+          <v-avatar :color="$color(participant.id)">
             {{ participant.userId.substr(0, 2) }}
           </v-avatar>
         </v-btn>
       </v-toolbar>
       <v-divider />
-      <!-- OPTIONS TO ADD -->
-      <v-system-bar color="transparent">
-        Entidades
-      </v-system-bar>
-      <v-container fluid style="max-height: 200px; overflow-y: scroll">
-        <v-row dense>
-          <v-col v-for="i in 24" :key="i">
-            <v-btn large block>
-              <v-icon>
-                mdi-earth
-              </v-icon>
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-container>
-      <v-divider />
       <!-- DIAGRAM ESTRUCTURE -->
-      <v-system-bar color="transparent">
-        Estrutura do diagrama
-      </v-system-bar>
-      <v-card flat style="max-height: calc(100vh - 384px); overflow-y: scroll">
-        <v-list dense>
-          <v-list-item-group>
-            <v-list-item
-              v-for="i in 20"
-              :key="i"
-            >
-              <v-list-item-icon>
-                <v-icon>mdi-earth</v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title>
-                  Actor1
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list-item-group>
-        </v-list>
-      </v-card>
+      <v-list subheader dense>
+        <v-subheader>
+          Estrutura do diagrama
+        </v-subheader>
+        <v-list-item class="pb-3">
+          <!-- NEW ENTITY MENU -->
+          <!-- TODO: Add nice icons -->
+          <v-menu offset-y>
+            <template #activator="{ on, attrs }">
+              <v-btn
+                block
+                v-bind="attrs"
+                v-on="on"
+              >
+                <v-icon left>
+                  mdi-plus
+                </v-icon>
+                Nova entidade
+              </v-btn>
+            </template>
+            <v-list subheader>
+              <v-subheader>
+                Selecione o tipo da nova entidade:
+              </v-subheader>
+              <v-list-item
+                v-for="type in EntityType"
+                :key="type"
+                large
+                block
+                @click="createEntity(type)"
+              >
+                <v-list-item-icon>
+                  <v-icon>
+                    mdi-earth
+                  </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>
+                    {{ EntityTypeInfo[type].label }}
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </v-list-item>
+        <v-list-item-group
+          :value="grabbedId"
+          @change="v => $socket.emit('grab', v)"
+        >
+          <v-list-item
+            v-for="(entity, key) in entities"
+            :key="key"
+            :value="entity.id"
+          >
+            <v-list-item-icon>
+              <v-icon>mdi-earth</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title v-if="entity.title">
+                {{ entity.title }}
+              </v-list-item-title>
+              <v-list-item-title>
+                {{ EntityTypeInfo[entity.type].label }}
+                #{{ entity.id }}
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
     </v-navigation-drawer>
     <!-- RIGHT SIDE PANEL -->
     <v-navigation-drawer app right clipped>
-      <v-list>
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title class="text-center text-h5">
-              Actor1
-            </v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item
-          v-for="prop in entityProps"
-          :key="prop"
-          @click="() => {}"
-        >
-          <v-list-item-content>
-            <v-list-item-subtitle>
-              {{ prop }}
-            </v-list-item-subtitle>
-            <v-list-item-title>
-              {{ prop }}
-            </v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
+      <EditorInspectPanel />
     </v-navigation-drawer>
-    <v-row>
+    <!-- MAIN CONTENT -->
+    <v-row style="height: calc(100vh - 72px)">
       <v-col cols="12">
         <v-expand-transition>
           <v-alert
@@ -129,87 +143,60 @@
             </v-row>
           </v-alert>
         </v-expand-transition>
-        <v-stage
-          id="stage"
-          ref="stage"
-          class="fill-height"
-          :config="stageConfig"
-          @mousemove="handleMouseMove"
-        >
-          <v-layer>
-            <!-- TODO: animate this -->
-            <v-group
-              v-for="participant in participants"
-              :key="participant.id"
-              :config="{
-                x: participant.x,
-                y: participant.y,
-              }"
-            >
-              <v-rect
-                :config="{
-                  width: 100,
-                  height: 100,
-                }"
-              />
-              <v-text
-                :config="{
-                  text: participant.userId,
-                }"
-              />
-            </v-group>
-          </v-layer>
-        </v-stage>
+        <EditorStage :diagram-id="$route.params.id" />
       </v-col>
     </v-row>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import { Diagram } from '~/models/diagram'
+import { Entity } from '~/models/entity'
+import { EntityType, EntityTypeInfo } from '~/models/enum/entity-type'
 import { Participant } from '~/models/participant'
 
 export default {
-  beforeRouteLeave (to, from, next) {
-    this.$socket.emit('leave')
-    this.$socket.disconnect()
-    next()
-  },
   layout: 'empty',
   data () {
     return {
       connected: this.$socket.connected,
-      stageConfig: {
-        width: 600,
-        height: 600,
-        draggable: true
-      },
-      mouse: {
-        x: 0,
-        y: 0
-      },
-      updateRate: 300,
-      mouseUpdateIntervalId: null,
-      // Testing only
-      entityProps: [
-        'title',
-        'x',
-        'y',
-        'height',
-        'width'
-      ]
+      EntityType,
+      EntityTypeInfo
     }
   },
   computed: {
+    ...mapState(['currentParticipant']),
     diagram () {
       return Diagram.find(this.$route.params.id)
     },
     participants () {
-      return Participant.query().where('diagramId', this.$route.params.id).get()
+      return Participant
+        .query()
+        .where('diagramId', Number(this.$route.params.id))
+        .get()
+    },
+    entities () {
+      return Entity
+        .query()
+        .where('diagramId', Number(this.$route.params.id))
+        .get()
+    },
+    grabbedId () {
+      const participant = Participant
+        .query()
+        .where('id', this.currentParticipant)
+        .first()
+      if (!participant) {
+        return null
+      }
+      return participant.grabbedId
     }
   },
   beforeDestroy () {
-    clearInterval(this.mouseUpdateIntervalId)
+    // FIXME: Isn't running if the page is reloaded
+    this.$socket.emit('leave')
+    this.$socket.disconnect()
   },
   sockets: {
     disconnect () {
@@ -220,17 +207,11 @@ export default {
     }
   },
   created () {
+    Participant.create({ data: [] })
     Diagram.api().get(`${Diagram.entity}/${this.$route.params.id}`)
-    this.connect()
-    this.mouseUpdateIntervalId = setInterval(() => {
-      if (!this.connected) { return }
-      this.$socket.emit('move', this.mouse)
-    }, this.updateRate)
   },
   mounted () {
-    const rect = this.$refs.stage.$el.getBoundingClientRect()
-    this.stageConfig.height = rect.height
-    this.stageConfig.width = rect.width
+    this.connect()
   },
   methods: {
     connect () {
@@ -238,12 +219,13 @@ export default {
       this.$socket.connect()
       this.$socket.emit('join', this.$route.params.id)
     },
-    handleMouseMove (e) {
-      const stage = e.target.getStage()
-      const { x: offsetX = 0, y: offsetY = 0 } = stage.attrs
-      const { layerX, layerY } = e.evt
-      this.mouse.x = layerX - offsetX
-      this.mouse.y = layerY - offsetY
+    createEntity (entityType) {
+      this.$socket.emit('create', {
+        type: entityType,
+        diagramId: this.$route.params.id,
+        height: 100,
+        width: 200
+      })
     }
   }
 }

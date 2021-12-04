@@ -2,8 +2,8 @@ import { SuplementaryInfo } from '~/util'
 
 export const DiagramType = {
   USECASE: 0,
-  ACTIVITIES: 1,
-  CLASSES: 2
+  ACTIVITIES: 1 //,
+  // CLASSES: 2
 }
 
 export const DiagramTypeInfo = {
