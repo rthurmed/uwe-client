@@ -13,37 +13,37 @@
     <template v-else>
       <template v-for="(prop, key) in entityProps">
         <v-divider
-          v-if="prop.divider"
+          v-if="prop == '--'"
           :key="key"
         />
         <v-list-item
           v-else
           :key="key"
-          :disabled="prop.immutable"
-          @click="(e) => handlePropClick(e, key)"
+          :disabled="EntityPropInfo[prop].immutable"
+          @click="(e) => handlePropClick(e, prop)"
         >
           <v-list-item-content>
             <v-list-item-subtitle>
-              {{ prop.label }}
+              {{ EntityPropInfo[prop].label }}
             </v-list-item-subtitle>
             <v-list-item-title>
-              <span v-if="prop.type == 'unix'">
-                {{ entity[prop.name] | unix }}
+              <span v-if="EntityPropInfo[prop].type == 'unix'">
+                {{ entity[prop] | unix }}
               </span>
-              <span v-else-if="prop.type == 'EntityType'">
-                {{ EntityTypeInfo[entity[prop.name]].label }}
+              <span v-else-if="EntityPropInfo[prop].type == 'EntityType'">
+                {{ EntityTypeInfo[entity[prop]].label }}
               </span>
-              <span v-else-if="prop.type == 'bool'">
-                {{ entity[prop.name] | boolyn }}
+              <span v-else-if="EntityPropInfo[prop].type == 'bool'">
+                {{ entity[prop] | boolyn }}
               </span>
-              <span v-else-if="prop.type == 'number'">
-                {{ entity[prop.name] }}
+              <span v-else-if="EntityPropInfo[prop].type == 'number'">
+                {{ entity[prop] }}
               </span>
-              <span v-else-if="prop.type == 'entity'">
-                {{ entity[prop.name] | entityById }}
+              <span v-else-if="EntityPropInfo[prop].type == 'entity'">
+                {{ entity[prop] | entityById }}
               </span>
-              <span v-else-if="!!entity[prop.name]">
-                {{ entity[prop.name] }}
+              <span v-else-if="!!entity[prop]">
+                {{ entity[prop] }}
               </span>
               <span v-else>
                 -
@@ -60,64 +60,6 @@
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
-      <!-- MENU EDIT PROP -->
-      <!-- TODO: Move to another component -->
-      <v-menu
-        absolute
-        :close-on-click="false"
-        :close-on-content-click="false"
-        :value="editMenu.show"
-        :position-x="editMenu.x"
-        :position-y="editMenu.y"
-      >
-        <v-card min-width="230">
-          <v-card-title>
-            <span>
-              {{ entityProps[editMenu.prop].label }}
-            </span>
-            <v-spacer />
-            <v-btn
-              icon
-              small
-              @click="editMenu.show = false"
-            >
-              <v-icon>
-                mdi-close
-              </v-icon>
-            </v-btn>
-          </v-card-title>
-          <v-card-text>
-            <v-form @submit.prevent="submitEditMenu">
-              <!-- TODO: Adapt this form to the current prop being edited -->
-              <v-switch
-                v-if="entityProps[editMenu.prop].type == 'bool'"
-                v-model="editMenu.value"
-                :label="$options.filters.boolyn(editMenu.value)"
-              />
-              <v-text-field
-                v-else-if="entityProps[editMenu.prop].type == 'number'"
-                v-model="editMenu.value"
-                type="number"
-              />
-              <v-select
-                v-else-if="entityProps[editMenu.prop].type == 'entity'"
-                v-model="editMenu.value"
-                :items="entitiesOptions"
-              />
-              <v-text-field
-                v-else
-                v-model="editMenu.value"
-              />
-              <v-btn
-                block
-                type="submit"
-              >
-                Enviar
-              </v-btn>
-            </v-form>
-          </v-card-text>
-        </v-card>
-      </v-menu>
     </template>
   </v-list>
 </template>
@@ -127,6 +69,8 @@ import { mapState } from 'vuex'
 import { Entity } from '~/models/entity'
 import { EntityTypeInfo } from '~/models/enum/entity-type'
 import { Participant } from '~/models/participant'
+import { EntityProp } from '~/classes/entity/EntityProp'
+import { EntityPropInfo } from '~/classes/entity/EntityPropInfo'
 
 export default {
   filters: {
@@ -144,85 +88,24 @@ export default {
   data () {
     return {
       EntityTypeInfo,
-      editMenu: {
-        show: false,
-        prop: 0,
-        value: 0,
-        x: 0,
-        y: 0
-      },
+      EntityPropInfo,
       // TODO: Make immutable based on entity type
       // TODO: Allow types to define which type can be connected as origin and target
       entityProps: [
-        {
-          name: 'id',
-          type: 'string',
-          label: 'ID',
-          immutable: true
-        },
-        {
-          name: 'type',
-          type: 'EntityType',
-          label: 'Tipo',
-          immutable: true
-        },
-        {
-          divider: true
-        },
-        {
-          name: 'title',
-          type: 'string',
-          label: 'Titulo'
-        },
-        {
-          name: 'x',
-          type: 'number',
-          label: 'X'
-        },
-        {
-          name: 'y',
-          type: 'number',
-          label: 'Y'
-        },
-        {
-          name: 'width',
-          type: 'number',
-          label: 'Largura'
-        },
-        {
-          name: 'height',
-          type: 'number',
-          label: 'Altura'
-        },
-        {
-          name: 'abstract',
-          type: 'bool',
-          label: 'Abstrato'
-        },
-        {
-          divider: true
-        },
-        {
-          name: 'originId',
-          type: 'entity',
-          label: 'Origem',
-          filter: e => e.origin.title || e.originId
-        },
-        {
-          name: 'targetId',
-          type: 'entity',
-          label: 'Destino',
-          filter: e => e.target.title || e.targetId
-        },
-        {
-          divider: true
-        },
-        {
-          name: 'createdAt',
-          type: 'unix',
-          label: 'Criado em',
-          immutable: true
-        }
+        EntityProp.ID,
+        EntityProp.TYPE,
+        '--',
+        EntityProp.TITLE,
+        EntityProp.X,
+        EntityProp.Y,
+        EntityProp.WIDTH,
+        EntityProp.HEIGHT,
+        EntityProp.ABSTRACT,
+        '--',
+        EntityProp.ORIGINID,
+        EntityProp.TARGETID,
+        '--',
+        EntityProp.CREATEDAT
       ]
     }
   },
@@ -259,36 +142,19 @@ export default {
       return options
     }
   },
-  watch: {
-    entity (value) {
-      if (value == null) {
-        this.editMenu.show = false
-      }
-    }
-  },
   methods: {
     remove () {
       this.$socket.emit('delete')
     },
-    handlePropClick (e, propKey) {
-      if (this.entityProps[propKey].immutable) {
+    handlePropClick (e, prop) {
+      if (EntityPropInfo[prop].immutable) {
         return
       }
-      this.editMenu.x = e.clientX
-      this.editMenu.y = e.clientY
-      this.editMenu.prop = propKey
+      const id = this.entity.id
+      const x = e.clientX
+      const y = e.clientY
 
-      // Copy entity value into temporary variable before showing
-      this.editMenu.value = this.entity[this.entityProps[propKey].name]
-      this.editMenu.show = true
-    },
-    submitEditMenu () {
-      const key = this.entityProps[this.editMenu.prop].name
-      const value = this.editMenu.value
-      const entity = { ...this.entity }
-      entity[key] = value
-      this.$socket.emit('patch', entity)
-      this.editMenu.show = false
+      this.$emit('edit', { id, x, y, prop })
     }
   }
 }

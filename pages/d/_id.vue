@@ -118,7 +118,7 @@
     </v-navigation-drawer>
     <!-- RIGHT SIDE PANEL -->
     <v-navigation-drawer app right clipped>
-      <EditorInspectPanel />
+      <EditorInspectPanel @edit="openEditMenu" />
     </v-navigation-drawer>
     <!-- MAIN CONTENT -->
     <v-row style="height: calc(100vh - 72px)">
@@ -144,6 +144,13 @@
           </v-alert>
         </v-expand-transition>
         <EditorStage :diagram-id="$route.params.id" />
+        <EditorPropMenu
+          :show.sync="editMenu.show"
+          :entity="editMenu.entity"
+          :prop="editMenu.prop"
+          :x="editMenu.x"
+          :y="editMenu.y"
+        />
       </v-col>
     </v-row>
   </div>
@@ -162,13 +169,30 @@ export default {
     return {
       connected: this.$socket.connected,
       EntityType,
-      EntityTypeInfo
+      EntityTypeInfo,
+      editMenu: {
+        show: false,
+        entity: 0,
+        prop: 'title',
+        x: 0,
+        y: 0
+      }
     }
   },
   computed: {
     ...mapState(['currentParticipant']),
     diagram () {
       return Diagram.find(this.$route.params.id)
+    },
+    selectedEntity () {
+      const participant = Participant
+        .query()
+        .where('id', this.currentParticipant)
+        .first()
+      if (!participant) {
+        return null
+      }
+      return Entity.find(participant.grabbedId)
     },
     participants () {
       return Participant
@@ -191,6 +215,13 @@ export default {
         return null
       }
       return participant.grabbedId
+    }
+  },
+  watch: {
+    selectedEntity (value) {
+      if (value == null) {
+        this.editMenu.show = false
+      }
     }
   },
   beforeDestroy () {
@@ -226,6 +257,13 @@ export default {
         height: 100,
         width: 200
       })
+    },
+    openEditMenu ({ id, x, y, prop }) {
+      this.editMenu.entity = id
+      this.editMenu.prop = prop
+      this.editMenu.x = x
+      this.editMenu.y = y
+      this.editMenu.show = true
     }
   }
 }

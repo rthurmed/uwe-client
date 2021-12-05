@@ -1,4 +1,4 @@
-import { SuplementaryInfo } from '~/util'
+import { SuplementaryInfo } from '~/classes/SuplementaryInfo'
 
 export const AccessLevel = {
   NONE: -1,

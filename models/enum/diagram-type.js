@@ -1,4 +1,4 @@
-import { SuplementaryInfo } from '~/util'
+import { SuplementaryInfo } from '~/classes/SuplementaryInfo'
 
 export const DiagramType = {
   USECASE: 0,
