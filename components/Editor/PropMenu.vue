@@ -59,6 +59,7 @@
 <script>
 import { Entity } from '~/models/entity'
 import { EntityPropInfo } from '~/classes/entity/EntityPropInfo'
+import { EntityTypeInfo } from '~/models/enum/entity-type'
 
 export default {
   props: {
@@ -89,6 +90,31 @@ export default {
       value: 0
     }
   },
+  computed: {
+    currentEntity () {
+      return Entity.find(this.entity)
+    },
+    entities () {
+      if (!this.currentEntity) {
+        return []
+      }
+      return Entity
+        .query()
+        .where('diagramId', this.currentEntity.diagramId)
+        .get()
+    },
+    entitiesOptions () {
+      const options = this.entities.map(e => ({
+        value: e.id,
+        text: e.title ? e.title : `${EntityTypeInfo[e.type].label} #${e.id}`
+      }))
+      options.unshift({
+        value: null,
+        text: '-'
+      })
+      return options
+    }
+  },
   watch: {
     entity: 'copyValue',
     prop: 'copyValue'
@@ -96,11 +122,10 @@ export default {
   methods: {
     // Copies the value from the entity to the temporary variable
     copyValue () {
-      const entity = Entity.find(this.entity)
-      if (entity == null || !(this.prop in entity)) {
+      if (this.currentEntity == null || !(this.prop in this.currentEntity)) {
         return
       }
-      this.value = entity[this.prop]
+      this.value = this.currentEntity[this.prop]
     },
     submit () {
       const entity = { ...Entity.find(this.entity) }
