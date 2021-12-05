@@ -134,7 +134,7 @@ export default {
       const x = e.clientX
       const y = e.clientY
 
-      this.$emit('edit', { id, x, y, prop })
+      this.$emit('edit', { id, x, y, props: [prop] })
     }
   }
 }

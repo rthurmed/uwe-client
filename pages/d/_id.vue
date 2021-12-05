@@ -262,9 +262,9 @@ export default {
         width: EntityTypeInfo[entityType].width
       })
     },
-    openEditMenu ({ id, x, y, prop }) {
+    openEditMenu ({ id, x, y, props }) {
       this.editMenu.entity = id
-      this.editMenu.props = [prop]
+      this.editMenu.props = props
       this.editMenu.x = x
       this.editMenu.y = y
       this.editMenu.show = true

@@ -1,5 +1,6 @@
 <template>
   <v-menu
+    v-if="currentEntity"
     absolute
     :close-on-click="false"
     :close-on-content-click="false"
@@ -9,11 +10,8 @@
   >
     <v-card min-width="230">
       <v-card-title>
-        <span v-if="props.length === 1">
-          {{ EntityPropInfo[props[0]].label }}
-        </span>
-        <span v-else>
-          #{{ currentEntity.id }}
+        <span>
+          {{ EntityTypeInfo[currentEntity.type].label }} #{{ currentEntity.id }}
         </span>
         <v-spacer />
         <v-btn
@@ -32,26 +30,26 @@
             <v-switch
               v-if="EntityPropInfo[prop].type == 'bool'"
               :key="index"
-              v-model="value"
-              :label="`${EntityPropInfo[prop].label}: ${$options.filters.boolyn(value)}`"
+              v-model="values[prop]"
+              :label="`${EntityPropInfo[prop].label}: ${$options.filters.boolyn(values[prop])}`"
             />
             <v-text-field
               v-else-if="EntityPropInfo[prop].type == 'number'"
               :key="index"
-              v-model="value"
+              v-model="values[prop]"
               :label="EntityPropInfo[prop].label"
               type="number"
             />
             <v-select
               v-else-if="EntityPropInfo[prop].type == 'entity'"
               :key="index"
-              v-model="value"
+              v-model="values[prop]"
               :items="entitiesOptions"
             />
             <v-text-field
               v-else
               :key="index"
-              v-model="value"
+              v-model="values[prop]"
               :label="EntityPropInfo[prop].label"
             />
           </template>
@@ -68,6 +66,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import { Entity } from '~/models/entity'
 import { EntityPropInfo } from '~/classes/entity/EntityPropInfo'
 import { EntityTypeInfo } from '~/classes/entity/EntityTypeInfo'
@@ -98,7 +97,8 @@ export default {
   data () {
     return {
       EntityPropInfo,
-      value: 0
+      EntityTypeInfo,
+      values: {}
     }
   },
   computed: {
@@ -128,19 +128,24 @@ export default {
   },
   watch: {
     entity: 'copyValue',
-    prop: 'copyValue'
+    props: 'copyValue'
   },
   methods: {
     // Copies the value from the entity to the temporary variable
     copyValue () {
-      if (this.currentEntity == null || !(this.prop in this.currentEntity)) {
+      if (this.currentEntity == null) {
         return
       }
-      this.value = this.currentEntity[this.prop]
+      this.values = {}
+      this.props.forEach((prop) => {
+        Vue.set(this.values, prop, this.currentEntity[prop])
+      })
     },
     submit () {
       const entity = { ...Entity.find(this.entity) }
-      entity[this.prop] = this.value
+      this.props.forEach((prop) => {
+        entity[prop] = this.values[prop]
+      })
       this.$socket.emit('patch', entity)
       this.$emit('update:show', false)
     }

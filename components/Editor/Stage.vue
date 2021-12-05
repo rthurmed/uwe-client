@@ -205,11 +205,12 @@ export default {
       // and other linking entities)
       const id = this.getIdFromEvent(e)
       if (id != null) {
+        const entity = Entity.find(id)
         this.$emit('edit', {
           id,
           x: e.evt.pageX,
           y: e.evt.pageY,
-          prop: 'title'
+          props: EntityTypeInfo[entity.type].props
         })
       }
     },
