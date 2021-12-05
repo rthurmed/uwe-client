@@ -6,6 +6,7 @@
     :config="stageConfig"
     @mousemove="handleMouseMove"
     @click="handleClick"
+    @dblclick="handleDoubleClick"
     @dragmove="handleDragMove"
     @dragend="handleDragEnd"
     @wheel="handleMouseWheel"
@@ -141,6 +142,17 @@ export default {
       this.stageConfig.height = rect.height
       this.stageConfig.width = rect.width
     },
+    getIdFromEvent (e) {
+      let id = null
+      const { attrs, parent } = e.target
+      if (attrs.uid) {
+        id = attrs.uid
+      }
+      if (parent && parent.attrs.uid) {
+        id = parent.attrs.uid
+      }
+      return id
+    },
     handleMouseMove (e) {
       const stage = e.target.getStage()
       const { x: offsetX = 0, y: offsetY = 0 } = stage.attrs
@@ -149,20 +161,22 @@ export default {
       this.mouse.y = layerY - offsetY
     },
     handleClick (e) {
-      // Select clicked entity
-      let id = null
-      const clicked = e.target
-      if (clicked.attrs.uid) {
-        id = clicked.attrs.uid
-      }
-      if (clicked.parent && clicked.parent.attrs.uid) {
-        id = clicked.parent.attrs.uid
-      }
-
+      const id = this.getIdFromEvent(e)
       if (id != null) {
         this.$socket.emit('grab', id)
       } else {
         this.$socket.emit('drop')
+      }
+    },
+    handleDoubleClick (e) {
+      const id = this.getIdFromEvent(e)
+      if (id != null) {
+        this.$emit('edit', {
+          id,
+          x: e.evt.pageX,
+          y: e.evt.pageY,
+          prop: 'title'
+        })
       }
     },
     handleDragMove (e) {

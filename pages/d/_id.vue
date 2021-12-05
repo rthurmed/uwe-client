@@ -143,7 +143,10 @@
             </v-row>
           </v-alert>
         </v-expand-transition>
-        <EditorStage :diagram-id="$route.params.id" />
+        <EditorStage
+          :diagram-id="$route.params.id"
+          @edit="openEditMenu"
+        />
         <EditorPropMenu
           :show.sync="editMenu.show"
           :entity="editMenu.entity"
