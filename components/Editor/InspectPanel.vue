@@ -120,26 +120,6 @@ export default {
         return null
       }
       return Entity.find(participant.grabbedId)
-    },
-    entities () {
-      if (!this.entity) {
-        return []
-      }
-      return Entity
-        .query()
-        .where('diagramId', this.entity.diagramId)
-        .get()
-    },
-    entitiesOptions () {
-      const options = this.entities.map(e => ({
-        value: e.id,
-        text: e.title ? e.title : `${EntityTypeInfo[e.type].label} #${e.id}`
-      }))
-      options.unshift({
-        value: null,
-        text: '-'
-      })
-      return options
     }
   },
   methods: {

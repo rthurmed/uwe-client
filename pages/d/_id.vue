@@ -258,7 +258,7 @@ export default {
         type: entityType,
         diagramId: this.$route.params.id,
         height: 100,
-        width: 200
+        width: 100
       })
     },
     openEditMenu ({ id, x, y, prop }) {

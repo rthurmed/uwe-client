@@ -17,6 +17,20 @@
         strokeWidth: selected ? style.box.selectedStrokeWidth : style.box.strokeWidth
       }"
     />
+    <v-regular-polygon
+      :config="{
+        sides: 3,
+        radius: 16,
+        rotation: angle + 30,
+        offsetY: 8.6,
+        offsetX: -15,
+        x: originOffset.x,
+        y: originOffset.y,
+        fill: style.box.fill,
+        stroke: stroke,
+        strokeWidth: selected ? style.box.selectedStrokeWidth : style.box.strokeWidth
+      }"
+    />
     <!-- DEBUG -->
     <!-- <v-circle
       :config="{
