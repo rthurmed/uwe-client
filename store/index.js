@@ -65,8 +65,6 @@ export const mutations = {
   },
   socket_create (state, payload) {
     payload.diagramId = Number(payload.diagramId)
-    payload.originId = Number(payload.originId)
-    payload.targetId = Number(payload.targetId)
     Entity.insertOrUpdate({ data: payload })
   },
   socket_patch (state, payload) {
