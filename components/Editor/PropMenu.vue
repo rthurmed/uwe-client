@@ -9,8 +9,11 @@
   >
     <v-card min-width="230">
       <v-card-title>
-        <span>
-          {{ EntityPropInfo[prop].label }}
+        <span v-if="props.length === 1">
+          {{ EntityPropInfo[props[0]].label }}
+        </span>
+        <span v-else>
+          #{{ currentEntity.id }}
         </span>
         <v-spacer />
         <v-btn
@@ -25,25 +28,33 @@
       </v-card-title>
       <v-card-text>
         <v-form @submit.prevent="submit">
-          <v-switch
-            v-if="EntityPropInfo[prop].type == 'bool'"
-            v-model="value"
-            :label="$options.filters.boolyn(value)"
-          />
-          <v-text-field
-            v-else-if="EntityPropInfo[prop].type == 'number'"
-            v-model="value"
-            type="number"
-          />
-          <v-select
-            v-else-if="EntityPropInfo[prop].type == 'entity'"
-            v-model="value"
-            :items="entitiesOptions"
-          />
-          <v-text-field
-            v-else
-            v-model="value"
-          />
+          <template v-for="(prop, index) in props">
+            <v-switch
+              v-if="EntityPropInfo[prop].type == 'bool'"
+              :key="index"
+              v-model="value"
+              :label="`${EntityPropInfo[prop].label}: ${$options.filters.boolyn(value)}`"
+            />
+            <v-text-field
+              v-else-if="EntityPropInfo[prop].type == 'number'"
+              :key="index"
+              v-model="value"
+              :label="EntityPropInfo[prop].label"
+              type="number"
+            />
+            <v-select
+              v-else-if="EntityPropInfo[prop].type == 'entity'"
+              :key="index"
+              v-model="value"
+              :items="entitiesOptions"
+            />
+            <v-text-field
+              v-else
+              :key="index"
+              v-model="value"
+              :label="EntityPropInfo[prop].label"
+            />
+          </template>
           <v-btn
             block
             type="submit"
@@ -59,7 +70,7 @@
 <script>
 import { Entity } from '~/models/entity'
 import { EntityPropInfo } from '~/classes/entity/EntityPropInfo'
-import { EntityTypeInfo } from '~/models/enum/entity-type'
+import { EntityTypeInfo } from '~/classes/entity/EntityTypeInfo'
 
 export default {
   props: {
@@ -71,9 +82,9 @@ export default {
       type: Number,
       default: () => 0
     },
-    prop: {
-      type: String,
-      default: () => 'title'
+    props: {
+      type: Array,
+      default: () => ['title']
     },
     x: {
       type: Number,

@@ -150,7 +150,7 @@
         <EditorPropMenu
           :show.sync="editMenu.show"
           :entity="editMenu.entity"
-          :prop="editMenu.prop"
+          :props="editMenu.props"
           :x="editMenu.x"
           :y="editMenu.y"
         />
@@ -161,9 +161,10 @@
 
 <script>
 import { mapState } from 'vuex'
+import { EntityTypeInfo } from '~/classes/entity/EntityTypeInfo'
 import { Diagram } from '~/models/diagram'
 import { Entity } from '~/models/entity'
-import { EntityType, EntityTypeInfo } from '~/models/enum/entity-type'
+import { EntityType } from '~/models/enum/entity-type'
 import { Participant } from '~/models/participant'
 
 export default {
@@ -176,7 +177,7 @@ export default {
       editMenu: {
         show: false,
         entity: 0,
-        prop: 'title',
+        props: ['title'],
         x: 0,
         y: 0
       }
@@ -257,13 +258,13 @@ export default {
       this.$socket.emit('create', {
         type: entityType,
         diagramId: this.$route.params.id,
-        height: 100,
-        width: 100
+        height: EntityTypeInfo[entityType].height,
+        width: EntityTypeInfo[entityType].width
       })
     },
     openEditMenu ({ id, x, y, prop }) {
       this.editMenu.entity = id
-      this.editMenu.prop = prop
+      this.editMenu.props = [prop]
       this.editMenu.x = x
       this.editMenu.y = y
       this.editMenu.show = true

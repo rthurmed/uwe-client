@@ -67,10 +67,10 @@
 <script>
 import { mapState } from 'vuex'
 import { Entity } from '~/models/entity'
-import { EntityTypeInfo } from '~/models/enum/entity-type'
 import { Participant } from '~/models/participant'
 import { EntityProp } from '~/classes/entity/EntityProp'
 import { EntityPropInfo } from '~/classes/entity/EntityPropInfo'
+import { EntityTypeInfo } from '~/classes/entity/EntityTypeInfo'
 
 export default {
   filters: {

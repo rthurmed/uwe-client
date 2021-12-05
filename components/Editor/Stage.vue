@@ -92,7 +92,8 @@
 import { mapState } from 'vuex'
 import { Entity } from '~/models/entity'
 import { Participant } from '~/models/participant'
-import { EntityType, EntityTypeInfo } from '~/models/enum/entity-type'
+import { EntityType } from '~/models/enum/entity-type'
+import { EntityTypeInfo } from '~/classes/entity/EntityTypeInfo'
 
 export default {
   props: {

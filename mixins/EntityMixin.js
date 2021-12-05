@@ -1,6 +1,6 @@
 import { mapState } from 'vuex'
+import { EntityTypeInfo } from '~/classes/entity/EntityTypeInfo'
 import { Entity } from '~/models/entity'
-import { EntityTypeInfo } from '~/models/enum/entity-type'
 import { Participant } from '~/models/participant'
 import { rad2deg } from '~/util/math'
 
