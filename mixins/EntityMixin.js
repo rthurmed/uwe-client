@@ -1,5 +1,6 @@
 import { mapState } from 'vuex'
 import { Entity } from '~/models/entity'
+import { EntityTypeInfo } from '~/models/enum/entity-type'
 import { Participant } from '~/models/participant'
 
 export default {
@@ -13,6 +14,9 @@ export default {
     ...mapState(['style', 'currentParticipant']),
     entity () {
       return Entity.find(this.entityId)
+    },
+    title () {
+      return this.entity.title ? this.entity.title : `${EntityTypeInfo[this.entity.type].label} #${this.entity.id}`
     },
     grabbed () {
       return Participant

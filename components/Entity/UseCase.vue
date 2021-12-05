@@ -24,7 +24,7 @@
       :config="{
         width: entity.width,
         height: entity.height,
-        text: entity.title ? entity.title : `Caso de Uso #${entity.id}`,
+        text: title,
         fontSize: style.text.size,
         align: 'center',
         verticalAlign: 'middle'

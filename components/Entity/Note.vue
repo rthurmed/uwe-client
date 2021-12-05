@@ -22,7 +22,7 @@
     />
     <v-text
       :config="{
-        text: entity.title ? entity.title : `Nota #${entity.id}`,
+        text: title,
         width: 160,
         height: 150,
         fontSize: style.text.size,

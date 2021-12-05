@@ -21,7 +21,7 @@
       :config="{
         x: (origin.x + target.x) / 2,
         y: (origin.y + target.y) / 2,
-        text: entity.title ? entity.title : `Association #${entity.id}`,
+        text: title,
         width: 100,
         fontSize: style.text.size,
         align: 'center'
