@@ -41,12 +41,24 @@
           :key="entity.id"
           :entity-id="entity.id"
         />
+        <EntityLabelledLink
+          v-else-if="entity.type === EntityType.EXTEND"
+          :key="entity.id"
+          :entity-id="entity.id"
+          kind="extend"
+        />
+        <EntityLabelledLink
+          v-else-if="entity.type === EntityType.INCLUDE"
+          :key="entity.id"
+          :entity-id="entity.id"
+          kind="include"
+        />
       </template>
     </v-layer>
     <!-- LAYER 3: CURSORS -->
     <v-layer>
-      <!-- TODO: animate this -->
-      <v-group
+      <!-- TODO?: animate this -->
+      <!-- <v-group
         v-for="participant in participants"
         :key="participant.id"
         :config="{
@@ -59,7 +71,7 @@
             text: participant.userId,
           }"
         />
-      </v-group>
+      </v-group> -->
     </v-layer>
     <!-- LAYER 4: DEBUG -->
     <v-layer v-if="false">
@@ -186,6 +198,10 @@ export default {
       }
     },
     handleDoubleClick (e) {
+      // TODO
+      // Allow to display different properties on the popup menu depending on
+      // the entity type (e.g.: Show title, origin and target for association
+      // and other linking entities)
       const id = this.getIdFromEvent(e)
       if (id != null) {
         this.$emit('edit', {
