@@ -2,6 +2,7 @@ import { mapState } from 'vuex'
 import { Entity } from '~/models/entity'
 import { EntityTypeInfo } from '~/models/enum/entity-type'
 import { Participant } from '~/models/participant'
+import { rad2deg } from '~/util/math'
 
 export default {
   props: {
@@ -54,6 +55,11 @@ export default {
     },
     targetOffset () {
       return this.getOffsetPoint(this.target, this.origin)
+    },
+    angle () {
+      const diffX = this.target.x - this.origin.x
+      const diffY = this.target.y - this.origin.y
+      return rad2deg(Math.atan2(diffY, diffX))
     }
   },
   methods: {

@@ -36,6 +36,11 @@
           :key="entity.id"
           :entity-id="entity.id"
         />
+        <EntityGeneralization
+          v-else-if="entity.type === EntityType.GENERALIZATION"
+          :key="entity.id"
+          :entity-id="entity.id"
+        />
       </template>
     </v-layer>
     <!-- LAYER 3: CURSORS -->
