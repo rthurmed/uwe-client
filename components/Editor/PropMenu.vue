@@ -32,6 +32,7 @@
               :key="index"
               v-model="values[prop]"
               :label="`${EntityPropInfo[prop].label}: ${$options.filters.boolyn(values[prop])}`"
+              @keydown.esc="$emit('update:show', false)"
             />
             <v-text-field
               v-else-if="EntityPropInfo[prop].type == 'number'"
@@ -39,18 +40,24 @@
               v-model="values[prop]"
               :label="EntityPropInfo[prop].label"
               type="number"
+              :autofocus="index == 0"
+              @keydown.esc="$emit('update:show', false)"
             />
             <v-select
               v-else-if="EntityPropInfo[prop].type == 'entity'"
               :key="index"
               v-model="values[prop]"
               :items="entitiesOptions"
+              :autofocus="index == 0"
+              @keydown.esc="$emit('update:show', false)"
             />
             <v-text-field
               v-else
               :key="index"
               v-model="values[prop]"
               :label="EntityPropInfo[prop].label"
+              :autofocus="index == 0"
+              @keydown.esc="$emit('update:show', false)"
             />
           </template>
           <v-btn
