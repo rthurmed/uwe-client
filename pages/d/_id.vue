@@ -107,10 +107,10 @@
               <v-list-item-title v-if="entity.title">
                 {{ entity.title }}
               </v-list-item-title>
-              <v-list-item-title>
+              <v-list-item-subtitle>
                 {{ EntityTypeInfo[entity.type].label }}
                 #{{ entity.id }}
-              </v-list-item-title>
+              </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
         </v-list-item-group>
@@ -144,6 +144,7 @@
           </v-alert>
         </v-expand-transition>
         <EditorStage
+          ref="stage"
           :diagram-id="$route.params.id"
           @edit="openEditMenu"
         />
@@ -160,6 +161,7 @@
 </template>
 
 <script>
+import { Query } from '@vuex-orm/core'
 import { mapState } from 'vuex'
 import { EntityTypeInfo } from '~/classes/entity/EntityTypeInfo'
 import { Diagram } from '~/models/diagram'
@@ -260,6 +262,23 @@ export default {
         diagramId: this.$route.params.id,
         height: EntityTypeInfo[entityType].height,
         width: EntityTypeInfo[entityType].width
+      })
+
+      // Open entity menu after creating an entity
+      const hookId = Query.on('afterCreate', (data, x, entity) => {
+        if (entity === 'entities') {
+          const { top, left } = this.$refs.stage.$el.getBoundingClientRect()
+
+          this.$socket.emit('grab', data.id)
+          this.openEditMenu({
+            id: data.id,
+            x: left + 16,
+            y: top + 16,
+            props: EntityTypeInfo[data.type].props
+          })
+
+          Query.off(hookId)
+        }
       })
     },
     openEditMenu ({ id, x, y, props }) {
