@@ -1,11 +1,11 @@
 <template>
   <v-group
+    v-if="target && origin"
     :config="{
       uid: entity.id
     }"
   >
     <v-line
-      v-if="target && origin"
       :config="{
         points: [
           originOffset.x,
@@ -15,16 +15,6 @@
         ],
         stroke: stroke,
         strokeWidth: selected ? style.box.selectedStrokeWidth : style.box.strokeWidth
-      }"
-    />
-    <v-text
-      :config="{
-        x: (origin.x + target.x) / 2,
-        y: (origin.y + target.y) / 2,
-        text: title,
-        width: 100,
-        fontSize: style.text.size,
-        align: 'center'
       }"
     />
     <!-- DEBUG -->
