@@ -57,8 +57,8 @@ export default {
       return this.getOffsetPoint(this.target, this.origin)
     },
     angle () {
-      const diffX = this.target.x - this.origin.x
-      const diffY = this.target.y - this.origin.y
+      const diffX = this.targetOffset.x - this.originOffset.x
+      const diffY = this.targetOffset.y - this.originOffset.y
       return rad2deg(Math.atan2(diffY, diffX))
     }
   },
