@@ -18,13 +18,13 @@
           points: [
             0, 0,
             0, 65,
-            30, 95,
+            25, 90,
             0, 65,
-            -30, 95,
+            -25, 90,
             0, 65,
-            0, 55,
-            45, 55,
-            -45, 55,
+            0, 45,
+            40, 45,
+            -40, 45,
           ]
         }),
         stroke: stroke,
@@ -34,8 +34,8 @@
     <v-circle
       :config="{
         x: entity.width * 0.5,
-        y: Math.min(entity.width, entity.height) * 0.25,
-        radius: Math.min(entity.width, entity.height) * 0.25,
+        y: Math.min(entity.width, entity.height) * 0.2,
+        radius: Math.min(entity.width, entity.height) * 0.2,
         fill: style.box.fill,
         stroke: stroke,
         strokeWidth: selected ? style.box.selectedStrokeWidth : style.box.strokeWidth
@@ -44,7 +44,7 @@
     <v-text
       :config="{
         text: title,
-        y: entity.height,
+        y: entity.height - 5,
         width: entity.width,
         fontSize: style.text.size,
         align: 'center'
