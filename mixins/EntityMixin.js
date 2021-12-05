@@ -44,6 +44,12 @@ export default {
     target () {
       if (!this.entity) { return null }
       return Entity.find(this.entity.targetId)
+    },
+    originOffset () {
+      return this.getOffsetPoint(this.origin, this.target)
+    },
+    targetOffset () {
+      return this.getOffsetPoint(this.target, this.origin)
     }
   },
   methods: {
@@ -52,6 +58,25 @@ export default {
         const num = i % 2 === 0 ? width : height
         return (v / 100) * num
       })
+    },
+    getOffsetPoint (entity1, entity2) {
+      if (entity1 == null || entity2 == null) {
+        return
+      }
+
+      const diffX = entity2.x - entity1.x
+      const diffY = entity2.y - entity1.y
+      const angle = Math.atan2(diffY, diffX)
+
+      const centerX = entity1.x + entity1.width / 2
+      const centerY = entity1.y + entity1.height / 2
+      const x = entity1.width * 0.6 * Math.cos(angle) + centerX
+      const y = entity1.height * 0.6 * Math.sin(angle) + centerY
+
+      return {
+        x,
+        y
+      }
     }
   }
 }

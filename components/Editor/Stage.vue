@@ -56,6 +56,18 @@
         />
       </v-group>
     </v-layer>
+    <!-- LAYER 4: DEBUG -->
+    <v-layer v-if="false">
+      <!-- ROOT -->
+      <v-circle
+        :config="{
+          x: 0,
+          y: 0,
+          radius: 4,
+          stroke: 'blue'
+        }"
+      />
+    </v-layer>
   </v-stage>
 </template>
 

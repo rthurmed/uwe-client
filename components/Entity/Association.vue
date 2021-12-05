@@ -8,16 +8,15 @@
       v-if="target && origin"
       :config="{
         points: [
-          origin.x + (origin.width / 2),
-          origin.y + (origin.height / 2),
-          target.x + (target.width / 2),
-          target.y + (target.height / 2),
+          originOffset.x,
+          originOffset.y,
+          targetOffset.x,
+          targetOffset.y,
         ],
         stroke: stroke,
         strokeWidth: selected ? style.box.selectedStrokeWidth : style.box.strokeWidth
       }"
     />
-    <!-- TODO: Place between the target and origin -->
     <v-text
       :config="{
         x: (origin.x + target.x) / 2,
@@ -28,6 +27,23 @@
         align: 'center'
       }"
     />
+    <!-- DEBUG -->
+    <!-- <v-circle
+      :config="{
+        x: originOffset.x,
+        y: originOffset.y,
+        radius: 2,
+        stroke: 'red'
+      }"
+    />
+    <v-circle
+      :config="{
+        x: targetOffset.x,
+        y: targetOffset.y,
+        radius: 2,
+        stroke: 'red'
+      }"
+    /> -->
   </v-group>
 </template>
 
