@@ -43,7 +43,7 @@
               :autofocus="index == 0"
               @keydown.esc="$emit('update:show', false)"
             />
-            <v-select
+            <v-autocomplete
               v-else-if="EntityPropInfo[prop].type == 'entity'"
               :key="index"
               v-model="values[prop]"
