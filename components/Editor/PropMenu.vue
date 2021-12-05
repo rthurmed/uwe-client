@@ -109,9 +109,11 @@ export default {
       if (!this.currentEntity) {
         return []
       }
+      const { linkableTypes } = EntityTypeInfo[this.currentEntity.type]
       return Entity
         .query()
         .where('diagramId', this.currentEntity.diagramId)
+        .where('type', t => linkableTypes.includes(t))
         .get()
     },
     entitiesOptions () {
