@@ -9,7 +9,6 @@
       draggable: grabbed
     }"
   >
-    <!-- TODO: Replace with an svg image (using an "file" style) -->
     <v-rect
       :config="{
         width: entity.width,
@@ -23,9 +22,10 @@
     <v-text
       :config="{
         text: title,
-        width: 160,
-        height: 150,
+        width: entity.width,
+        height: entity.height,
         fontSize: style.text.size,
+        ellipsis: true,
         padding: 8,
       }"
     />
