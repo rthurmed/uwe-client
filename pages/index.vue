@@ -179,6 +179,60 @@
                       </span>
                     </v-list-item-subtitle>
                   </v-list-item-content>
+                  <v-list-item-action>
+                    <v-menu left :close-on-content-click="false">
+                      <template #activator="{ on, attrs }">
+                        <v-btn
+                          icon
+                          v-bind="attrs"
+                          v-on="on"
+                          @click.prevent="() => {}"
+                        >
+                          <v-icon>
+                            mdi-chevron-down
+                          </v-icon>
+                        </v-btn>
+                      </template>
+                      <v-list>
+                        <v-list-item @click="() => {}">
+                          <v-list-item-icon>
+                            <v-icon>
+                              mdi-image
+                            </v-icon>
+                          </v-list-item-icon>
+                          <v-list-item-content>
+                            <v-list-item-title>
+                              Exportar como imagem
+                            </v-list-item-title>
+                          </v-list-item-content>
+                        </v-list-item>
+                        <v-list-item @click="() => {}">
+                          <v-list-item-icon>
+                            <v-icon>
+                              mdi-file-download
+                            </v-icon>
+                          </v-list-item-icon>
+                          <v-list-item-content>
+                            <v-list-item-title>
+                              Exportar como arquivo
+                            </v-list-item-title>
+                          </v-list-item-content>
+                        </v-list-item>
+                        <v-list-item @click="removeDiagram(diagram.id)">
+                          <v-list-item-icon>
+                            <v-icon>
+                              mdi-delete
+                            </v-icon>
+                          </v-list-item-icon>
+                          <v-list-item-content>
+                            <v-list-item-title>
+                              Remover
+                            </v-list-item-title>
+                          </v-list-item-content>
+                        </v-list-item>
+                      </v-list>
+                    </v-menu>
+                  </v-list-item-action>
                 </v-list-item>
               </v-list>
             </v-card>
@@ -283,6 +337,17 @@ export default {
           type,
           name: 'Diagrama sem nome',
           projectId: this.selected
+        })
+    },
+    removeDiagram (id) {
+      Diagram
+        .api()
+        .delete(`${Diagram.entity}/${id}`)
+        .then(() => {
+          Diagram.delete(id)
+        })
+        .catch(() => {
+          //
         })
     }
   }
