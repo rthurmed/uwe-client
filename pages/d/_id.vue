@@ -16,9 +16,82 @@
           </v-btn>
         </v-col>
         <v-col class="d-flex justify-center align-center">
-          <v-btn large depressed>
-            Projeto 1 > sistema
-          </v-btn>
+          <v-menu
+            v-model="editDiagramMenu.show"
+            :close-on-content-click="false"
+            min-width="340"
+          >
+            <template #activator="{ on, attrs }">
+              <v-btn
+                large
+                depressed
+                :loading="project == null || diagram == null"
+                v-bind="attrs"
+                v-on="on"
+              >
+                <span v-if="project != null && diagram != null">
+                  {{ project.name }} > {{ diagram.name }}
+                </span>
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-title>
+                Editar diagrama
+                <v-spacer />
+                <v-btn
+                  icon
+                  small
+                  @click="editDiagramMenu.show = false"
+                >
+                  <v-icon>
+                    mdi-close
+                  </v-icon>
+                </v-btn>
+              </v-card-title>
+              <v-card-text>
+                <v-form @submit.prevent="submitEditDiagram">
+                  <v-text-field
+                    v-model="editDiagramMenu.name"
+                    label="Nome"
+                  />
+                  <v-btn
+                    type="submit"
+                    block
+                  >
+                    Enviar
+                  </v-btn>
+                </v-form>
+              </v-card-text>
+              <v-divider />
+              <v-card-title>
+                Opções de exportação
+              </v-card-title>
+              <v-list-item @click="() => {}">
+                <v-list-item-icon>
+                  <v-icon>
+                    mdi-image
+                  </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>
+                    Exportar como imagem
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item @click="() => {}">
+                <v-list-item-icon>
+                  <v-icon>
+                    mdi-file-download
+                  </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>
+                    Exportar como arquivo
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-card>
+          </v-menu>
         </v-col>
         <v-col cols="2" class="d-flex justify-end">
           <v-btn icon to="/account">
@@ -168,6 +241,7 @@ import { Diagram } from '~/models/diagram'
 import { Entity } from '~/models/entity'
 import { EntityType } from '~/models/enum/entity-type'
 import { Participant } from '~/models/participant'
+import { Project } from '~/models/project'
 
 export default {
   layout: 'empty',
@@ -182,6 +256,10 @@ export default {
         props: ['title'],
         x: 0,
         y: 0
+      },
+      editDiagramMenu: {
+        show: false,
+        name: ''
       }
     }
   },
@@ -189,6 +267,10 @@ export default {
     ...mapState(['currentParticipant']),
     diagram () {
       return Diagram.find(this.$route.params.id)
+    },
+    project () {
+      if (this.diagram == null) { return null }
+      return Project.find(this.diagram.projectId)
     },
     selectedEntity () {
       const participant = Participant
@@ -228,6 +310,9 @@ export default {
       if (value == null) {
         this.editMenu.show = false
       }
+    },
+    diagram (value) {
+      this.editDiagramMenu.name = value.name
     }
   },
   beforeDestroy () {
@@ -287,6 +372,18 @@ export default {
       this.editMenu.x = x
       this.editMenu.y = y
       this.editMenu.show = true
+    },
+    submitEditDiagram () {
+      Diagram.api()
+        .put(`${Diagram.entity}/${this.$route.params.id}`, {
+          name: this.editDiagramMenu.name
+        })
+        .then(() => {
+          this.editDiagramMenu.show = false
+        })
+        .catch(() => {
+          // TODO
+        })
     }
   }
 }
