@@ -35,6 +35,9 @@
         <span v-if="error.type == 'email'">
           Insira um usuário cadastrado!
         </span>
+        <span v-if="error.type == 'member'">
+          Este usuário já é um membro!
+        </span>
         <span v-else-if="error.type == 'request'">
           Verifique os valores inseridos!
         </span>
@@ -96,6 +99,8 @@ export default {
           if (e.response.status === 400) {
             if (e.response.data.message === 'User not found') {
               this.error.type = 'email'
+            } else if (e.response.data.message === 'User already member') {
+              this.error.type = 'member'
             } else {
               this.error.type = 'request'
             }
