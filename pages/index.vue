@@ -3,7 +3,7 @@
     <v-col cols="12">
       <v-container>
         <!-- Project selector -->
-        <v-system-bar color="transparent">
+        <v-system-bar class="mb-2" color="transparent">
           <span>
             Projetos recentes
           </span>
@@ -77,7 +77,7 @@
         </p>
       </v-container>
       <v-container v-else>
-        <v-system-bar color="transparent">
+        <v-system-bar class="mb-2" color="transparent">
           <span>
             Projeto: {{ focusedProject.name }}
           </span>
@@ -88,7 +88,14 @@
         </v-system-bar>
         <v-row justify="center">
           <!-- Diagrams list -->
-          <v-col cols="12" sm="7" lg="5" order="1" order-sm="0">
+          <v-col
+            cols="12"
+            md="7"
+            lg="6"
+            xl="5"
+            order="1"
+            order-md="0"
+          >
             <v-card>
               <v-card-title class="justify-center">
                 <v-row>
@@ -238,7 +245,14 @@
             </v-card>
           </v-col>
           <!-- Members list -->
-          <v-col cols="12" sm="5" lg="3" order="0" order-sm="1">
+          <v-col
+            cols="12"
+            md="5"
+            lg="4"
+            xl="3"
+            order="0"
+            order-md="1"
+          >
             <v-card>
               <v-card-title>
                 <v-row>
