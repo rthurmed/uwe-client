@@ -249,11 +249,24 @@
                     Membros
                   </v-col>
                   <v-col cols="3" class="d-flex justify-end">
-                    <v-btn icon>
-                      <v-icon>
-                        mdi-plus
-                      </v-icon>
-                    </v-btn>
+                    <v-menu
+                      left
+                      :close-on-content-click="false"
+                      min-width="300"
+                    >
+                      <template #activator="{ on, attrs }">
+                        <v-btn
+                          icon
+                          v-bind="attrs"
+                          v-on="on"
+                        >
+                          <v-icon>
+                            mdi-plus
+                          </v-icon>
+                        </v-btn>
+                      </template>
+                      <CreateInviteCard :project-id="selected" />
+                    </v-menu>
                   </v-col>
                 </v-row>
               </v-card-title>
