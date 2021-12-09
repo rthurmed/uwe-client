@@ -16,6 +16,9 @@
           {{ user.lastName }}
         </span>
         <v-skeleton-loader v-else type="text" />
+        <span v-if="permission.accepted == false">
+          (Pendente)
+        </span>
       </v-list-item-title>
       <v-list-item-subtitle>
         <span>
