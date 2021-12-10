@@ -333,6 +333,8 @@ export default {
   },
   computed: {
     projects () {
+      // FIXME: Projects withou permission are being displayed after loading
+      // invites screen
       return Project.query().orderBy('id').get()
     },
     focusedProject () {
