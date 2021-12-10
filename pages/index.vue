@@ -3,7 +3,7 @@
     <v-col cols="12">
       <v-container>
         <!-- Project selector -->
-        <v-system-bar color="transparent">
+        <v-system-bar class="mb-2" color="transparent">
           <span>
             Projetos recentes
           </span>
@@ -77,7 +77,7 @@
         </p>
       </v-container>
       <v-container v-else>
-        <v-system-bar color="transparent">
+        <v-system-bar class="mb-2" color="transparent">
           <span>
             Projeto: {{ focusedProject.name }}
           </span>
@@ -88,7 +88,14 @@
         </v-system-bar>
         <v-row justify="center">
           <!-- Diagrams list -->
-          <v-col cols="12" sm="7" lg="5" order="1" order-sm="0">
+          <v-col
+            cols="12"
+            md="7"
+            lg="6"
+            xl="5"
+            order="1"
+            order-md="0"
+          >
             <v-card>
               <v-card-title class="justify-center">
                 <v-row>
@@ -101,7 +108,7 @@
                   <v-col cols="3" class="d-flex justify-end">
                     <v-menu
                       v-model="showingMenuCreateDiagram"
-                      offset-y
+                      left
                       min-width="300"
                       :close-on-content-click="false"
                     >
@@ -193,7 +200,10 @@
                           </v-icon>
                         </v-btn>
                       </template>
-                      <v-list>
+                      <v-list subheader>
+                        <v-subheader>
+                          Gerenciar diagrama
+                        </v-subheader>
                         <v-list-item @click="() => {}">
                           <v-list-item-icon>
                             <v-icon>
@@ -238,7 +248,14 @@
             </v-card>
           </v-col>
           <!-- Members list -->
-          <v-col cols="12" sm="5" lg="3" order="0" order-sm="1">
+          <v-col
+            cols="12"
+            md="5"
+            lg="4"
+            xl="3"
+            order="0"
+            order-md="1"
+          >
             <v-card>
               <v-card-title>
                 <v-row>
@@ -249,11 +266,24 @@
                     Membros
                   </v-col>
                   <v-col cols="3" class="d-flex justify-end">
-                    <v-btn icon>
-                      <v-icon>
-                        mdi-plus
-                      </v-icon>
-                    </v-btn>
+                    <v-menu
+                      left
+                      :close-on-content-click="false"
+                      min-width="300"
+                    >
+                      <template #activator="{ on, attrs }">
+                        <v-btn
+                          icon
+                          v-bind="attrs"
+                          v-on="on"
+                        >
+                          <v-icon>
+                            mdi-plus
+                          </v-icon>
+                        </v-btn>
+                      </template>
+                      <CreateInviteCard :project-id="selected" />
+                    </v-menu>
                   </v-col>
                 </v-row>
               </v-card-title>

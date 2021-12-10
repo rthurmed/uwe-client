@@ -11,9 +11,25 @@
             </v-icon>
           </v-btn>
           <!-- INVITE USER FAB -->
-          <v-btn fab small absolute style="left: 236px; top: 72px; z-index: 200;">
-            <v-icon>mdi-plus</v-icon>
-          </v-btn>
+          <v-menu
+            v-if="project !== null"
+            :close-on-content-click="false"
+            min-width="300"
+          >
+            <template #activator="{ on, attrs }">
+              <v-btn
+                fab
+                small
+                absolute
+                style="left: 236px; top: 72px; z-index: 200;"
+                v-bind="attrs"
+                v-on="on"
+              >
+                <v-icon>mdi-plus</v-icon>
+              </v-btn>
+            </template>
+            <CreateInviteCard :project-id="project.id" />
+          </v-menu>
         </v-col>
         <v-col class="d-flex justify-center align-center">
           <v-menu

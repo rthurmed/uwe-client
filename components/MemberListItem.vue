@@ -16,6 +16,9 @@
           {{ user.lastName }}
         </span>
         <v-skeleton-loader v-else type="text" />
+        <span v-if="permission.accepted == false">
+          (Pendente)
+        </span>
       </v-list-item-title>
       <v-list-item-subtitle>
         <span>
@@ -29,13 +32,66 @@
         Entrou em {{ permission.createdAt | unixdate }}
       </v-list-item-subtitle>
     </v-list-item-content>
+    <v-list-item-action v-if="project && project.isAllowed($auth.user.sub, [AccessLevel.OWNER])">
+      <v-menu left>
+        <template #activator="{ on, attrs }">
+          <v-btn
+            icon
+            v-bind="attrs"
+            v-on="on"
+            @click.prevent="() => {}"
+          >
+            <v-icon>
+              mdi-chevron-down
+            </v-icon>
+          </v-btn>
+        </template>
+        <v-list subheader>
+          <v-subheader>
+            Mudar a permissão para
+            {{ user.firstName }}
+            {{ user.lastName }}
+          </v-subheader>
+          <v-list-item
+            v-for="level in levels"
+            :key="level"
+            @click="() => changeLevel(level)"
+          >
+            <v-list-item-icon>
+              <v-icon>
+                {{ AccessLevelInfo[level].icon }}
+              </v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>
+                Definir como {{ AccessLevelInfo[level].label }}
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item @click="remove">
+            <v-list-item-icon>
+              <v-icon>
+                mdi-delete
+              </v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>
+                Remover
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </v-list-item-action>
   </v-list-item>
 </template>
 
 <script>
-import { AccessLevelInfo } from '~/models/enum/access-level'
+import { AccessLevel, AccessLevelInfo } from '~/models/enum/access-level'
 import { Permission } from '~/models/permission'
+import { Project } from '~/models/project'
 import { User } from '~/models/user'
+
 export default {
   props: {
     permissionId: {
@@ -45,6 +101,12 @@ export default {
   },
   data () {
     return {
+      levels: [
+        AccessLevel.READ,
+        AccessLevel.WRITE,
+        AccessLevel.OWNER
+      ],
+      AccessLevel,
       AccessLevelInfo
     }
   },
@@ -54,6 +116,9 @@ export default {
     },
     user () {
       return User.find(this.permission.userId)
+    },
+    project () {
+      return Project.find(this.permission.projectId)
     }
   },
   watch: {
@@ -66,6 +131,23 @@ export default {
         }
       },
       immediate: true
+    }
+  },
+  methods: {
+    changeLevel (level) {
+      Permission
+        .api()
+        .put(`${Permission.entity}/${this.permissionId}`, {
+          level
+        })
+    },
+    remove () {
+      Permission
+        .api()
+        .delete(`${Permission.entity}/${this.permissionId}`)
+        .then(() => {
+          Permission.delete(this.permissionId)
+        })
     }
   }
 }
