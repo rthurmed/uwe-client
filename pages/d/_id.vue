@@ -132,9 +132,7 @@
           icon
           class="mr-1"
         >
-          <v-avatar :color="$color(participant.id)">
-            {{ participant.userId.substr(0, 2) }}
-          </v-avatar>
+          <UserAvatar :participant-id="participant.id" />
         </v-btn>
       </v-toolbar>
       <v-divider />
