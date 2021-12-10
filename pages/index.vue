@@ -82,7 +82,7 @@
             Projeto: {{ focusedProject.name }}
           </span>
           <v-spacer />
-          <a href="#">
+          <a @click="leaveProject">
             Deixar este projeto
           </a>
         </v-system-bar>
@@ -378,6 +378,21 @@ export default {
         })
         .catch(() => {
           //
+        })
+    },
+    leaveProject () {
+      const permission = Permission
+        .query()
+        .where('userId', this.$auth.user.sub)
+        .where('projectId', this.selected)
+        .first()
+
+      Permission
+        .api()
+        .delete(`${Permission.entity}/${permission.id}`)
+        .then(() => {
+          Permission.delete(permission.id)
+          Project.delete(permission.projectId)
         })
     }
   }
