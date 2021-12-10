@@ -270,6 +270,7 @@
                   </v-col>
                   <v-col cols="3" class="d-flex justify-end">
                     <v-menu
+                      v-model="showingMenuCreateInvite"
                       left
                       :close-on-content-click="false"
                       min-width="300"
@@ -285,7 +286,10 @@
                           </v-icon>
                         </v-btn>
                       </template>
-                      <CreateInviteCard :project-id="selected" />
+                      <CreateInviteCard
+                        :project-id="selected"
+                        @response="showingMenuCreateInvite = false"
+                      />
                     </v-menu>
                   </v-col>
                 </v-row>
@@ -323,7 +327,8 @@ export default {
       DiagramTypeInfo,
       showingMenuProjects: {},
       showingMenuCreateProject: false,
-      showingMenuCreateDiagram: false
+      showingMenuCreateDiagram: false,
+      showingMenuCreateInvite: false
     }
   },
   computed: {

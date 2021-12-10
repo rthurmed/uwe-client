@@ -94,6 +94,7 @@ export default {
         })
         .then((e) => {
           this.$emit('response', e)
+          this.email = ''
         })
         .catch((e) => {
           if (e.response.status === 400) {
