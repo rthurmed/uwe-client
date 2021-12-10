@@ -351,7 +351,12 @@ export default {
   },
   created () {
     Participant.create({ data: [] })
-    Diagram.api().get(`${Diagram.entity}/${this.$route.params.id}`)
+    Diagram
+      .api()
+      .get(`${Diagram.entity}/${this.$route.params.id}`)
+      .then(({ response }) => {
+        Project.insertOrUpdate({ data: response.data.project })
+      })
   },
   mounted () {
     this.connect()
