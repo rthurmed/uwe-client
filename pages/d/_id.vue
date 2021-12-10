@@ -13,6 +13,7 @@
           <!-- INVITE USER FAB -->
           <v-menu
             v-if="project !== null"
+            v-model="showingInviteMenu"
             :close-on-content-click="false"
             min-width="300"
           >
@@ -28,7 +29,10 @@
                 <v-icon>mdi-plus</v-icon>
               </v-btn>
             </template>
-            <CreateInviteCard :project-id="project.id" />
+            <CreateInviteCard
+              :project-id="project.id"
+              @response="showingInviteMenu = false"
+            />
           </v-menu>
         </v-col>
         <v-col class="d-flex justify-center align-center">
@@ -276,7 +280,8 @@ export default {
       editDiagramMenu: {
         show: false,
         name: ''
-      }
+      },
+      showingInviteMenu: false
     }
   },
   computed: {
