@@ -47,7 +47,7 @@
           </v-btn>
         </template>
         <v-list subheader>
-          <v-subheader>
+          <v-subheader v-if="user">
             Mudar a permissão para
             {{ user.firstName }}
             {{ user.lastName }}
