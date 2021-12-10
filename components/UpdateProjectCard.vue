@@ -2,6 +2,7 @@
   <v-card>
     <v-system-bar color="transparent">
       <v-spacer />
+      <!-- TODO: Ask for confirmation -->
       <a href="#" @click="remove">
         Remover
       </a>
