@@ -108,7 +108,7 @@
                   <v-col cols="3" class="d-flex justify-end">
                     <v-menu
                       v-model="showingMenuCreateDiagram"
-                      offset-y
+                      left
                       min-width="300"
                       :close-on-content-click="false"
                     >
