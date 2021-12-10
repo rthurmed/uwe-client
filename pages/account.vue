@@ -27,7 +27,10 @@
             Convites pendentes
           </v-card-title>
           <v-divider />
-          <v-list>
+          <v-card-text v-if="invites.length < 1">
+            Você ainda não tem nenhum convite
+          </v-card-text>
+          <v-list v-else>
             <template v-for="invite in invites">
               <InviteListItem
                 :key="invite.id"
