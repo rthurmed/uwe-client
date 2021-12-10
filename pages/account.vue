@@ -21,18 +21,54 @@
       </v-col>
       <v-col cols="12" sm="7" lg="5">
         <!-- Invites -->
+        <!-- TODO -->
         <v-card>
           <v-card-title class="justify-center">
             Convites pendentes
           </v-card-title>
           <v-divider />
           <v-list>
-            <v-list-item>
-              <!--  -->
-            </v-list-item>
+            <template v-for="invite in invites">
+              <InviteListItem
+                :key="invite.id"
+                :invite-id="invite.id"
+              />
+              <v-divider :key="`${invite.id}-divider`" />
+            </template>
           </v-list>
         </v-card>
       </v-col>
     </v-row>
   </v-container>
 </template>
+
+<script>
+import { Permission } from '~/models/permission'
+import { Project } from '~/models/project'
+export default {
+  computed: {
+    invites () {
+      return Permission
+        .query()
+        .where('userId', this.$auth.user.sub)
+        .where('accepted', false)
+        .where('revoked', false)
+        .get()
+    }
+  },
+  created () {
+    Permission
+      .api()
+      .get(`${Permission.entity}/invites`, {
+        dataKey: 'items'
+      })
+      .then(({ response }) => {
+        response.data.items.forEach((permission) => {
+          Project.insertOrUpdate({
+            data: permission.project
+          })
+        })
+      })
+  }
+}
+</script>
