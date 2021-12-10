@@ -82,7 +82,10 @@
             Projeto: {{ focusedProject.name }}
           </span>
           <v-spacer />
-          <a @click="leaveProject">
+          <a
+            v-if="!isProjectOwner"
+            @click="leaveProject"
+          >
             Deixar este projeto
           </a>
         </v-system-bar>
@@ -329,6 +332,9 @@ export default {
     },
     focusedProject () {
       return Project.find(this.selected)
+    },
+    isProjectOwner () {
+      return this.focusedProject.isAllowed(this.$auth.user.sub, [AccessLevel.OWNER])
     },
     diagrams () {
       return Diagram.query().where('projectId', this.selected).get()
