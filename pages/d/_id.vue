@@ -123,7 +123,6 @@
     <!-- LEFT SIDE PANEL -->
     <v-navigation-drawer app clipped>
       <!-- AVATARS -->
-      <!-- TODO: Display user initials -->
       <!-- TODO: Condense all other users after the 3rd one -->
       <v-toolbar flat style="overflow: auto; overflow-y: hidden;">
         <v-btn
@@ -132,7 +131,7 @@
           icon
           class="mr-1"
         >
-          <UserAvatar :participant-id="participant.id" />
+          <ParticipantAvatar :participant-id="participant.id" />
         </v-btn>
       </v-toolbar>
       <v-divider />
