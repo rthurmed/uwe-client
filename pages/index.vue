@@ -200,7 +200,10 @@
                           </v-icon>
                         </v-btn>
                       </template>
-                      <v-list>
+                      <v-list subheader>
+                        <v-subheader>
+                          Gerenciar diagrama
+                        </v-subheader>
                         <v-list-item @click="() => {}">
                           <v-list-item-icon>
                             <v-icon>
