@@ -123,7 +123,6 @@
     <!-- LEFT SIDE PANEL -->
     <v-navigation-drawer app clipped>
       <!-- AVATARS -->
-      <!-- TODO: Condense all other users after the 3rd one -->
       <v-toolbar flat style="overflow: auto; overflow-y: hidden;">
         <v-btn
           v-for="participant in participants"
@@ -133,6 +132,30 @@
         >
           <ParticipantAvatar :participant-id="participant.id" />
         </v-btn>
+        <v-menu v-if="otherParticipants.length > 0">
+          <template #activator="{ on, attrs }">
+            <v-btn
+              icon
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon>
+                mdi-chevron-down
+              </v-icon>
+            </v-btn>
+          </template>
+          <v-list subheader>
+            <v-subheader>
+              Participantes
+            </v-subheader>
+            <ParticipantListItem
+              v-for="participant in otherParticipants"
+              :key="participant.id"
+              :participant-id="participant.id"
+              @click="() => {}"
+            />
+          </v-list>
+        </v-menu>
       </v-toolbar>
       <v-divider />
       <!-- DIAGRAM ESTRUCTURE -->
@@ -260,6 +283,8 @@ import { EntityType } from '~/models/enum/entity-type'
 import { Participant } from '~/models/participant'
 import { Project } from '~/models/project'
 
+const PARTICIPANT_OVERFLOW_LIMIT = 3
+
 export default {
   layout: 'empty',
   data () {
@@ -304,6 +329,14 @@ export default {
       return Participant
         .query()
         .where('diagramId', Number(this.$route.params.id))
+        .limit(PARTICIPANT_OVERFLOW_LIMIT)
+        .get()
+    },
+    otherParticipants () {
+      return Participant
+        .query()
+        .where('diagramId', Number(this.$route.params.id))
+        .offset(PARTICIPANT_OVERFLOW_LIMIT)
         .get()
     },
     entities () {
