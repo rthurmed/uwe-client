@@ -73,6 +73,12 @@
           :key="entity.id"
           :entity-id="entity.id"
         />
+        <EntityAssociation
+          v-else-if="entity.type === EntityType.A_ASSOCIATION"
+          :key="entity.id"
+          :entity-id="entity.id"
+          arrow
+        />
       </template>
     </v-layer>
     <!-- LAYER 3: CURSORS -->

@@ -1,7 +1,7 @@
 import { EntityType } from '~/models/enum/entity-type'
 import { EntityTypeExtendedInfo } from '~/classes/entity/EntityTypeExtendedInfo'
 import { EntityProp } from '~/classes/entity/EntityProp'
-import { UCNodeEntities } from '~/classes/entity/helpers'
+import { ANodeEntities, UCNodeEntities } from '~/classes/entity/helpers'
 
 export const EntityTypeInfo = {
   // USE CASE
@@ -43,7 +43,7 @@ export const EntityTypeInfo = {
   }),
   // ACTIVITIES
   [EntityType.A_ACTION]: new EntityTypeExtendedInfo({
-    label: 'Estado Ação',
+    label: 'Ação',
     props: [EntityProp.TITLE],
     height: 100,
     width: 200
@@ -96,10 +96,12 @@ export const EntityTypeInfo = {
   }),
   [EntityType.A_ASSOCIATION]: new EntityTypeExtendedInfo({
     label: 'Associação',
-    props: [EntityProp.ORIGINID, EntityProp.TARGETID]
+    props: [EntityProp.ORIGINID, EntityProp.TARGETID],
+    linkableTypes: ANodeEntities
   }),
   [EntityType.A_EXCEPTION]: new EntityTypeExtendedInfo({
     label: 'Exceção',
-    props: [EntityProp.ORIGINID, EntityProp.TARGETID]
+    props: [EntityProp.ORIGINID, EntityProp.TARGETID],
+    linkableTypes: ANodeEntities
   })
 }

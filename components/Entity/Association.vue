@@ -17,6 +17,21 @@
         strokeWidth: selected ? style.box.selectedStrokeWidth : style.box.strokeWidth
       }"
     />
+    <v-line
+      v-if="arrow"
+      :config="{
+        points: [
+          16, 8,
+          0, 0,
+          16, -8,
+        ],
+        rotation: angle + 180,
+        x: targetOffset.x,
+        y: targetOffset.y,
+        stroke: stroke,
+        strokeWidth: selected ? style.box.selectedStrokeWidth : style.box.strokeWidth
+      }"
+    />
     <!-- DEBUG -->
     <!-- <v-circle
       :config="{
@@ -41,6 +56,12 @@
 import EntityMixin from '~/mixins/EntityMixin'
 
 export default {
-  mixins: [EntityMixin]
+  mixins: [EntityMixin],
+  props: {
+    arrow: {
+      type: Boolean,
+      default: () => false
+    }
+  }
 }
 </script>
