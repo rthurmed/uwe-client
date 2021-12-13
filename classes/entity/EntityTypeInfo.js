@@ -84,15 +84,19 @@ export const EntityTypeInfo = {
   }),
   [EntityType.A_FORK]: new EntityTypeExtendedInfo({
     label: 'Fork',
-    props: [],
+    props: [EntityProp.ORIGINID],
     height: 200,
-    width: 20
+    width: 20,
+    linkableTypes: ANodeEntities,
+    selfLinkAsTarget: true
   }),
   [EntityType.A_JOIN]: new EntityTypeExtendedInfo({
     label: 'Join',
-    props: [],
+    props: [EntityProp.TARGETID],
     height: 200,
-    width: 20
+    width: 20,
+    linkableTypes: ANodeEntities,
+    selfLinkAsOrigin: true
   }),
   [EntityType.A_OBJ]: new EntityTypeExtendedInfo({
     label: 'Objeto',

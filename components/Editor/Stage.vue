@@ -11,11 +11,12 @@
     @dragend="handleDragEnd"
     @wheel="handleMouseWheel"
   >
-    <!-- LAYER 1: RELATIONS -->
-    <!-- TODO -->
+    <!-- LAYER 1: BACKGROUND -->
+    <!-- TODO? -->
     <!-- LAYER 2: ENTITIES -->
     <v-layer>
       <template v-for="entity in entities">
+        <!-- TODO: Improve loading of entity components -->
         <EntityUseCase
           v-if="entity.type === EntityType.USECASE"
           :key="entity.id"
@@ -87,6 +88,16 @@
         />
         <EntityFlowSplit
           v-else-if="entity.type === EntityType.A_MERGE"
+          :key="entity.id"
+          :entity-id="entity.id"
+        />
+        <EntityParallelNode
+          v-else-if="entity.type === EntityType.A_FORK"
+          :key="entity.id"
+          :entity-id="entity.id"
+        />
+        <EntityParallelNode
+          v-else-if="entity.type === EntityType.A_JOIN"
           :key="entity.id"
           :entity-id="entity.id"
         />

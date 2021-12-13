@@ -80,6 +80,8 @@ export default {
         return
       }
 
+      // TODO: Improve the function. Now its producing weird lines
+
       const diffX = entity2.x - entity1.x
       const diffY = entity2.y - entity1.y
       const angle = Math.atan2(diffY, diffX)
