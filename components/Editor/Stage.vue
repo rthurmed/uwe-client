@@ -84,13 +84,11 @@
           v-else-if="entity.type === EntityType.A_BRANCH"
           :key="entity.id"
           :entity-id="entity.id"
-          with-origin
         />
         <EntityFlowSplit
           v-else-if="entity.type === EntityType.A_MERGE"
           :key="entity.id"
           :entity-id="entity.id"
-          with-target
         />
       </template>
     </v-layer>

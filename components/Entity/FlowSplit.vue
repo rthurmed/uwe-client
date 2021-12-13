@@ -10,7 +10,7 @@
     }"
   >
     <!-- ARROW -->
-    <template v-if="origin && target && (withOrigin || withTarget)">
+    <template v-if="origin && target">
       <v-line
         :config="{
           points: [
@@ -81,16 +81,6 @@
 import EntityMixin from '~/mixins/EntityMixin'
 
 export default {
-  mixins: [EntityMixin],
-  props: {
-    withOrigin: {
-      type: Boolean,
-      default: () => false
-    },
-    withTarget: {
-      type: Boolean,
-      default: () => false
-    }
-  }
+  mixins: [EntityMixin]
 }
 </script>
