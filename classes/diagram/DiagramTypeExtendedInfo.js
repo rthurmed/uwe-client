@@ -5,9 +5,9 @@ export class DiagramTypeExtendedInfo extends SuplementaryInfo {
   constructor ({
     label,
     icon,
-    entities = UCEntities
+    entityTypes = UCEntities
   }) {
     super({ label, icon })
-    this.entities = entities
+    this.entityTypes = entityTypes
   }
 }

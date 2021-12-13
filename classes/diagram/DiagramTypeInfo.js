@@ -6,12 +6,12 @@ export const DiagramTypeInfo = {
   [DiagramType.USECASE]: new DiagramTypeExtendedInfo({
     label: 'Caso de Uso',
     icon: 'mdi-account-arrow-right-outline',
-    entities: UCEntities
+    entityTypes: UCEntities
   }),
   [DiagramType.ACTIVITIES]: new DiagramTypeExtendedInfo({
     label: 'Atividades',
     icon: 'mdi-gesture-tap',
-    entities: AEntities
+    entityTypes: AEntities
   }),
   [DiagramType.CLASSES]: new DiagramTypeExtendedInfo({
     label: 'Classes',
