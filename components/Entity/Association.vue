@@ -32,6 +32,17 @@
         strokeWidth: selected ? style.box.selectedStrokeWidth : style.box.strokeWidth
       }"
     />
+    <v-text
+      v-if="withTitle && entity.title"
+      :config="{
+        x: (origin.x + target.x) / 2,
+        y: (origin.y + target.y) / 2,
+        text: entity.title,
+        width: 100,
+        fontSize: style.text.size,
+        align: 'center'
+      }"
+    />
     <!-- DEBUG -->
     <!-- <v-circle
       :config="{
@@ -59,6 +70,10 @@ export default {
   mixins: [EntityMixin],
   props: {
     arrow: {
+      type: Boolean,
+      default: () => false
+    },
+    withTitle: {
       type: Boolean,
       default: () => false
     }

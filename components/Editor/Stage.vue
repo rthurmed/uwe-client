@@ -78,6 +78,7 @@
           :key="entity.id"
           :entity-id="entity.id"
           arrow
+          with-title
         />
       </template>
     </v-layer>
