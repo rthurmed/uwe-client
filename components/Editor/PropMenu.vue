@@ -24,7 +24,7 @@
           </v-icon>
         </v-btn>
       </v-card-title>
-      <v-card-text>
+      <v-card-text v-if="props.length > 0">
         <v-form @submit.prevent="submit">
           <template v-for="(prop, index) in props">
             <v-switch
