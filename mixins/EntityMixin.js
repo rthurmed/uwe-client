@@ -44,10 +44,12 @@ export default {
     },
     origin () {
       if (!this.entity) { return null }
+      if (EntityTypeInfo[this.entity.type].selfLinkAsOrigin) { return this.entity }
       return Entity.find(this.entity.originId)
     },
     target () {
       if (!this.entity) { return null }
+      if (EntityTypeInfo[this.entity.type].selfLinkAsTarget) { return this.entity }
       return Entity.find(this.entity.targetId)
     },
     originOffset () {

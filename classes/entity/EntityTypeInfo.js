@@ -67,16 +67,20 @@ export const EntityTypeInfo = {
     width: 50
   }),
   [EntityType.A_BRANCH]: new EntityTypeExtendedInfo({
-    label: 'Decisão',
-    props: [],
-    height: 60,
-    width: 60
+    label: 'Decisão (Branch)',
+    props: [EntityProp.TITLE, EntityProp.ORIGINID],
+    height: 130,
+    width: 200,
+    linkableTypes: ANodeEntities,
+    selfLinkAsTarget: true
   }),
   [EntityType.A_MERGE]: new EntityTypeExtendedInfo({
-    label: 'União',
-    props: [],
-    height: 60,
-    width: 60
+    label: 'União (Merge)',
+    props: [EntityProp.TARGETID],
+    height: 130,
+    width: 200,
+    linkableTypes: ANodeEntities,
+    selfLinkAsOrigin: true
   }),
   [EntityType.A_FORK]: new EntityTypeExtendedInfo({
     label: 'Fork',
@@ -96,7 +100,7 @@ export const EntityTypeInfo = {
   }),
   [EntityType.A_ASSOCIATION]: new EntityTypeExtendedInfo({
     label: 'Associação',
-    props: [EntityProp.ORIGINID, EntityProp.TARGETID],
+    props: [EntityProp.TITLE, EntityProp.ORIGINID, EntityProp.TARGETID],
     linkableTypes: ANodeEntities
   }),
   [EntityType.A_EXCEPTION]: new EntityTypeExtendedInfo({

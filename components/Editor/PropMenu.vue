@@ -47,6 +47,7 @@
               v-else-if="EntityPropInfo[prop].type == 'entity'"
               :key="index"
               v-model="values[prop]"
+              :label="EntityPropInfo[prop].label"
               :items="entitiesOptions"
               :autofocus="index == 0"
               @keydown.esc="$emit('update:show', false)"

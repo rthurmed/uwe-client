@@ -80,6 +80,18 @@
           arrow
           with-title
         />
+        <EntityFlowSplit
+          v-else-if="entity.type === EntityType.A_BRANCH"
+          :key="entity.id"
+          :entity-id="entity.id"
+          with-origin
+        />
+        <EntityFlowSplit
+          v-else-if="entity.type === EntityType.A_MERGE"
+          :key="entity.id"
+          :entity-id="entity.id"
+          with-target
+        />
       </template>
     </v-layer>
     <!-- LAYER 3: CURSORS -->
@@ -226,10 +238,7 @@ export default {
       }
     },
     handleDoubleClick (e) {
-      // TODO
-      // Allow to display different properties on the popup menu depending on
-      // the entity type (e.g.: Show title, origin and target for association
-      // and other linking entities)
+      // FIXME: Replace this with second click on current entity
       const id = this.getIdFromEvent(e)
       if (id != null) {
         const entity = Entity.find(id)
