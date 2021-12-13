@@ -51,20 +51,20 @@ export const EntityTypeInfo = {
   [EntityType.A_START]: new EntityTypeExtendedInfo({
     label: 'Início',
     props: [],
-    height: 60,
-    width: 60
+    height: 50,
+    width: 50
   }),
   [EntityType.A_END]: new EntityTypeExtendedInfo({
     label: 'Final',
     props: [],
-    height: 60,
-    width: 60
+    height: 50,
+    width: 50
   }),
   [EntityType.A_END_FLOW]: new EntityTypeExtendedInfo({
     label: 'Final de fluxo',
     props: [],
-    height: 60,
-    width: 60
+    height: 50,
+    width: 50
   }),
   [EntityType.A_BRANCH]: new EntityTypeExtendedInfo({
     label: 'Decisão',
