@@ -80,7 +80,7 @@ export default {
         return '-'
       }
       if (!entity.title) {
-        return `#${id}`
+        return `${EntityTypeInfo[entity.type].label} #${id}`
       }
       return entity.title
     }
