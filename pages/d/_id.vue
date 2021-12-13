@@ -357,6 +357,7 @@ export default {
       return participant.grabbedId
     },
     entityTypes () {
+      if (!this.diagram) { return [] }
       return DiagramTypeInfo[this.diagram.type].entityTypes
     }
   },

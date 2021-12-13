@@ -60,6 +60,10 @@ export default {
       const diffX = this.targetOffset.x - this.originOffset.x
       const diffY = this.targetOffset.y - this.originOffset.y
       return rad2deg(Math.atan2(diffY, diffX))
+    },
+    radius () {
+      if (!this.entity) { return 0 }
+      return Math.min(this.entity.width, this.entity.height) / 2
     }
   },
   methods: {

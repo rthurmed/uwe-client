@@ -53,6 +53,21 @@
           :entity-id="entity.id"
           kind="include"
         />
+        <EntityStartNode
+          v-else-if="entity.type === EntityType.A_START"
+          :key="entity.id"
+          :entity-id="entity.id"
+        />
+        <EntityEndNode
+          v-else-if="entity.type === EntityType.A_END"
+          :key="entity.id"
+          :entity-id="entity.id"
+        />
+        <EntityEndFlowNode
+          v-else-if="entity.type === EntityType.A_END_FLOW"
+          :key="entity.id"
+          :entity-id="entity.id"
+        />
       </template>
     </v-layer>
     <!-- LAYER 3: CURSORS -->

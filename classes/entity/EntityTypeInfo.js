@@ -49,36 +49,50 @@ export const EntityTypeInfo = {
     width: 200
   }),
   [EntityType.A_START]: new EntityTypeExtendedInfo({
-    label: 'Início'
+    label: 'Início',
+    props: [],
+    height: 60,
+    width: 60
   }),
   [EntityType.A_END]: new EntityTypeExtendedInfo({
-    label: 'Final'
+    label: 'Final',
+    props: [],
+    height: 60,
+    width: 60
   }),
   [EntityType.A_END_FLOW]: new EntityTypeExtendedInfo({
-    label: 'Final de fluxo'
+    label: 'Final de fluxo',
+    props: [],
+    height: 60,
+    width: 60
   }),
   [EntityType.A_BRANCH]: new EntityTypeExtendedInfo({
     label: 'Decisão',
+    props: [],
     height: 60,
     width: 60
   }),
   [EntityType.A_MERGE]: new EntityTypeExtendedInfo({
     label: 'União',
+    props: [],
     height: 60,
     width: 60
   }),
   [EntityType.A_FORK]: new EntityTypeExtendedInfo({
     label: 'Fork',
+    props: [],
     height: 200,
     width: 20
   }),
   [EntityType.A_JOIN]: new EntityTypeExtendedInfo({
     label: 'Join',
+    props: [],
     height: 200,
     width: 20
   }),
   [EntityType.A_OBJ]: new EntityTypeExtendedInfo({
-    label: 'Objeto'
+    label: 'Objeto',
+    props: [EntityProp.TITLE]
   }),
   [EntityType.A_ASSOCIATION]: new EntityTypeExtendedInfo({
     label: 'Associação',
