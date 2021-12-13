@@ -1,4 +1,5 @@
 export const EntityType = {
+  // USE CASE types
   // PACKAGE: 10,
   NOTE: 11,
   ACTOR: 12,
@@ -6,5 +7,17 @@ export const EntityType = {
   ASSOCIATION: 14,
   GENERALIZATION: 15,
   EXTEND: 16,
-  INCLUDE: 17
+  INCLUDE: 17,
+  // ACTIVITY types
+  A_ACTION: 100,
+  A_START: 101,
+  A_END: 102,
+  A_END_FLOW: 103,
+  A_BRANCH: 104,
+  A_MERGE: 105,
+  A_FORK: 106,
+  A_JOIN: 107,
+  A_OBJ: 108,
+  A_ASSOCIATION: 109,
+  A_EXCEPTION: 110
 }
