@@ -116,6 +116,7 @@ export const EntityTypeInfo = {
     label: 'Raia',
     props: [EntityProp.TITLE],
     height: 1000,
-    width: 400
+    width: 500,
+    background: true
   })
 }

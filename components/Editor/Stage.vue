@@ -12,10 +12,18 @@
     @wheel="handleMouseWheel"
   >
     <!-- LAYER 1: BACKGROUND -->
-    <!-- TODO? -->
-    <!-- LAYER 2: ENTITIES -->
     <v-layer>
-      <template v-for="entity in entities">
+      <template v-for="entity in backgroundEntities">
+        <EntitySwinlane
+          v-if="entity.type === EntityType.A_SWINLANE"
+          :key="entity.id"
+          :entity-id="entity.id"
+        />
+      </template>
+    </v-layer>
+    <!-- LAYER 2: FOREGROUND -->
+    <v-layer>
+      <template v-for="entity in foregroundEntities">
         <!-- TODO: Improve loading of entity components -->
         <EntityUseCase
           v-if="entity.type === EntityType.USECASE"
@@ -111,11 +119,6 @@
           :key="entity.id"
           :entity-id="entity.id"
         />
-        <EntitySwinlane
-          v-else-if="entity.type === EntityType.A_SWINLANE"
-          :key="entity.id"
-          :entity-id="entity.id"
-        />
       </template>
     </v-layer>
     <!-- LAYER 3: CURSORS -->
@@ -200,6 +203,12 @@ export default {
         .query()
         .where('diagramId', Number(this.$route.params.id))
         .get()
+    },
+    backgroundEntities () {
+      return this.entities.filter(e => EntityTypeInfo[e.type].background)
+    },
+    foregroundEntities () {
+      return this.entities.filter(e => !EntityTypeInfo[e.type].background)
     }
   },
   beforeDestroy () {

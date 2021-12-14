@@ -10,7 +10,8 @@ export class EntityTypeExtendedInfo extends SuplementaryInfo {
     props = [EntityProp.TITLE],
     linkableTypes = [],
     selfLinkAsTarget = false,
-    selfLinkAsOrigin = false
+    selfLinkAsOrigin = false,
+    background = false
   }) {
     super({ label, icon })
     this.height = height
@@ -19,5 +20,6 @@ export class EntityTypeExtendedInfo extends SuplementaryInfo {
     this.linkableTypes = linkableTypes
     this.selfLinkAsTarget = selfLinkAsTarget
     this.selfLinkAsOrigin = selfLinkAsOrigin
+    this.background = background
   }
 }
