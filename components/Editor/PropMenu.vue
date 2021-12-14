@@ -88,9 +88,11 @@
                 v-on="on"
                 @click="executeQuickCreate(type)"
               >
-                <v-icon>
-                  {{ EntityTypeInfo[type].icon }}
-                </v-icon>
+                <v-img
+                  max-width="24"
+                  contain
+                  :src="EntityTypeInfo[type].icon"
+                />
               </v-btn>
             </template>
             <span>

@@ -8,6 +8,7 @@ export const EntityTypeInfo = {
   // USE CASE
   [EntityType.NOTE]: new EntityTypeExtendedInfo({
     label: 'Nota',
+    icon: '/icons/gaphor-comment-symbolic.svg',
     height: 200,
     width: 200,
     props: [EntityProp.TITLE],
@@ -17,6 +18,7 @@ export const EntityTypeInfo = {
   }),
   [EntityType.ACTOR]: new EntityTypeExtendedInfo({
     label: 'Ator',
+    icon: '/icons/gaphor-actor-symbolic.svg',
     props: [EntityProp.TITLE, EntityProp.ABSTRACT],
     quickCreates: {
       [EntityType.ASSOCIATION]: createAsOrigin,
@@ -25,6 +27,7 @@ export const EntityTypeInfo = {
   }),
   [EntityType.USECASE]: new EntityTypeExtendedInfo({
     label: 'Caso de Uso',
+    icon: '/icons/gaphor-use-case-symbolic.svg',
     height: 100,
     width: 200,
     props: [EntityProp.TITLE, EntityProp.ABSTRACT],
@@ -36,27 +39,32 @@ export const EntityTypeInfo = {
   }),
   [EntityType.ASSOCIATION]: new EntityTypeExtendedInfo({
     label: 'Associação',
+    icon: '/icons/gaphor-line-symbolic.svg',
     props: [EntityProp.ORIGINID, EntityProp.TARGETID],
     linkableTypes: UCNodeEntities
   }),
   [EntityType.GENERALIZATION]: new EntityTypeExtendedInfo({
     label: 'Generalização',
+    icon: '/icons/gaphor-generalization-symbolic.svg',
     props: [EntityProp.ORIGINID, EntityProp.TARGETID],
     linkableTypes: UCNodeEntities
   }),
   [EntityType.EXTEND]: new EntityTypeExtendedInfo({
     label: 'Extend',
+    icon: '/icons/gaphor-extend-symbolic.svg',
     props: [EntityProp.ORIGINID, EntityProp.TARGETID],
     linkableTypes: UCNodeEntities
   }),
   [EntityType.INCLUDE]: new EntityTypeExtendedInfo({
     label: 'Include',
+    icon: '/icons/gaphor-include-symbolic.svg',
     props: [EntityProp.ORIGINID, EntityProp.TARGETID],
     linkableTypes: UCNodeEntities
   }),
   // ACTIVITIES
   [EntityType.A_ACTION]: new EntityTypeExtendedInfo({
     label: 'Ação',
+    icon: '/icons/gaphor-action-symbolic.svg',
     props: [EntityProp.TITLE],
     height: 100,
     width: 200,
@@ -67,6 +75,7 @@ export const EntityTypeInfo = {
   }),
   [EntityType.A_START]: new EntityTypeExtendedInfo({
     label: 'Início',
+    icon: '/icons/gaphor-initial-node-symbolic.svg',
     props: [],
     height: 50,
     width: 50,
@@ -78,6 +87,7 @@ export const EntityTypeInfo = {
   }),
   [EntityType.A_END]: new EntityTypeExtendedInfo({
     label: 'Final',
+    icon: '/icons/gaphor-final-state-symbolic.svg',
     props: [],
     height: 50,
     width: 50,
@@ -88,6 +98,7 @@ export const EntityTypeInfo = {
   }),
   [EntityType.A_END_FLOW]: new EntityTypeExtendedInfo({
     label: 'Final de fluxo',
+    icon: '/icons/gaphor-flow-final-node-symbolic.svg',
     props: [],
     height: 50,
     width: 50,
@@ -98,6 +109,7 @@ export const EntityTypeInfo = {
   }),
   [EntityType.A_BRANCH]: new EntityTypeExtendedInfo({
     label: 'Decisão (Branch)',
+    icon: '/icons/gaphor-decision-node-symbolic.svg',
     props: [EntityProp.TITLE, EntityProp.ORIGINID],
     height: 130,
     width: 200,
@@ -109,6 +121,7 @@ export const EntityTypeInfo = {
   }),
   [EntityType.A_MERGE]: new EntityTypeExtendedInfo({
     label: 'União (Merge)',
+    icon: '/icons/gaphor-undeveloped-event-symbolic.svg',
     props: [EntityProp.TARGETID],
     height: 130,
     width: 200,
@@ -120,6 +133,7 @@ export const EntityTypeInfo = {
   }),
   [EntityType.A_FORK]: new EntityTypeExtendedInfo({
     label: 'Fork',
+    icon: '/icons/gaphor-fork-node-symbolic.svg',
     props: [EntityProp.ORIGINID],
     height: 200,
     width: 20,
@@ -131,6 +145,7 @@ export const EntityTypeInfo = {
   }),
   [EntityType.A_JOIN]: new EntityTypeExtendedInfo({
     label: 'Join',
+    icon: '/icons/gaphor-join-node-symbolic.svg',
     props: [EntityProp.TARGETID],
     height: 200,
     width: 20,
@@ -142,6 +157,7 @@ export const EntityTypeInfo = {
   }),
   [EntityType.A_OBJ]: new EntityTypeExtendedInfo({
     label: 'Objeto',
+    icon: '/icons/gaphor-object-node-symbolic.svg',
     props: [EntityProp.TITLE],
     quickCreates: {
       [EntityType.A_ASSOCIATION]: createAsOrigin,
@@ -151,16 +167,19 @@ export const EntityTypeInfo = {
   }),
   [EntityType.A_ASSOCIATION]: new EntityTypeExtendedInfo({
     label: 'Associação',
+    icon: '/icons/gaphor-control-flow-symbolic.svg',
     props: [EntityProp.TITLE, EntityProp.ORIGINID, EntityProp.TARGETID],
     linkableTypes: ANodeEntities
   }),
   [EntityType.A_EXCEPTION]: new EntityTypeExtendedInfo({
     label: 'Exceção',
+    icon: '/icons/gaphor-realization-symbolic.svg',
     props: [EntityProp.TITLE, EntityProp.ORIGINID, EntityProp.TARGETID],
     linkableTypes: ANodeEntities
   }),
   [EntityType.A_SWINLANE]: new EntityTypeExtendedInfo({
     label: 'Raia',
+    icon: '/icons/gaphor-activity-partition-symbolic.svg',
     props: [EntityProp.TITLE],
     height: 1000,
     width: 500,
