@@ -191,9 +191,11 @@
                 @click="createEntity(type)"
               >
                 <v-list-item-icon>
-                  <v-icon>
-                    mdi-earth
-                  </v-icon>
+                  <v-img
+                    max-width="24"
+                    contain
+                    :src="EntityTypeInfo[type].icon"
+                  />
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title>
@@ -214,7 +216,11 @@
             :value="entity.id"
           >
             <v-list-item-icon>
-              <v-icon>mdi-earth</v-icon>
+              <v-img
+                max-width="24"
+                contain
+                :src="EntityTypeInfo[entity.type].icon"
+              />
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title v-if="entity.title">

@@ -8,6 +8,7 @@ export const EntityTypeInfo = {
   // USE CASE
   [EntityType.NOTE]: new EntityTypeExtendedInfo({
     label: 'Nota',
+    icon: '/icons/gaphor-comment-symbolic.svg',
     height: 200,
     width: 200,
     props: [EntityProp.TITLE],
@@ -17,6 +18,7 @@ export const EntityTypeInfo = {
   }),
   [EntityType.ACTOR]: new EntityTypeExtendedInfo({
     label: 'Ator',
+    icon: '/icons/gaphor-actor-symbolic.svg',
     props: [EntityProp.TITLE, EntityProp.ABSTRACT],
     quickCreates: {
       [EntityType.ASSOCIATION]: createAsOrigin,
@@ -25,6 +27,7 @@ export const EntityTypeInfo = {
   }),
   [EntityType.USECASE]: new EntityTypeExtendedInfo({
     label: 'Caso de Uso',
+    icon: '/icons/gaphor-use-case-symbolic.svg',
     height: 100,
     width: 200,
     props: [EntityProp.TITLE, EntityProp.ABSTRACT],
@@ -36,21 +39,25 @@ export const EntityTypeInfo = {
   }),
   [EntityType.ASSOCIATION]: new EntityTypeExtendedInfo({
     label: 'Associação',
+    icon: '/icons/gaphor-line-symbolic.svg',
     props: [EntityProp.ORIGINID, EntityProp.TARGETID],
     linkableTypes: UCNodeEntities
   }),
   [EntityType.GENERALIZATION]: new EntityTypeExtendedInfo({
     label: 'Generalização',
+    icon: '/icons/gaphor-generalization-symbolic.svg',
     props: [EntityProp.ORIGINID, EntityProp.TARGETID],
     linkableTypes: UCNodeEntities
   }),
   [EntityType.EXTEND]: new EntityTypeExtendedInfo({
     label: 'Extend',
+    icon: '/icons/gaphor-extend-symbolic.svg',
     props: [EntityProp.ORIGINID, EntityProp.TARGETID],
     linkableTypes: UCNodeEntities
   }),
   [EntityType.INCLUDE]: new EntityTypeExtendedInfo({
     label: 'Include',
+    icon: '/icons/gaphor-include-symbolic.svg',
     props: [EntityProp.ORIGINID, EntityProp.TARGETID],
     linkableTypes: UCNodeEntities
   }),

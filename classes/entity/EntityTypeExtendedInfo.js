@@ -4,7 +4,7 @@ import { EntityProp } from '~/classes/entity/EntityProp'
 export class EntityTypeExtendedInfo extends SuplementaryInfo {
   constructor ({
     label,
-    icon,
+    icon = '/icons/gaphor-ellipse-symbolic.svg',
     height = 100,
     width = 100,
     props = [EntityProp.TITLE],
