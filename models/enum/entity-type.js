@@ -19,5 +19,6 @@ export const EntityType = {
   A_JOIN: 107,
   A_OBJ: 108,
   A_ASSOCIATION: 109,
-  A_EXCEPTION: 110
+  A_EXCEPTION: 110,
+  A_SWINLANE: 111
 }

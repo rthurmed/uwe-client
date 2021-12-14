@@ -34,12 +34,17 @@ export const ANodeEntities = [
   EntityType.A_OBJ
 ]
 
-export const ALikEntities = [
+export const ALinkEntities = [
   EntityType.A_ASSOCIATION,
   EntityType.A_EXCEPTION
 ]
 
+export const ABackgroundEntities = [
+  EntityType.A_SWINLANE
+]
+
 export const AEntities = [
   ...ANodeEntities,
-  ...ALikEntities
+  ...ALinkEntities,
+  ...ABackgroundEntities
 ]

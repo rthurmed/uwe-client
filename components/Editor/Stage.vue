@@ -111,6 +111,11 @@
           :key="entity.id"
           :entity-id="entity.id"
         />
+        <EntitySwinlane
+          v-else-if="entity.type === EntityType.A_SWINLANE"
+          :key="entity.id"
+          :entity-id="entity.id"
+        />
       </template>
     </v-layer>
     <!-- LAYER 3: CURSORS -->

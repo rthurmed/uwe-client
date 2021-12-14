@@ -111,5 +111,11 @@ export const EntityTypeInfo = {
     label: 'Exceção',
     props: [EntityProp.TITLE, EntityProp.ORIGINID, EntityProp.TARGETID],
     linkableTypes: ANodeEntities
+  }),
+  [EntityType.A_SWINLANE]: new EntityTypeExtendedInfo({
+    label: 'Raia',
+    props: [EntityProp.TITLE],
+    height: 1000,
+    width: 400
   })
 }
