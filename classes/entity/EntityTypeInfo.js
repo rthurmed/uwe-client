@@ -10,17 +10,29 @@ export const EntityTypeInfo = {
     label: 'Nota',
     height: 200,
     width: 200,
-    props: [EntityProp.TITLE]
+    props: [EntityProp.TITLE],
+    quickCreates: {
+      [EntityType.ASSOCIATION]: createAsOrigin
+    }
   }),
   [EntityType.ACTOR]: new EntityTypeExtendedInfo({
     label: 'Ator',
-    props: [EntityProp.TITLE, EntityProp.ABSTRACT]
+    props: [EntityProp.TITLE, EntityProp.ABSTRACT],
+    quickCreates: {
+      [EntityType.ASSOCIATION]: createAsOrigin,
+      [EntityType.GENERALIZATION]: createAsTarget
+    }
   }),
   [EntityType.USECASE]: new EntityTypeExtendedInfo({
     label: 'Caso de Uso',
     height: 100,
     width: 200,
-    props: [EntityProp.TITLE, EntityProp.ABSTRACT]
+    props: [EntityProp.TITLE, EntityProp.ABSTRACT],
+    quickCreates: {
+      [EntityType.ASSOCIATION]: createAsTarget,
+      [EntityType.EXTEND]: createAsOrigin,
+      [EntityType.INCLUDE]: createAsOrigin
+    }
   }),
   [EntityType.ASSOCIATION]: new EntityTypeExtendedInfo({
     label: 'Associação',
