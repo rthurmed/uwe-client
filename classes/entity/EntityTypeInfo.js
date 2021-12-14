@@ -117,6 +117,14 @@ export const EntityTypeInfo = {
     props: [EntityProp.TITLE],
     height: 1000,
     width: 500,
-    background: true
+    background: true,
+    quickCreates: {
+      [EntityType.A_SWINLANE]: entity => ({
+        x: entity.x + entity.width,
+        y: entity.y,
+        width: entity.width,
+        height: entity.height
+      })
+    }
   })
 }

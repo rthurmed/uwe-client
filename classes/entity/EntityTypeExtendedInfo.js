@@ -11,7 +11,8 @@ export class EntityTypeExtendedInfo extends SuplementaryInfo {
     linkableTypes = [],
     selfLinkAsTarget = false,
     selfLinkAsOrigin = false,
-    background = false
+    background = false,
+    quickCreates = {}
   }) {
     super({ label, icon })
     this.height = height
@@ -21,5 +22,6 @@ export class EntityTypeExtendedInfo extends SuplementaryInfo {
     this.selfLinkAsTarget = selfLinkAsTarget
     this.selfLinkAsOrigin = selfLinkAsOrigin
     this.background = background
+    this.quickCreates = quickCreates
   }
 }

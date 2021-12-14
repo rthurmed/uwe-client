@@ -265,8 +265,10 @@
           :show.sync="editMenu.show"
           :entity="editMenu.entity"
           :props="editMenu.props"
+          :quick-creates="editMenu.quickCreates"
           :x="editMenu.x"
           :y="editMenu.y"
+          @create="createEntity"
         />
       </v-col>
     </v-row>
@@ -297,6 +299,7 @@ export default {
         show: false,
         entity: 0,
         props: ['title'],
+        quickCreates: {},
         x: 0,
         y: 0
       },
@@ -402,12 +405,13 @@ export default {
       this.$socket.connect()
       this.$socket.emit('join', this.$route.params.id)
     },
-    createEntity (entityType) {
+    createEntity (entityType, customProps) {
       this.$socket.emit('create', {
         type: entityType,
         diagramId: this.$route.params.id,
         height: EntityTypeInfo[entityType].height,
-        width: EntityTypeInfo[entityType].width
+        width: EntityTypeInfo[entityType].width,
+        ...customProps
       })
 
       // Open entity menu after creating an entity
@@ -420,16 +424,18 @@ export default {
             id: data.id,
             x: left + 16,
             y: top + 16,
-            props: EntityTypeInfo[data.type].props
+            props: EntityTypeInfo[data.type].props,
+            quickCreates: EntityTypeInfo[data.type].quickCreates
           })
 
           Query.off(hookId)
         }
       })
     },
-    openEditMenu ({ id, x, y, props }) {
+    openEditMenu ({ id, x, y, props, quickCreates = {} }) {
       this.editMenu.entity = id
       this.editMenu.props = props
+      this.editMenu.quickCreates = quickCreates
       this.editMenu.x = x
       this.editMenu.y = y
       this.editMenu.show = true
