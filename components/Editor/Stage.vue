@@ -355,7 +355,7 @@ export default {
           mimeType: 'image/png',
           pixelRatio: 2
         })
-      const filename = `Diagrama ${DiagramTypeInfo[this.diagram.type].label} "${this.diagram.name}"`
+      const filename = `${this.diagram.name} - Diagrama de ${DiagramTypeInfo[this.diagram.type].label}`
       download(uri, filename)
     }
   }
