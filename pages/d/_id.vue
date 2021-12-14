@@ -86,7 +86,7 @@
               <v-card-title>
                 Opções de exportação
               </v-card-title>
-              <v-list-item @click="() => {}">
+              <v-list-item @click="$refs.stage.exportAsImage(); editDiagramMenu.show = false">
                 <v-list-item-icon>
                   <v-icon>
                     mdi-image
