@@ -2,6 +2,7 @@ import { EntityType } from '~/models/enum/entity-type'
 import { EntityTypeExtendedInfo } from '~/classes/entity/EntityTypeExtendedInfo'
 import { EntityProp } from '~/classes/entity/EntityProp'
 import { ANodeEntities, UCNodeEntities } from '~/classes/entity/helpers'
+import { createAsTarget, createAsOrigin, createEmpty } from '~/classes/entity/quickCreates'
 
 export const EntityTypeInfo = {
   // USE CASE
@@ -46,25 +47,42 @@ export const EntityTypeInfo = {
     label: 'Ação',
     props: [EntityProp.TITLE],
     height: 100,
-    width: 200
+    width: 200,
+    quickCreates: {
+      [EntityType.A_ASSOCIATION]: createAsOrigin,
+      [EntityType.A_EXCEPTION]: createAsOrigin
+    }
   }),
   [EntityType.A_START]: new EntityTypeExtendedInfo({
     label: 'Início',
     props: [],
     height: 50,
-    width: 50
+    width: 50,
+    quickCreates: {
+      [EntityType.A_ASSOCIATION]: createAsOrigin,
+      [EntityType.A_EXCEPTION]: createAsOrigin,
+      [EntityType.A_ACTION]: createEmpty
+    }
   }),
   [EntityType.A_END]: new EntityTypeExtendedInfo({
     label: 'Final',
     props: [],
     height: 50,
-    width: 50
+    width: 50,
+    quickCreates: {
+      [EntityType.A_ASSOCIATION]: createAsTarget,
+      [EntityType.A_EXCEPTION]: createAsTarget
+    }
   }),
   [EntityType.A_END_FLOW]: new EntityTypeExtendedInfo({
     label: 'Final de fluxo',
     props: [],
     height: 50,
-    width: 50
+    width: 50,
+    quickCreates: {
+      [EntityType.A_ASSOCIATION]: createAsTarget,
+      [EntityType.A_EXCEPTION]: createAsTarget
+    }
   }),
   [EntityType.A_BRANCH]: new EntityTypeExtendedInfo({
     label: 'Decisão (Branch)',
@@ -72,7 +90,10 @@ export const EntityTypeInfo = {
     height: 130,
     width: 200,
     linkableTypes: ANodeEntities,
-    selfLinkAsTarget: true
+    selfLinkAsTarget: true,
+    quickCreates: {
+      [EntityType.A_ASSOCIATION]: createAsOrigin
+    }
   }),
   [EntityType.A_MERGE]: new EntityTypeExtendedInfo({
     label: 'União (Merge)',
@@ -80,7 +101,10 @@ export const EntityTypeInfo = {
     height: 130,
     width: 200,
     linkableTypes: ANodeEntities,
-    selfLinkAsOrigin: true
+    selfLinkAsOrigin: true,
+    quickCreates: {
+      [EntityType.A_ASSOCIATION]: createAsTarget
+    }
   }),
   [EntityType.A_FORK]: new EntityTypeExtendedInfo({
     label: 'Fork',
@@ -88,7 +112,10 @@ export const EntityTypeInfo = {
     height: 200,
     width: 20,
     linkableTypes: ANodeEntities,
-    selfLinkAsTarget: true
+    selfLinkAsTarget: true,
+    quickCreates: {
+      [EntityType.A_ASSOCIATION]: createAsOrigin
+    }
   }),
   [EntityType.A_JOIN]: new EntityTypeExtendedInfo({
     label: 'Join',
@@ -96,11 +123,19 @@ export const EntityTypeInfo = {
     height: 200,
     width: 20,
     linkableTypes: ANodeEntities,
-    selfLinkAsOrigin: true
+    selfLinkAsOrigin: true,
+    quickCreates: {
+      [EntityType.A_ASSOCIATION]: createAsTarget
+    }
   }),
   [EntityType.A_OBJ]: new EntityTypeExtendedInfo({
     label: 'Objeto',
-    props: [EntityProp.TITLE]
+    props: [EntityProp.TITLE],
+    quickCreates: {
+      [EntityType.A_ASSOCIATION]: createAsOrigin,
+      [EntityType.A_EXCEPTION]: createAsOrigin,
+      [EntityType.A_ACTION]: createEmpty
+    }
   }),
   [EntityType.A_ASSOCIATION]: new EntityTypeExtendedInfo({
     label: 'Associação',
@@ -124,6 +159,10 @@ export const EntityTypeInfo = {
         y: entity.y,
         width: entity.width,
         height: entity.height
+      }),
+      [EntityType.A_ACTION]: entity => ({
+        x: entity.x + entity.width / 2,
+        y: entity.y + entity.height * 0.1
       })
     }
   })
