@@ -35,8 +35,8 @@
     <v-text
       v-if="withTitle && entity.title"
       :config="{
-        x: (origin.x + target.x) / 2,
-        y: (origin.y + target.y) / 2,
+        x: (originOffset.x + targetOffset.x) / 2,
+        y: (originOffset.y + targetOffset.y) / 2,
         text: entity.title,
         width: 100,
         fontSize: style.text.size,
