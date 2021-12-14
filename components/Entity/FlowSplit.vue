@@ -56,7 +56,7 @@
     <!-- LABEL -->
     <v-text
       :config="{
-        text: title,
+        text: entity.title,
         width: entity.width,
         height: entity.height,
         fontSize: style.text.size,
