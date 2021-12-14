@@ -291,7 +291,8 @@ export default {
           id,
           x: e.evt.pageX,
           y: e.evt.pageY,
-          props: EntityTypeInfo[entity.type].props
+          props: EntityTypeInfo[entity.type].props,
+          quickCreates: EntityTypeInfo[entity.type].quickCreates
         })
       }
     },

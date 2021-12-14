@@ -24,6 +24,7 @@
           </v-icon>
         </v-btn>
       </v-card-title>
+      <v-divider />
       <v-card-text v-if="props.length > 0">
         <v-form @submit.prevent="submit">
           <template v-for="(prop, index) in props">
@@ -69,6 +70,35 @@
           </v-btn>
         </v-form>
       </v-card-text>
+      <template v-if="Object.keys(quickCreates).length">
+        <v-divider />
+        <v-subheader>
+          Ações rápidas:
+        </v-subheader>
+        <v-toolbar elevation="0">
+          <v-tooltip
+            v-for="type in Object.keys(quickCreates)"
+            :key="type"
+            bottom
+          >
+            <template #activator="{ on, attrs }">
+              <v-btn
+                icon
+                v-bind="attrs"
+                v-on="on"
+                @click="executeQuickCreate(type)"
+              >
+                <v-icon>
+                  {{ EntityTypeInfo[type].icon }}
+                </v-icon>
+              </v-btn>
+            </template>
+            <span>
+              Nova {{ EntityTypeInfo[type].label }}
+            </span>
+          </v-tooltip>
+        </v-toolbar>
+      </template>
     </v-card>
   </v-menu>
 </template>
@@ -92,6 +122,10 @@ export default {
     props: {
       type: Array,
       default: () => ['title']
+    },
+    quickCreates: {
+      type: Object,
+      default: () => {}
     },
     x: {
       type: Number,
@@ -158,6 +192,12 @@ export default {
       })
       this.$socket.emit('patch', entity)
       this.$emit('update:show', false)
+    },
+    executeQuickCreate (type) {
+      if (!(type in this.quickCreates)) {
+        return
+      }
+      this.$emit('create', type, this.quickCreates[type](this.currentEntity))
     }
   }
 }
