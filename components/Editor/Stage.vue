@@ -101,6 +101,11 @@
           :key="entity.id"
           :entity-id="entity.id"
         />
+        <EntityObject
+          v-else-if="entity.type === EntityType.A_OBJ"
+          :key="entity.id"
+          :entity-id="entity.id"
+        />
       </template>
     </v-layer>
     <!-- LAYER 3: CURSORS -->
