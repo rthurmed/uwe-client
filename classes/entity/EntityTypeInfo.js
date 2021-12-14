@@ -64,6 +64,7 @@ export const EntityTypeInfo = {
   // ACTIVITIES
   [EntityType.A_ACTION]: new EntityTypeExtendedInfo({
     label: 'Ação',
+    icon: '/icons/gaphor-action-symbolic.svg',
     props: [EntityProp.TITLE],
     height: 100,
     width: 200,
@@ -74,6 +75,7 @@ export const EntityTypeInfo = {
   }),
   [EntityType.A_START]: new EntityTypeExtendedInfo({
     label: 'Início',
+    icon: '/icons/gaphor-initial-node-symbolic.svg',
     props: [],
     height: 50,
     width: 50,
@@ -85,6 +87,7 @@ export const EntityTypeInfo = {
   }),
   [EntityType.A_END]: new EntityTypeExtendedInfo({
     label: 'Final',
+    icon: '/icons/gaphor-final-state-symbolic.svg',
     props: [],
     height: 50,
     width: 50,
@@ -95,6 +98,7 @@ export const EntityTypeInfo = {
   }),
   [EntityType.A_END_FLOW]: new EntityTypeExtendedInfo({
     label: 'Final de fluxo',
+    icon: '/icons/gaphor-flow-final-node-symbolic.svg',
     props: [],
     height: 50,
     width: 50,
@@ -105,6 +109,7 @@ export const EntityTypeInfo = {
   }),
   [EntityType.A_BRANCH]: new EntityTypeExtendedInfo({
     label: 'Decisão (Branch)',
+    icon: '/icons/gaphor-decision-node-symbolic.svg',
     props: [EntityProp.TITLE, EntityProp.ORIGINID],
     height: 130,
     width: 200,
@@ -116,6 +121,7 @@ export const EntityTypeInfo = {
   }),
   [EntityType.A_MERGE]: new EntityTypeExtendedInfo({
     label: 'União (Merge)',
+    icon: '/icons/gaphor-undeveloped-event-symbolic.svg',
     props: [EntityProp.TARGETID],
     height: 130,
     width: 200,
@@ -127,6 +133,7 @@ export const EntityTypeInfo = {
   }),
   [EntityType.A_FORK]: new EntityTypeExtendedInfo({
     label: 'Fork',
+    icon: '/icons/gaphor-fork-node-symbolic.svg',
     props: [EntityProp.ORIGINID],
     height: 200,
     width: 20,
@@ -138,6 +145,7 @@ export const EntityTypeInfo = {
   }),
   [EntityType.A_JOIN]: new EntityTypeExtendedInfo({
     label: 'Join',
+    icon: '/icons/gaphor-join-node-symbolic.svg',
     props: [EntityProp.TARGETID],
     height: 200,
     width: 20,
@@ -149,6 +157,7 @@ export const EntityTypeInfo = {
   }),
   [EntityType.A_OBJ]: new EntityTypeExtendedInfo({
     label: 'Objeto',
+    icon: '/icons/gaphor-object-node-symbolic.svg',
     props: [EntityProp.TITLE],
     quickCreates: {
       [EntityType.A_ASSOCIATION]: createAsOrigin,
@@ -158,16 +167,19 @@ export const EntityTypeInfo = {
   }),
   [EntityType.A_ASSOCIATION]: new EntityTypeExtendedInfo({
     label: 'Associação',
+    icon: '/icons/gaphor-control-flow-symbolic.svg',
     props: [EntityProp.TITLE, EntityProp.ORIGINID, EntityProp.TARGETID],
     linkableTypes: ANodeEntities
   }),
   [EntityType.A_EXCEPTION]: new EntityTypeExtendedInfo({
     label: 'Exceção',
+    icon: '/icons/gaphor-realization-symbolic.svg',
     props: [EntityProp.TITLE, EntityProp.ORIGINID, EntityProp.TARGETID],
     linkableTypes: ANodeEntities
   }),
   [EntityType.A_SWINLANE]: new EntityTypeExtendedInfo({
     label: 'Raia',
+    icon: '/icons/gaphor-activity-partition-symbolic.svg',
     props: [EntityProp.TITLE],
     height: 1000,
     width: 500,
