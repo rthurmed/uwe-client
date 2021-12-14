@@ -1,9 +1,10 @@
 import { EntityType } from '~/models/enum/entity-type'
 import { EntityTypeExtendedInfo } from '~/classes/entity/EntityTypeExtendedInfo'
 import { EntityProp } from '~/classes/entity/EntityProp'
-import { UCNodeEntities } from '~/classes/entity/helpers'
+import { ANodeEntities, UCNodeEntities } from '~/classes/entity/helpers'
 
 export const EntityTypeInfo = {
+  // USE CASE
   [EntityType.NOTE]: new EntityTypeExtendedInfo({
     label: 'Nota',
     height: 200,
@@ -39,5 +40,83 @@ export const EntityTypeInfo = {
     label: 'Include',
     props: [EntityProp.ORIGINID, EntityProp.TARGETID],
     linkableTypes: UCNodeEntities
+  }),
+  // ACTIVITIES
+  [EntityType.A_ACTION]: new EntityTypeExtendedInfo({
+    label: 'Ação',
+    props: [EntityProp.TITLE],
+    height: 100,
+    width: 200
+  }),
+  [EntityType.A_START]: new EntityTypeExtendedInfo({
+    label: 'Início',
+    props: [],
+    height: 50,
+    width: 50
+  }),
+  [EntityType.A_END]: new EntityTypeExtendedInfo({
+    label: 'Final',
+    props: [],
+    height: 50,
+    width: 50
+  }),
+  [EntityType.A_END_FLOW]: new EntityTypeExtendedInfo({
+    label: 'Final de fluxo',
+    props: [],
+    height: 50,
+    width: 50
+  }),
+  [EntityType.A_BRANCH]: new EntityTypeExtendedInfo({
+    label: 'Decisão (Branch)',
+    props: [EntityProp.TITLE, EntityProp.ORIGINID],
+    height: 130,
+    width: 200,
+    linkableTypes: ANodeEntities,
+    selfLinkAsTarget: true
+  }),
+  [EntityType.A_MERGE]: new EntityTypeExtendedInfo({
+    label: 'União (Merge)',
+    props: [EntityProp.TARGETID],
+    height: 130,
+    width: 200,
+    linkableTypes: ANodeEntities,
+    selfLinkAsOrigin: true
+  }),
+  [EntityType.A_FORK]: new EntityTypeExtendedInfo({
+    label: 'Fork',
+    props: [EntityProp.ORIGINID],
+    height: 200,
+    width: 20,
+    linkableTypes: ANodeEntities,
+    selfLinkAsTarget: true
+  }),
+  [EntityType.A_JOIN]: new EntityTypeExtendedInfo({
+    label: 'Join',
+    props: [EntityProp.TARGETID],
+    height: 200,
+    width: 20,
+    linkableTypes: ANodeEntities,
+    selfLinkAsOrigin: true
+  }),
+  [EntityType.A_OBJ]: new EntityTypeExtendedInfo({
+    label: 'Objeto',
+    props: [EntityProp.TITLE]
+  }),
+  [EntityType.A_ASSOCIATION]: new EntityTypeExtendedInfo({
+    label: 'Associação',
+    props: [EntityProp.TITLE, EntityProp.ORIGINID, EntityProp.TARGETID],
+    linkableTypes: ANodeEntities
+  }),
+  [EntityType.A_EXCEPTION]: new EntityTypeExtendedInfo({
+    label: 'Exceção',
+    props: [EntityProp.TITLE, EntityProp.ORIGINID, EntityProp.TARGETID],
+    linkableTypes: ANodeEntities
+  }),
+  [EntityType.A_SWINLANE]: new EntityTypeExtendedInfo({
+    label: 'Raia',
+    props: [EntityProp.TITLE],
+    height: 1000,
+    width: 500,
+    background: true
   })
 }

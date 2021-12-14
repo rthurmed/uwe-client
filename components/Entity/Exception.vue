@@ -7,18 +7,25 @@
   >
     <v-line
       :config="{
-        points: [
-          originOffset.x,
-          originOffset.y,
-          targetOffset.x,
-          targetOffset.y,
-        ],
+        x: originOffset.x,
+        y: originOffset.y,
+        rotation: angle - 90,
+        points: scalePoints({
+          width: defaultWidth,
+          height: offsetDistance,
+          points: [
+            0, 0,
+            50, 60,
+            -50, 40,
+            0, 100,
+          ]
+        }),
         stroke: stroke,
         strokeWidth: selected ? style.box.selectedStrokeWidth : style.box.strokeWidth
       }"
     />
+    <!-- Arrow -->
     <v-line
-      v-if="arrow"
       :config="{
         points: [
           16, 8,
@@ -33,7 +40,6 @@
       }"
     />
     <v-text
-      v-if="withTitle && entity.title"
       :config="{
         x: (originOffset.x + targetOffset.x) / 2,
         y: (originOffset.y + targetOffset.y) / 2,
@@ -68,14 +74,9 @@ import EntityMixin from '~/mixins/EntityMixin'
 
 export default {
   mixins: [EntityMixin],
-  props: {
-    arrow: {
-      type: Boolean,
-      default: () => false
-    },
-    withTitle: {
-      type: Boolean,
-      default: () => false
+  data () {
+    return {
+      defaultWidth: 60
     }
   }
 }

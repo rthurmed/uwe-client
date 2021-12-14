@@ -2,7 +2,7 @@ import { mapState } from 'vuex'
 import { EntityTypeInfo } from '~/classes/entity/EntityTypeInfo'
 import { Entity } from '~/models/entity'
 import { Participant } from '~/models/participant'
-import { rad2deg } from '~/util/math'
+import { rad2deg, distance } from '~/util/math'
 
 export default {
   props: {
@@ -44,10 +44,12 @@ export default {
     },
     origin () {
       if (!this.entity) { return null }
+      if (EntityTypeInfo[this.entity.type].selfLinkAsOrigin) { return this.entity }
       return Entity.find(this.entity.originId)
     },
     target () {
       if (!this.entity) { return null }
+      if (EntityTypeInfo[this.entity.type].selfLinkAsTarget) { return this.entity }
       return Entity.find(this.entity.targetId)
     },
     originOffset () {
@@ -60,6 +62,16 @@ export default {
       const diffX = this.targetOffset.x - this.originOffset.x
       const diffY = this.targetOffset.y - this.originOffset.y
       return rad2deg(Math.atan2(diffY, diffX))
+    },
+    radius () {
+      if (!this.entity) { return 0 }
+      return Math.min(this.entity.width, this.entity.height) / 2
+    },
+    distance () {
+      return distance(this.origin, this.target)
+    },
+    offsetDistance () {
+      return distance(this.originOffset, this.targetOffset)
     }
   },
   methods: {
@@ -73,6 +85,8 @@ export default {
       if (entity1 == null || entity2 == null) {
         return
       }
+
+      // TODO: Improve the function. Now its producing weird lines
 
       const diffX = entity2.x - entity1.x
       const diffY = entity2.y - entity1.y

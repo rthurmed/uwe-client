@@ -20,8 +20,8 @@
     />
     <v-text
       :config="{
-        x: (origin.x + target.x) / 2,
-        y: (origin.y + target.y) / 2,
+        x: (originOffset.x + targetOffset.x) / 2,
+        y: (originOffset.y + targetOffset.y) / 2,
         text: `<<${kind}>>`,
         width: 100,
         fontSize: style.text.size,

@@ -184,7 +184,7 @@
                 Selecione o tipo da nova entidade:
               </v-subheader>
               <v-list-item
-                v-for="type in EntityType"
+                v-for="type in entityTypes"
                 :key="type"
                 large
                 block
@@ -282,6 +282,7 @@ import { Entity } from '~/models/entity'
 import { EntityType } from '~/models/enum/entity-type'
 import { Participant } from '~/models/participant'
 import { Project } from '~/models/project'
+import { DiagramTypeInfo } from '~/classes/diagram/DiagramTypeInfo'
 
 const PARTICIPANT_OVERFLOW_LIMIT = 3
 
@@ -354,6 +355,10 @@ export default {
         return null
       }
       return participant.grabbedId
+    },
+    entityTypes () {
+      if (!this.diagram) { return [] }
+      return DiagramTypeInfo[this.diagram.type].entityTypes
     }
   },
   watch: {
@@ -444,3 +449,9 @@ export default {
   }
 }
 </script>
+
+<style>
+html {
+  overflow: hidden;
+}
+</style>

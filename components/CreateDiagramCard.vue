@@ -46,8 +46,10 @@
 </template>
 
 <script>
+import { DiagramTypeInfo } from '~/classes/diagram/DiagramTypeInfo'
 import { Diagram } from '~/models/diagram'
-import { DiagramType, DiagramTypeInfo } from '~/models/enum/diagram-type'
+import { DiagramType } from '~/models/enum/diagram-type'
+
 export default {
   props: {
     projectId: {

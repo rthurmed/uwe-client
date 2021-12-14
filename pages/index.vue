@@ -312,10 +312,11 @@
 
 <script>
 import { Diagram } from '~/models/diagram'
-import { DiagramType, DiagramTypeInfo } from '~/models/enum/diagram-type'
+import { DiagramType } from '~/models/enum/diagram-type'
 import { AccessLevel, AccessLevelInfo } from '~/models/enum/access-level'
 import { Permission } from '~/models/permission'
 import { Project } from '~/models/project'
+import { DiagramTypeInfo } from '~/classes/diagram/DiagramTypeInfo'
 
 export default {
   data () {

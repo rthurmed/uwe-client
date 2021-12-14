@@ -11,11 +11,20 @@
     @dragend="handleDragEnd"
     @wheel="handleMouseWheel"
   >
-    <!-- LAYER 1: RELATIONS -->
-    <!-- TODO -->
-    <!-- LAYER 2: ENTITIES -->
+    <!-- LAYER 1: BACKGROUND -->
     <v-layer>
-      <template v-for="entity in entities">
+      <template v-for="entity in backgroundEntities">
+        <EntitySwinlane
+          v-if="entity.type === EntityType.A_SWINLANE"
+          :key="entity.id"
+          :entity-id="entity.id"
+        />
+      </template>
+    </v-layer>
+    <!-- LAYER 2: FOREGROUND -->
+    <v-layer>
+      <template v-for="entity in foregroundEntities">
+        <!-- TODO: Improve loading of entity components -->
         <EntityUseCase
           v-if="entity.type === EntityType.USECASE"
           :key="entity.id"
@@ -53,6 +62,63 @@
           :entity-id="entity.id"
           kind="include"
         />
+        <EntityStartNode
+          v-else-if="entity.type === EntityType.A_START"
+          :key="entity.id"
+          :entity-id="entity.id"
+        />
+        <EntityEndNode
+          v-else-if="entity.type === EntityType.A_END"
+          :key="entity.id"
+          :entity-id="entity.id"
+        />
+        <EntityEndFlowNode
+          v-else-if="entity.type === EntityType.A_END_FLOW"
+          :key="entity.id"
+          :entity-id="entity.id"
+        />
+        <EntityAction
+          v-else-if="entity.type === EntityType.A_ACTION"
+          :key="entity.id"
+          :entity-id="entity.id"
+        />
+        <EntityAssociation
+          v-else-if="entity.type === EntityType.A_ASSOCIATION"
+          :key="entity.id"
+          :entity-id="entity.id"
+          arrow
+          with-title
+        />
+        <EntityFlowSplit
+          v-else-if="entity.type === EntityType.A_BRANCH"
+          :key="entity.id"
+          :entity-id="entity.id"
+        />
+        <EntityFlowSplit
+          v-else-if="entity.type === EntityType.A_MERGE"
+          :key="entity.id"
+          :entity-id="entity.id"
+        />
+        <EntityParallelNode
+          v-else-if="entity.type === EntityType.A_FORK"
+          :key="entity.id"
+          :entity-id="entity.id"
+        />
+        <EntityParallelNode
+          v-else-if="entity.type === EntityType.A_JOIN"
+          :key="entity.id"
+          :entity-id="entity.id"
+        />
+        <EntityObject
+          v-else-if="entity.type === EntityType.A_OBJ"
+          :key="entity.id"
+          :entity-id="entity.id"
+        />
+        <EntityException
+          v-else-if="entity.type === EntityType.A_EXCEPTION"
+          :key="entity.id"
+          :entity-id="entity.id"
+        />
       </template>
     </v-layer>
     <!-- LAYER 3: CURSORS -->
@@ -74,12 +140,23 @@
       </v-group> -->
     </v-layer>
     <!-- LAYER 4: DEBUG -->
-    <v-layer v-if="false">
+    <v-layer v-if="debug">
       <!-- ROOT -->
       <v-circle
         :config="{
           x: 0,
           y: 0,
+          radius: 4,
+          stroke: 'blue'
+        }"
+      />
+      <!-- ENTITIES -->
+      <v-circle
+        v-for="entity in entities"
+        :key="entity.id"
+        :config="{
+          x: entity.x,
+          y: entity.y,
           radius: 4,
           stroke: 'blue'
         }"
@@ -121,7 +198,8 @@ export default {
       updateRate: 300,
       syncIntervalId: null,
       EntityType,
-      EntityTypeInfo
+      EntityTypeInfo,
+      debug: false
     }
   },
   computed: {
@@ -137,6 +215,12 @@ export default {
         .query()
         .where('diagramId', Number(this.$route.params.id))
         .get()
+    },
+    backgroundEntities () {
+      return this.entities.filter(e => EntityTypeInfo[e.type].background)
+    },
+    foregroundEntities () {
+      return this.entities.filter(e => !EntityTypeInfo[e.type].background)
     }
   },
   beforeDestroy () {
@@ -199,10 +283,7 @@ export default {
       }
     },
     handleDoubleClick (e) {
-      // TODO
-      // Allow to display different properties on the popup menu depending on
-      // the entity type (e.g.: Show title, origin and target for association
-      // and other linking entities)
+      // FIXME: Replace this with second click on current entity
       const id = this.getIdFromEvent(e)
       if (id != null) {
         const entity = Entity.find(id)
