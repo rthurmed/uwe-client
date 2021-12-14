@@ -76,7 +76,6 @@
           Ações rápidas:
         </v-subheader>
         <v-toolbar elevation="0">
-          <!-- TODO: Delete action -->
           <v-tooltip
             v-for="type in Object.keys(quickCreates)"
             :key="type"
