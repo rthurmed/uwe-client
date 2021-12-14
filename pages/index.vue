@@ -207,19 +207,7 @@
                         <v-subheader>
                           Gerenciar diagrama
                         </v-subheader>
-                        <v-list-item @click="() => {}">
-                          <v-list-item-icon>
-                            <v-icon>
-                              mdi-image
-                            </v-icon>
-                          </v-list-item-icon>
-                          <v-list-item-content>
-                            <v-list-item-title>
-                              Exportar como imagem
-                            </v-list-item-title>
-                          </v-list-item-content>
-                        </v-list-item>
-                        <v-list-item @click="() => {}">
+                        <v-list-item disabled @click="() => {}">
                           <v-list-item-icon>
                             <v-icon>
                               mdi-file-download

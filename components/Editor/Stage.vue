@@ -1,6 +1,7 @@
 <template>
   <!-- TODO: Add a grid background -->
   <v-stage
+    id="stage"
     ref="stage"
     class="fill-height"
     :config="stageConfig"
@@ -171,6 +172,9 @@ import { Entity } from '~/models/entity'
 import { Participant } from '~/models/participant'
 import { EntityType } from '~/models/enum/entity-type'
 import { EntityTypeInfo } from '~/classes/entity/EntityTypeInfo'
+import { download } from '~/util/file'
+import { Diagram } from '~/models/diagram'
+import { DiagramTypeInfo } from '~/classes/diagram/DiagramTypeInfo'
 
 export default {
   props: {
@@ -204,6 +208,9 @@ export default {
   },
   computed: {
     ...mapState(['style']),
+    diagram () {
+      return Diagram.find(this.diagramId)
+    },
     participants () {
       return Participant
         .query()
@@ -340,6 +347,16 @@ export default {
       }
 
       stage.position(newPos)
+    },
+    exportAsImage () {
+      const uri = this.$refs.stage
+        .getNode()
+        .toDataURL({
+          mimeType: 'image/png',
+          pixelRatio: 2
+        })
+      const filename = `${this.diagram.name} - Diagrama de ${DiagramTypeInfo[this.diagram.type].label}`
+      download(uri, filename)
     }
   }
 }

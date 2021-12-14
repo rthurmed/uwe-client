@@ -10,6 +10,7 @@
       <v-list-item>
         <v-file-input
           solo
+          disabled
           prepend-icon=""
           prepend-inner-icon="mdi-upload"
           placeholder=""
