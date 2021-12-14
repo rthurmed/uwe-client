@@ -2,7 +2,7 @@ import { mapState } from 'vuex'
 import { EntityTypeInfo } from '~/classes/entity/EntityTypeInfo'
 import { Entity } from '~/models/entity'
 import { Participant } from '~/models/participant'
-import { rad2deg } from '~/util/math'
+import { rad2deg, distance } from '~/util/math'
 
 export default {
   props: {
@@ -66,6 +66,12 @@ export default {
     radius () {
       if (!this.entity) { return 0 }
       return Math.min(this.entity.width, this.entity.height) / 2
+    },
+    distance () {
+      return distance(this.origin, this.target)
+    },
+    offsetDistance () {
+      return distance(this.originOffset, this.targetOffset)
     }
   },
   methods: {

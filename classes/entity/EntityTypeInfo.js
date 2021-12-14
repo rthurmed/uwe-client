@@ -109,7 +109,7 @@ export const EntityTypeInfo = {
   }),
   [EntityType.A_EXCEPTION]: new EntityTypeExtendedInfo({
     label: 'Exceção',
-    props: [EntityProp.ORIGINID, EntityProp.TARGETID],
+    props: [EntityProp.TITLE, EntityProp.ORIGINID, EntityProp.TARGETID],
     linkableTypes: ANodeEntities
   })
 }
