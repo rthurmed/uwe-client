@@ -140,12 +140,23 @@
       </v-group> -->
     </v-layer>
     <!-- LAYER 4: DEBUG -->
-    <v-layer v-if="false">
+    <v-layer v-if="debug">
       <!-- ROOT -->
       <v-circle
         :config="{
           x: 0,
           y: 0,
+          radius: 4,
+          stroke: 'blue'
+        }"
+      />
+      <!-- ENTITIES -->
+      <v-circle
+        v-for="entity in entities"
+        :key="entity.id"
+        :config="{
+          x: entity.x,
+          y: entity.y,
           radius: 4,
           stroke: 'blue'
         }"
@@ -187,7 +198,8 @@ export default {
       updateRate: 300,
       syncIntervalId: null,
       EntityType,
-      EntityTypeInfo
+      EntityTypeInfo,
+      debug: false
     }
   },
   computed: {
