@@ -1,7 +1,6 @@
 <template>
   <div class="fill-height">
     <!-- CUSTOM APP BAR -->
-    <!-- TODO: Implement diagram edit button -->
     <v-app-bar clipped-left clipped-right fixed app>
       <v-row>
         <v-col cols="2">
@@ -165,7 +164,6 @@
         </v-subheader>
         <v-list-item class="pb-3">
           <!-- NEW ENTITY MENU -->
-          <!-- TODO: Add nice icons -->
           <v-menu offset-y>
             <template #activator="{ on, attrs }">
               <v-btn

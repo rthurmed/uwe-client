@@ -89,8 +89,6 @@ export default {
     return {
       EntityTypeInfo,
       EntityPropInfo,
-      // TODO: Make immutable based on entity type
-      // TODO: Allow types to define which type can be connected as origin and target
       entityProps: [
         EntityProp.ID,
         EntityProp.TYPE,
