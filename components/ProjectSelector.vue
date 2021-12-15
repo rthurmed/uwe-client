@@ -21,13 +21,20 @@
     >
       <v-col cols="12" sm="10" md="8" lg="6" xl="4">
         <v-text-field
+          v-model="query"
           solo
           full-width
-          hide-details
           autofocus
           prepend-inner-icon="mdi-magnify"
           label="Insira o nome de um projeto para pesquisar"
+          hint="Insira ao menos 2 caracteres. Aperte enter para selecionar"
+          @input="(e) => {
+            if (e.length > 1) {
+              loadProjects()
+            }
+          }"
           @keydown.esc="showingSearch = false"
+          @keydown.enter="selectFirst(); showingSearch = false"
         />
       </v-col>
     </v-row>
@@ -36,7 +43,7 @@
         <v-container class="d-flex justify-center flex-wrap">
           <v-menu
             v-for="project in projects"
-            :key="project.id"
+            :key="`project-${project.id}`"
             v-model="showingMenuProjects[project.id]"
             offset-y
             :close-on-content-click="false"
@@ -113,7 +120,8 @@ export default {
       showingMenuProjects: {},
       showingMenuCreateProject: false,
       showingSearch: false,
-      AccessLevel
+      AccessLevel,
+      query: ''
     }
   },
   computed: {
@@ -131,11 +139,24 @@ export default {
     },
     projects () {
       return this.allProjects
-        .filter(project => project.isAllowed(this.$auth.user.sub, [
-          AccessLevel.READ,
-          AccessLevel.WRITE,
-          AccessLevel.OWNER
-        ]))
+        .filter(project => (
+          project.isAllowed(this.$auth.user.sub, [
+            AccessLevel.READ,
+            AccessLevel.WRITE,
+            AccessLevel.OWNER
+          ]) &&
+          (
+            !this.showingSearch ||
+            project.name.includes(this.query)
+          )
+        ))
+    }
+  },
+  watch: {
+    showingSearch (value) {
+      if (!value) {
+        this.query = ''
+      }
     }
   },
   created () {
@@ -148,14 +169,28 @@ export default {
         dataKey: 'items'
       })
       .then(() => {
-        if (this.projects.length > 0) {
-          this.$emit('input', this.projects[0].id)
-        }
+        this.selectFirst()
       })
   },
   methods: {
     showCreate () {
       this.showingMenuCreateProject = true
+    },
+    selectFirst () {
+      if (this.projects.length > 0) {
+        this.$emit('input', this.projects[0].id)
+      }
+    },
+    loadProjects () {
+      Project
+        .api()
+        .get(Project.entity, {
+          query: {
+            limit: PROJECT_COUNT_SEARCH,
+            name: this.query
+          },
+          dataKey: 'items'
+        })
     }
   }
 }
