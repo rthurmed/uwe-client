@@ -26,6 +26,7 @@ export class Project extends Base {
       .query()
       .where('projectId', this.id)
       .where('userId', userId)
+      .where('accepted', true)
       .where('level', a => levels.includes(a))
       .count()
   }

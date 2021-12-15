@@ -1,79 +1,18 @@
 <template>
   <v-row>
     <v-col cols="12">
-      <v-container>
-        <!-- Project selector -->
-        <v-system-bar class="mb-2" color="transparent">
-          <span>
-            Projetos recentes
-          </span>
-          <TextSeparator />
-          <a href="#">
-            Pesquisar projeto
-          </a>
-        </v-system-bar>
-        <v-container class="d-flex justify-center">
-          <v-menu
-            v-for="project in projects"
-            :key="project.id"
-            v-model="showingMenuProjects[project.id]"
-            offset-y
-            :close-on-content-click="false"
-          >
-            <template #activator="{ on, attrs }">
-              <AvatarCard
-                :title="project.name"
-                :highlight="project.id === selected"
-                v-bind="attrs"
-                v-on="(
-                  project.isAllowed($auth.user.sub, [AccessLevel.OWNER]) &&
-                  project.id === selected
-                ) ? on : null"
-                @click="() => selected = project.id"
-              >
-                <v-icon size="32">
-                  mdi-notebook
-                </v-icon>
-              </AvatarCard>
-            </template>
-            <UpdateProjectCard
-              :entity-id="project.id"
-              @response="showingMenuProjects[project.id] = false"
-            />
-          </v-menu>
-          <v-menu
-            v-model="showingMenuCreateProject"
-            offset-y
-            :close-on-content-click="false"
-          >
-            <template #activator="{ on, attrs }">
-              <AvatarCard
-                title="Criar Projeto"
-                v-bind="attrs"
-                v-on="on"
-              >
-                <v-icon>
-                  mdi-plus
-                </v-icon>
-              </AvatarCard>
-            </template>
-            <CreateProjectCard
-              @created="response => {
-                showingMenuCreateProject = false
-                selected = response.data.id
-              }"
-            />
-          </v-menu>
-        </v-container>
-      </v-container>
+      <ProjectSelector
+        ref="projectSelector"
+        v-model="selected"
+      />
       <v-divider />
       <v-container v-if="focusedProject == null" class="text-center">
-        <p v-if="projects.length > 0">
+        <p v-if="hasProjects">
           Para ver as informações de um projeto existente ou criar um novo, selecione uma opção acima.
         </p>
         <p v-else>
           Você ainda não tem nenhum projeto.
-          <a href="#" @click="showingMenuCreateProject = true">Crie um novo projeto.</a>
+          <a href="#" @click="$refs.projectSelector.showCreate()">Crie um novo projeto.</a>
         </p>
       </v-container>
       <v-container v-else>
@@ -309,22 +248,18 @@ import { DiagramTypeInfo } from '~/classes/diagram/DiagramTypeInfo'
 export default {
   data () {
     return {
-      selected: null,
+      selected: 0,
       AccessLevel,
       DiagramType,
       AccessLevelInfo,
       DiagramTypeInfo,
-      showingMenuProjects: {},
-      showingMenuCreateProject: false,
       showingMenuCreateDiagram: false,
       showingMenuCreateInvite: false
     }
   },
   computed: {
-    projects () {
-      // FIXME: Projects withou permission are being displayed after loading
-      // invites screen
-      return Project.query().orderBy('id').get()
+    hasProjects () {
+      return Project.query().count() > 0
     },
     focusedProject () {
       return Project.find(this.selected)
@@ -345,21 +280,6 @@ export default {
         Project.api().get(`${Project.entity}/${value}`)
       }
     }
-  },
-  created () {
-    Project.api().get(Project.entity, {
-      params: {
-        limit: 6 // Max amount of projects to display
-        // To see more you must search
-      },
-      dataKey: 'items'
-    })
-      .then(({ entities }) => {
-        // Select first project if possible
-        if (Project.entity in entities && entities[Project.entity].length > 0) {
-          this.selected = entities[Project.entity][0].id
-        }
-      })
   },
   methods: {
     createDiagram (type) {
