@@ -316,6 +316,15 @@ export default {
       showingInviteMenu: false
     }
   },
+  head () {
+    let title = 'Carregando diagrama...'
+    if (this.diagram) {
+      title = this.diagram.name
+    }
+    return {
+      title
+    }
+  },
   computed: {
     ...mapState(['currentParticipant']),
     diagram () {

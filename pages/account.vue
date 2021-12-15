@@ -49,6 +49,11 @@
 import { Permission } from '~/models/permission'
 import { Project } from '~/models/project'
 export default {
+  head () {
+    return {
+      title: 'Seu perfil'
+    }
+  },
   computed: {
     invites () {
       return Permission

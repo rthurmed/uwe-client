@@ -257,6 +257,11 @@ export default {
       showingMenuCreateInvite: false
     }
   },
+  head () {
+    return {
+      title: 'Seus projetos'
+    }
+  },
   computed: {
     hasProjects () {
       return Project.query().count() > 0
