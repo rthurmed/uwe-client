@@ -15,13 +15,12 @@
           <a href="#" @click="$auth.logout()">Deslogar</a>
           <br>
           <a :href="$root.context.env.keycloakAccountURL" target="_blank">Editar dados</a>
-          <br>
-          <span class="text--disabled">Remover minha conta</span>
+          <!-- <br>
+          <span class="text--disabled">Remover minha conta</span> -->
         </p>
       </v-col>
       <v-col cols="12" sm="7" lg="5">
         <!-- Invites -->
-        <!-- TODO -->
         <v-card>
           <v-card-title class="justify-center">
             Convites pendentes
