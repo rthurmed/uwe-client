@@ -21,9 +21,9 @@
         </a>
       </v-list-item-subtitle>
     </v-list-item-content>
-    <v-list-item-avatar>
+    <!-- <v-list-item-avatar>
       <v-avatar color="grey" />
-    </v-list-item-avatar>
+    </v-list-item-avatar> -->
   </v-list-item>
 </template>
 

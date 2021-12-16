@@ -5,16 +5,21 @@
     </v-system-bar>
     <v-row justify="center">
       <v-col cols="12" sm="5" lg="3" class="text-center">
-        <v-avatar size="192" color="grey darken-2" class="mb-3" />
-        <p>
+        <!-- <v-avatar size="192" color="grey darken-2" class="mb-3" /> -->
+        <h1>
           {{ $auth.user.name }}
-          <br>
+        </h1>
+        <p>
           {{ $auth.user.email }}
         </p>
         <p>
-          <a href="#" @click="$auth.logout()">Deslogar</a>
+          <a href="#" @click="$auth.logout()">
+            Deslogar
+          </a>
           <br>
-          <a :href="$root.context.env.keycloakAccountURL" target="_blank">Editar dados</a>
+          <a :href="$root.context.env.keycloakAccountURL" target="_blank">
+            Editar dados
+          </a>
           <!-- <br>
           <span class="text--disabled">Remover minha conta</span> -->
         </p>

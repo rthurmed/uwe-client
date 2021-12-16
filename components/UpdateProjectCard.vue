@@ -8,13 +8,14 @@
       </a>
     </v-system-bar>
     <v-form @submit.prevent="submit">
-      <v-card-text class="text-center">
+      <!-- <v-card-text class="text-center">
         <v-avatar size="128" color="grey" />
-      </v-card-text>
+      </v-card-text> -->
       <v-list-item>
         <v-text-field
           v-model="project.name"
           label="Nome"
+          autofocus
         />
       </v-list-item>
       <v-card-actions>
