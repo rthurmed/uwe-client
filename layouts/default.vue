@@ -18,9 +18,23 @@
         </v-col>
         <v-col cols="2" class="d-flex justify-end">
           <!-- right side -->
-          <v-btn icon to="/account">
-            <v-avatar color="primary" />
-          </v-btn>
+          <v-tooltip bottom>
+            <template #activator="{ on, attrs }">
+              <v-btn
+                icon
+                to="/account"
+                v-bind="attrs"
+                v-on="on"
+              >
+                <v-icon>
+                  mdi-account
+                </v-icon>
+              </v-btn>
+            </template>
+            <span>
+              Seu perfil
+            </span>
+          </v-tooltip>
         </v-col>
       </v-row>
     </v-app-bar>

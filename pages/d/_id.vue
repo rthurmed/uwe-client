@@ -113,9 +113,27 @@
           </v-menu>
         </v-col>
         <v-col cols="2" class="d-flex justify-end">
-          <v-btn icon to="/account">
-            <v-avatar color="primary" />
-          </v-btn>
+          <v-tooltip
+            v-if="myParticipant"
+            bottom
+          >
+            <template #activator="{ on, attrs }">
+              <v-btn
+                icon
+                to="/account"
+                :color="$color(myParticipant.id)"
+                v-bind="attrs"
+                v-on="on"
+              >
+                <v-icon>
+                  mdi-account
+                </v-icon>
+              </v-btn>
+            </template>
+            <span>
+              Seu perfil
+            </span>
+          </v-tooltip>
         </v-col>
       </v-row>
     </v-app-bar>
@@ -362,15 +380,14 @@ export default {
         .where('diagramId', Number(this.$route.params.id))
         .get()
     },
+    myParticipant () {
+      return Participant.find(this.currentParticipant)
+    },
     grabbedId () {
-      const participant = Participant
-        .query()
-        .where('id', this.currentParticipant)
-        .first()
-      if (!participant) {
+      if (!this.myParticipant) {
         return null
       }
-      return participant.grabbedId
+      return this.myParticipant.grabbedId
     },
     entityTypes () {
       if (!this.diagram) { return [] }
