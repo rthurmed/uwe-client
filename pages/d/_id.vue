@@ -97,7 +97,7 @@
                   </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item @click="() => {}">
+              <!-- <v-list-item @click="() => {}">
                 <v-list-item-icon>
                   <v-icon>
                     mdi-file-download
@@ -108,7 +108,7 @@
                     Exportar como arquivo
                   </v-list-item-title>
                 </v-list-item-content>
-              </v-list-item>
+              </v-list-item> -->
             </v-card>
           </v-menu>
         </v-col>

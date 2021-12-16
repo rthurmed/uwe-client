@@ -142,11 +142,11 @@
                           </v-icon>
                         </v-btn>
                       </template>
-                      <v-list subheader>
+                      <v-list subheader width="240">
                         <v-subheader>
                           Gerenciar diagrama
                         </v-subheader>
-                        <v-list-item disabled @click="() => {}">
+                        <!-- <v-list-item disabled @click="() => {}">
                           <v-list-item-icon>
                             <v-icon>
                               mdi-file-download
@@ -157,7 +157,7 @@
                               Exportar como arquivo
                             </v-list-item-title>
                           </v-list-item-content>
-                        </v-list-item>
+                        </v-list-item> -->
                         <v-list-item @click="removeDiagram(diagram.id)">
                           <v-list-item-icon>
                             <v-icon>
