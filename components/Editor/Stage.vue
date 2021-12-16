@@ -124,25 +124,7 @@
         />
       </template>
     </v-layer>
-    <!-- LAYER 3: CURSORS -->
-    <v-layer>
-      <!-- TODO?: animate this -->
-      <!-- <v-group
-        v-for="participant in participants"
-        :key="participant.id"
-        :config="{
-          x: participant.x,
-          y: participant.y,
-        }"
-      >
-        <v-text
-          :config="{
-            text: participant.userId,
-          }"
-        />
-      </v-group> -->
-    </v-layer>
-    <!-- LAYER 4: DEBUG -->
+    <!-- LAYER 3: DEBUG -->
     <v-layer v-if="debug">
       <!-- ROOT -->
       <v-circle
@@ -201,7 +183,7 @@ export default {
         x: 0,
         y: 0
       },
-      updateRate: 300,
+      updateRate: 1000,
       syncIntervalId: null,
       EntityType,
       EntityTypeInfo,
@@ -242,13 +224,7 @@ export default {
   },
   methods: {
     sync () {
-      if (this.$socket.disconnected) {
-        return
-      }
-      this.commitEntityMovement()
       this.resize()
-      // FIXME: Temporarily disabled mouse move
-      // this.$socket.emit('move', this.mouse)
     },
     commitEntityMovement () {
       if (this.currentEntity.id == null) {
