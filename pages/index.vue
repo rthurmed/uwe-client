@@ -49,6 +49,7 @@
                   </v-col>
                   <v-col cols="3" class="d-flex justify-end">
                     <v-menu
+                      v-if="isProjectOwner"
                       v-model="showingMenuCreateDiagram"
                       left
                       min-width="300"
@@ -197,6 +198,7 @@
                   </v-col>
                   <v-col cols="3" class="d-flex justify-end">
                     <v-menu
+                      v-if="isProjectOwner"
                       v-model="showingMenuCreateInvite"
                       left
                       :close-on-content-click="false"
