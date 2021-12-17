@@ -47,6 +47,7 @@
         y: entity.height - 5,
         width: entity.width,
         fontSize: style.text.size,
+        fontStyle: entity.abstract ? 'italic' : 'normal',
         align: 'center'
       }"
     />

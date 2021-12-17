@@ -26,6 +26,7 @@
         height: entity.height,
         text: title,
         fontSize: style.text.size,
+        fontStyle: entity.abstract ? 'italic' : 'normal',
         align: 'center',
         verticalAlign: 'middle'
       }"
