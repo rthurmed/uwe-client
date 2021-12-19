@@ -4,7 +4,7 @@
     v-on="$listeners"
   >
     <v-list subheader>
-      <v-subheader class="justify-center">
+      <!-- <v-subheader class="justify-center">
         Importar diagrama
       </v-subheader>
       <v-list-item>
@@ -22,7 +22,7 @@
           </template>
         </v-file-input>
       </v-list-item>
-      <v-divider />
+      <v-divider /> -->
       <v-subheader class="justify-center">
         Criar novo diagrama
       </v-subheader>
