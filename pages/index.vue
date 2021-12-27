@@ -57,6 +57,7 @@
                     >
                       <template #activator="{ on, attrs }">
                         <v-btn
+                          id="create-diagram-button"
                           icon
                           v-bind="attrs"
                           v-on="on"
@@ -111,6 +112,7 @@
                   v-for="diagram in diagrams"
                   :key="diagram.id"
                   :to="`d/${diagram.id}`"
+                  class="diagram-list-item"
                 >
                   <v-list-item-avatar color="grey darken-2">
                     <v-icon color="white">
@@ -134,6 +136,7 @@
                       <template #activator="{ on, attrs }">
                         <v-btn
                           icon
+                          class="diagram-menu"
                           v-bind="attrs"
                           v-on="on"
                           @click.prevent="() => {}"
@@ -159,7 +162,10 @@
                             </v-list-item-title>
                           </v-list-item-content>
                         </v-list-item> -->
-                        <v-list-item @click="removeDiagram(diagram.id)">
+                        <v-list-item
+                          class="diagram-menu-remove"
+                          @click="removeDiagram(diagram.id)"
+                        >
                           <v-list-item-icon>
                             <v-icon>
                               mdi-delete
