@@ -10,6 +10,7 @@
             </v-icon>
           </v-btn>
           <!-- INVITE USER FAB -->
+          <!-- TODO: hide if not project owner -->
           <v-menu
             v-if="project !== null"
             v-model="showingInviteMenu"

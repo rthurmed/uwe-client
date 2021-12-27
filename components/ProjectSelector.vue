@@ -50,6 +50,7 @@
           >
             <template #activator="{ on, attrs }">
               <AvatarCard
+                class="avatar-card-project"
                 :title="project.name"
                 :highlight="project.id === value"
                 v-bind="attrs"
@@ -79,6 +80,7 @@
           >
             <template #activator="{ on, attrs }">
               <AvatarCard
+                id="menu-create-project"
                 title="Criar Projeto"
                 v-bind="attrs"
                 v-on="on"
