@@ -212,6 +212,7 @@
                     >
                       <template #activator="{ on, attrs }">
                         <v-btn
+                          id="create-invite-button"
                           icon
                           v-bind="attrs"
                           v-on="on"
@@ -235,6 +236,7 @@
                   v-for="permission in permissions"
                   :key="permission.id"
                   :permission-id="permission.id"
+                  class="members-list-item"
                 />
               </v-list>
             </v-card>
