@@ -6,18 +6,26 @@
     <v-row justify="center">
       <v-col cols="12" sm="5" lg="3" class="text-center">
         <!-- <v-avatar size="192" color="grey darken-2" class="mb-3" /> -->
-        <h1>
+        <h1 id="account-name">
           {{ $auth.user.name }}
         </h1>
-        <p>
+        <p id="account-email">
           {{ $auth.user.email }}
         </p>
         <p>
-          <a href="#" @click="$auth.logout()">
+          <a
+            id="logout"
+            href="#"
+            @click="$auth.logout()"
+          >
             Deslogar
           </a>
           <br>
-          <a :href="$root.context.env.keycloakAccountURL" target="_blank">
+          <a
+            id="edit-account"
+            :href="$root.context.env.keycloakAccountURL"
+            target="_blank"
+          >
             Editar dados
           </a>
           <!-- <br>
@@ -39,6 +47,7 @@
               <InviteListItem
                 :key="invite.id"
                 :invite-id="invite.id"
+                class="invite-item"
               />
               <v-divider :key="`${invite.id}-divider`" />
             </template>
