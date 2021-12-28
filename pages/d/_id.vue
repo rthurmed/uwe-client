@@ -43,6 +43,7 @@
           >
             <template #activator="{ on, attrs }">
               <v-btn
+                id="diagrammenu-button"
                 large
                 depressed
                 :loading="project == null || diagram == null"
@@ -59,6 +60,7 @@
                 Editar diagrama
                 <v-spacer />
                 <v-btn
+                  id="diagrammenu-close"
                   icon
                   small
                   @click="editDiagramMenu.show = false"
@@ -71,10 +73,12 @@
               <v-card-text>
                 <v-form @submit.prevent="submitEditDiagram">
                   <v-text-field
+                    id="diagrammenu-name"
                     v-model="editDiagramMenu.name"
                     label="Nome"
                   />
                   <v-btn
+                    id="diagrammenu-submit"
                     type="submit"
                     block
                   >
@@ -86,7 +90,10 @@
               <v-card-title>
                 Opções de exportação
               </v-card-title>
-              <v-list-item @click="$refs.stage.exportAsImage(); editDiagramMenu.show = false">
+              <v-list-item
+                id="diagrammenu-export"
+                @click="$refs.stage.exportAsImage(); editDiagramMenu.show = false"
+              >
                 <v-list-item-icon>
                   <v-icon>
                     mdi-image
