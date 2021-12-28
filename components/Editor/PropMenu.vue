@@ -15,6 +15,7 @@
         </span>
         <v-spacer />
         <v-btn
+          id="propmenu-close"
           icon
           small
           @click="$emit('update:show', false)"
@@ -30,6 +31,7 @@
           <template v-for="(prop, index) in props">
             <v-switch
               v-if="EntityPropInfo[prop].type == 'bool'"
+              :id="`propmenu-edit-${prop}`"
               :key="index"
               v-model="values[prop]"
               :label="`${EntityPropInfo[prop].label}: ${$options.filters.boolyn(values[prop])}`"
@@ -37,6 +39,7 @@
             />
             <v-text-field
               v-else-if="EntityPropInfo[prop].type == 'number'"
+              :id="`propmenu-edit-${prop}`"
               :key="index"
               v-model="values[prop]"
               :label="EntityPropInfo[prop].label"
@@ -46,6 +49,7 @@
             />
             <v-autocomplete
               v-else-if="EntityPropInfo[prop].type == 'entity'"
+              :id="`propmenu-edit-${prop}`"
               :key="index"
               v-model="values[prop]"
               :label="EntityPropInfo[prop].label"
@@ -55,6 +59,7 @@
             />
             <v-text-field
               v-else
+              :id="`propmenu-edit-${prop}`"
               :key="index"
               v-model="values[prop]"
               :label="EntityPropInfo[prop].label"
@@ -63,6 +68,7 @@
             />
           </template>
           <v-btn
+            id="propmenu-submit"
             block
             type="submit"
           >

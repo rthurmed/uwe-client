@@ -186,6 +186,7 @@
           <v-menu offset-y>
             <template #activator="{ on, attrs }">
               <v-btn
+                id="create-entity-button"
                 block
                 v-bind="attrs"
                 v-on="on"
@@ -202,7 +203,9 @@
               </v-subheader>
               <v-list-item
                 v-for="type in entityTypes"
+                :id="`create-entity-option-${type}`"
                 :key="type"
+                class="create-entity-option"
                 large
                 block
                 @click="createEntity(type)"
@@ -229,7 +232,9 @@
         >
           <v-list-item
             v-for="(entity, key) in entities"
+            :id="`entity-item-${entity.id}`"
             :key="key"
+            class="entity-item"
             :value="entity.id"
           >
             <v-list-item-icon>

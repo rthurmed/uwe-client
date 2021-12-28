@@ -18,6 +18,7 @@
         />
         <v-list-item
           v-else
+          :id="`inspect-edit-${prop}`"
           :key="key"
           :disabled="EntityPropInfo[prop].immutable"
           @click="(e) => handlePropClick(e, prop)"
@@ -26,7 +27,7 @@
             <v-list-item-subtitle>
               {{ EntityPropInfo[prop].label }}
             </v-list-item-subtitle>
-            <v-list-item-title>
+            <v-list-item-title :id="`inspect-edit-${prop}-value`">
               <span v-if="EntityPropInfo[prop].type == 'unix'">
                 {{ entity[prop] | unix }}
               </span>
@@ -53,7 +54,10 @@
         </v-list-item>
       </template>
       <v-divider />
-      <v-list-item @click="remove">
+      <v-list-item
+        id="inspect-remove"
+        @click="remove"
+      >
         <v-list-item-content>
           <v-list-item-subtitle>
             Remover esta entidade
