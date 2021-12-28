@@ -6,13 +6,19 @@
       </v-card-text> -->
       <v-list-item>
         <v-text-field
+          id="create-project-name"
           v-model="project.name"
           label="Nome"
           autofocus
         />
       </v-list-item>
       <v-card-actions>
-        <v-btn type="submit" block class="text-center">
+        <v-btn
+          id="create-project-submit"
+          type="submit"
+          block
+          class="text-center"
+        >
           Enviar
         </v-btn>
       </v-card-actions>

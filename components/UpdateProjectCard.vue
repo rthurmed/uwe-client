@@ -3,7 +3,11 @@
     <v-system-bar color="transparent">
       <v-spacer />
       <!-- TODO: Ask for confirmation -->
-      <a href="#" @click="remove">
+      <a
+        id="update-project-remove"
+        href="#"
+        @click="remove"
+      >
         Remover
       </a>
     </v-system-bar>
@@ -13,13 +17,19 @@
       </v-card-text> -->
       <v-list-item>
         <v-text-field
+          id="update-project-name"
           v-model="project.name"
           label="Nome"
           autofocus
         />
       </v-list-item>
       <v-card-actions>
-        <v-btn type="submit" block class="text-center">
+        <v-btn
+          id="update-project-submit"
+          type="submit"
+          block
+          class="text-center"
+        >
           Enviar
         </v-btn>
       </v-card-actions>

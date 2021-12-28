@@ -11,7 +11,10 @@
     </v-list-item-avatar>
     <v-list-item-content>
       <v-list-item-title>
-        <span v-if="user">
+        <span
+          v-if="user"
+          class="member-name"
+        >
           {{ user.firstName }}
           {{ user.lastName }}
         </span>
@@ -21,7 +24,7 @@
         </span>
       </v-list-item-title>
       <v-list-item-subtitle>
-        <span>
+        <span class="member-access-level">
           {{ AccessLevelInfo[permission.level].label }}
         </span>
         <span v-if="$auth.user.sub === permission.userId">
@@ -37,6 +40,7 @@
         <template #activator="{ on, attrs }">
           <v-btn
             icon
+            class="member-menu"
             v-bind="attrs"
             v-on="on"
             @click.prevent="() => {}"
@@ -54,6 +58,7 @@
           </v-subheader>
           <v-list-item
             v-for="level in levels"
+            :id="`member-edit-permission-${level}`"
             :key="level"
             @click="() => changeLevel(level)"
           >
@@ -68,7 +73,10 @@
               </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item @click="remove">
+          <v-list-item
+            id="member-edit-remove"
+            @click="remove"
+          >
             <v-list-item-icon>
               <v-icon>
                 mdi-delete

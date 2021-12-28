@@ -6,17 +6,29 @@
   >
     <v-list-item-content>
       <v-list-item-title v-if="project">
-        Convite para: {{ project.name }}
+        Convite para:
+        <span class="invite-item-project">
+          {{ project.name }}
+        </span>
       </v-list-item-title>
       <v-list-item-subtitle>
-        Nível de acesso: {{ AccessLevelInfo[invite.level].label }}
+        Nível de acesso:
+        <span class="invite-item-level">
+          {{ AccessLevelInfo[invite.level].label }}
+        </span>
       </v-list-item-subtitle>
       <v-list-item-subtitle>
-        <a @click="accept">
+        <a
+          class="invite-item-accept"
+          @click="accept"
+        >
           Aceitar
         </a>
         <TextSeparator />
-        <a @click="discard">
+        <a
+          class="invite-item-discard"
+          @click="discard"
+        >
           Descartar
         </a>
       </v-list-item-subtitle>

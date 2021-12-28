@@ -6,6 +6,7 @@
     <v-card-text>
       <v-form @submit.prevent="createInvite">
         <v-text-field
+          id="create-invite-email"
           v-model="email"
           label="E-mail"
           placeholder="usuario@email.com"
@@ -15,11 +16,13 @@
           :error="error.show && (error.type == 'request' || error.type == 'user')"
         />
         <v-select
+          id="create-invite-access-level"
           v-model="accessLevel"
           label="Nível de acesso"
           :items="accessLevelOptions"
         />
         <v-btn
+          id="create-invite-submit"
           type="submit"
           block
         >
@@ -78,6 +81,7 @@ export default {
       return Object
         .values(this.accessLevels)
         .map(e => ({
+          id: `create-invite-access-level-option-${e}`,
           text: AccessLevelInfo[e].label,
           value: e
         }))

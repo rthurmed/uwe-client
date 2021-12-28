@@ -10,6 +10,7 @@
             </v-icon>
           </v-btn>
           <!-- INVITE USER FAB -->
+          <!-- TODO: hide if not project owner -->
           <v-menu
             v-if="project !== null"
             v-model="showingInviteMenu"
@@ -42,6 +43,7 @@
           >
             <template #activator="{ on, attrs }">
               <v-btn
+                id="diagrammenu-button"
                 large
                 depressed
                 :loading="project == null || diagram == null"
@@ -58,6 +60,7 @@
                 Editar diagrama
                 <v-spacer />
                 <v-btn
+                  id="diagrammenu-close"
                   icon
                   small
                   @click="editDiagramMenu.show = false"
@@ -70,10 +73,12 @@
               <v-card-text>
                 <v-form @submit.prevent="submitEditDiagram">
                   <v-text-field
+                    id="diagrammenu-name"
                     v-model="editDiagramMenu.name"
                     label="Nome"
                   />
                   <v-btn
+                    id="diagrammenu-submit"
                     type="submit"
                     block
                   >
@@ -85,7 +90,10 @@
               <v-card-title>
                 Opções de exportação
               </v-card-title>
-              <v-list-item @click="$refs.stage.exportAsImage(); editDiagramMenu.show = false">
+              <v-list-item
+                id="diagrammenu-export"
+                @click="$refs.stage.exportAsImage(); editDiagramMenu.show = false"
+              >
                 <v-list-item-icon>
                   <v-icon>
                     mdi-image
@@ -185,6 +193,7 @@
           <v-menu offset-y>
             <template #activator="{ on, attrs }">
               <v-btn
+                id="create-entity-button"
                 block
                 v-bind="attrs"
                 v-on="on"
@@ -201,7 +210,9 @@
               </v-subheader>
               <v-list-item
                 v-for="type in entityTypes"
+                :id="`create-entity-option-${type}`"
                 :key="type"
+                class="create-entity-option"
                 large
                 block
                 @click="createEntity(type)"
@@ -228,7 +239,9 @@
         >
           <v-list-item
             v-for="(entity, key) in entities"
+            :id="`entity-item-${entity.id}`"
             :key="key"
+            class="entity-item"
             :value="entity.id"
           >
             <v-list-item-icon>

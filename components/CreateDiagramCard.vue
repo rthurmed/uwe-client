@@ -28,6 +28,7 @@
       </v-subheader>
       <v-list-item
         v-for="type in Object.values(DiagramType)"
+        :id="`create-diagram-option-${type}`"
         :key="type"
         @click="() => create(type)"
       >
